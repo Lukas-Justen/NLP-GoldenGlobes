@@ -159,3 +159,9 @@ fabric.properties
 
 # Remove the .DS_Store on Mac
 **/.DS_Store
+
+# The data for our project
+data/gg2013.json.zip
+data/gg2015.json.zip
+data/gg2013.json
+data/gg2015.json
