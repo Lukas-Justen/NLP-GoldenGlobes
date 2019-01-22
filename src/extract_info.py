@@ -139,7 +139,7 @@ def general_clean(tweet):
     tweet = re.sub(r'https?:\/\/.*\/\w*', '', tweet) # remove links
     tweet = re.sub(r'#\w*', '', tweet) # remove hastag
     tweet = re.sub(r'[' + punctuation.replace('@', '') + ']+', ' ', tweet) # remove punctuations
-	tweet = re.sub(r'\b\d+\b',' ',tweet)
+    tweet = re.sub(r'\b\d+\b',' ',tweet)
     tweet = re.sub(r'\s+', ' ', tweet) # remove whitespaces
     tweet = tweet.lstrip(' ') # moves single space left
     tweet = ''.join(c for c in tweet if c <= '\uFFFF') # remove emojis
