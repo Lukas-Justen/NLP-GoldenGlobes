@@ -10,6 +10,7 @@ from nltk import TweetTokenizer, word_tokenize, Text, FreqDist, ngrams
 from nltk.corpus import stopwords
 
 
+
 def load_data(path, year):
     # Load the specified zip file and put the data into a dataframe
     allFiles = glob.glob(path + "*.zip")
@@ -173,57 +174,82 @@ def drop_column(data, column):
 
 
 def convert_time(data, to_convert):
+    # Convert the specified columns timestamp to hour and time
     data["hour"] = data[to_convert].apply(lambda x: x.hour)
     data["minute"] = data[to_convert].apply(lambda x: x.minute)
     return data
 
-
-def count_ngram(data, n, column):
+def create_vocabulary(data, column):
+    # Setup the vocabulary for the ngrams
     tweet_list = list(data[column])
     tweet_text = ' '.join(map(str, tweet_list))
     tokens = word_tokenize(tweet_text)
     t = Text(tokens)
     t.vocab()
+    return t
 
-    bigram_freq = FreqDist(list(ngrams(t, n)))
 
+def count_ngram(n, vocabulary):
+    # Do ngrams and plot the top 30 ngrams
+    bigram_freq = FreqDist(list(ngrams(vocabulary, n)))
     plt.subplots(figsize=(20, 15))
     bigram_freq.plot(30)
     plt.show()
 
+def count_ngram_with(n,word, vocabulary):
+    # Build ngrams and only keep ngrams that start with the given word
+    ngram_list = list(ngrams(vocabulary, n))
+    special_list = []
+    for gram in ngram_list:
+        if gram[0] == word:
+            special_list.append(gram)
+
+    ngram_freq = FreqDist(special_list)
+    plt.subplots(figsize=(20, 15))
+    ngram_freq.plot(30)
+    plt.show()
+
 def save_dataframe(data, file):
+    #Save the dataframe on disk
     data.to_csv(file, index=False)
 
-print("Load the Data:")
-data = load_data('../data/', 2013)
-print("Done\n")
+def read_dataframe(file):
+    # Read a dataframe from disk
+    return pd.read_csv(file)
 
-print("Show pre Analysis:")
-show_analysis(data, "text", "total_words_before")
-print("Done\n")
+# print("Load the Data:")
+# data = load_data('../data/', 2013)
+# print("Done\n")
+#
+# print("Show pre Analysis:")
+# show_analysis(data, "text", "total_words_before")
+# print("Done\n")
+#
+# print("Clean the Dataframe:")
+# custom_stopwords = get_stopwords()
+# data = clean_dataframe_column(data, 'text', 'clean_text', custom_stopwords)
+# print("Done\n")
+#
+# print("Show post Analysis:")
+# show_analysis(data, "clean_text", "total_words_after")
+# print("Done\n")
+#
+# print("Convert Time and Drop Columns:")
+# data = data.loc[data['total_words_after'] > 1, :]
+# data = convert_time(data, "timestamp_ms")
+# data = drop_column(data, "user")
+# data = drop_column(data, "id")
+# data = drop_column(data, "timestamp_ms")
+# print("Done\n")
+#
+# save_dataframe(data, "../data/cleaned_gg2013.csv")
 
-print("Clean the Dataframe:")
-custom_stopwords = get_stopwords()
-data = clean_dataframe_column(data, 'text', 'clean_text', custom_stopwords)
-print("Done\n")
-
-print("Show post Analysis:")
-show_analysis(data, "clean_text", "total_words_after")
-print("Done\n")
-
-print("Convert Time and Drop Columns:")
-data = data.loc[data['total_words_after'] > 1, :]
-data = convert_time(data, "timestamp_ms")
-data = drop_column(data, "user")
-data = drop_column(data, "id")
-data = drop_column(data, "timestamp_ms")
-print("Done\n")
+data = read_dataframe("../data/cleaned_gg2013.csv")
 
 print("Count N-Grams:")
-count_ngram(data, 1, "clean_text")
-count_ngram(data, 2, "clean_text")
-count_ngram(data, 3, "clean_text")
-count_ngram(data, 4, "clean_text")
+vocabulary = create_vocabulary(data,"clean_text")
+for i in range(2,6):
+    count_ngram_with(i,"best",vocabulary)
+for i in range(2,6):
+    count_ngram(i,vocabulary)
 print("Done\n")
-
-save_dataframe(data, "../data/cleaned_gg2013.csv")
