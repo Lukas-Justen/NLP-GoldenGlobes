@@ -6,8 +6,7 @@ import zipfile
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from dateutil import parser
-from nltk import TweetTokenizer
+from nltk import TweetTokenizer, word_tokenize, Text, FreqDist, ngrams
 from nltk.corpus import stopwords
 
 
@@ -145,7 +144,7 @@ def clean_tweet(tweet, stopwords):
     tweet = re.sub(r'\s+', ' ', tweet)  # remove whitespaces
     tweet = tweet.lstrip(' ')  # moves single space left
     tweet = ''.join(c for c in tweet if (c <= u'\u007a' and c >= u'\u0061') or (
-                c <= u'\u005a' and c >= u'\u0041') or c == u'\u0020')  # remove emojis
+            c <= u'\u005a' and c >= u'\u0041') or c == u'\u0020')  # remove emojis
 
     tknzr = TweetTokenizer(preserve_case=False, reduce_len=True, strip_handles=True)  # reduce length of string
     tw_list = tknzr.tokenize(tweet)
@@ -179,6 +178,20 @@ def convert_time(data, to_convert):
     return data
 
 
+def count_ngram(data, n, column):
+    tweet_list = list(data[column])
+    tweet_text = ' '.join(map(str, tweet_list))
+    tokens = word_tokenize(tweet_text)
+    t = Text(tokens)
+    t.vocab()
+
+    bigram_freq = FreqDist(list(ngrams(t, n)))
+
+    plt.subplots(figsize=(20, 15))
+    bigram_freq.plot(30)
+    plt.show()
+
+
 print("Load the Data:")
 data = load_data('../data/', 2013)
 print("Done\n")
@@ -197,29 +210,16 @@ show_analysis(data, "clean_text", "total_words_after")
 print("Done\n")
 
 print("Convert Time and Drop Columns:")
+data = data.loc[data['total_words_after'] > 1, :]
 data = convert_time(data, "timestamp_ms")
 data = drop_column(data, "user")
 data = drop_column(data, "id")
 data = drop_column(data, "timestamp_ms")
 print("Done\n")
 
-# dropping rows with length 0
-# data = data.loc[data.total_words > 1, :]
-#
-# tweet_list = list(data.clean_text)
-# tweet_text = ' '.join(map(str, tweet_list))
-#
-# tokens = word_tokenize(tweet_text)
-# t = Text(tokens)
-#
-# f, ax = plt.subplots(figsize=(20, 15))
-# t.plot(30)
-#
-# t.vocab()
-#
-# bigram_freq = FreqDist(list(ngrams(t, 2)))
-#
-# f, ax = plt.subplots(figsize=(20, 15))
-# bigram_freq.plot(30)
-#
-# print(sorted(bigram_freq))
+print("Count N-Grams:")
+count_ngram(data, 1, "clean_text")
+count_ngram(data, 2, "clean_text")
+count_ngram(data, 3, "clean_text")
+count_ngram(data, 4, "clean_text")
+print("Done\n")
