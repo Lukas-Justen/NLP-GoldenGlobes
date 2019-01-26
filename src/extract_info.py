@@ -191,6 +191,8 @@ def count_ngram(data, n, column):
     bigram_freq.plot(30)
     plt.show()
 
+def save_dataframe(data, file):
+    data.to_csv(file, index=False)
 
 print("Load the Data:")
 data = load_data('../data/', 2013)
@@ -223,3 +225,5 @@ count_ngram(data, 2, "clean_text")
 count_ngram(data, 3, "clean_text")
 count_ngram(data, 4, "clean_text")
 print("Done\n")
+
+save_dataframe(data, "../data/cleaned_gg2013.csv")
