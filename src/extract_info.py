@@ -249,7 +249,7 @@ data = read_dataframe("../data/cleaned_gg2013.csv")
 print("Count N-Grams:")
 vocabulary = create_vocabulary(data,"clean_text")
 for i in range(2,6):
-    count_ngram_with(i,"best",vocabulary)
-for i in range(2,6):
-    count_ngram(i,vocabulary)
+    count_ngram_with(i,"hosts",vocabulary)
+# for i in range(2,6):
+#     count_ngram(i,vocabulary)
 print("Done\n")
