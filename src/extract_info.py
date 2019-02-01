@@ -10,7 +10,6 @@ from nltk import TweetTokenizer, word_tokenize, Text, FreqDist, ngrams
 from nltk.corpus import stopwords
 
 
-
 def load_data(path, year):
     # Load the specified zip file and put the data into a dataframe
     allFiles = glob.glob(path + "*.zip")
@@ -36,55 +35,57 @@ def show_analysis(data, text_column, new_count_column):
 
 def get_stopwords():
     # Specify the stopwords but keep versions of win and lose
-    set_of_stopwords = stopwords.words('english') + ['goldenglobes', 'golden', 'globes', '.com', '.ly', '.net', '.org',
-                                                     'aahh', 'aarrgghh', 'abt', 'ftl', 'ftw', 'fu', 'fuck', 'fucks',
-                                                     'gtfo', 'gtg', 'haa', 'hah', 'hahah', 'haha', 'hahaha', 'hahahaha',
-                                                     'hehe', 'heh', 'hehehe', 'hi', 'hihi', 'hihihi', 'http', 'https',
-                                                     'huge', 'huh', 'huhu', 'huhuhu', 'idk', 'iirc', 'im', 'imho',
-                                                     'imo', 'ini', 'irl', 'ish', 'isn', 'isnt', 'j/k', 'jk', 'jus',
-                                                     'just', 'justwit', 'juz', 'kinda', 'kthx', 'kthxbai', 'kyou',
-                                                     'laa', 'laaa', 'lah', 'lanuch', 'leavg', 'leh', 'lol', 'lols',
-                                                     'ltd', 'mph', 'mrt', 'msg', 'msgs', 'muahahahahaha', 'nb',
-                                                     'neways', 'ni', 'nice', 'pls', 'plz', 'plzz', 'psd', 'pte', 'pwm',
-                                                     'pwned', 'qfmft', 'qft', 'tis', 'tm', 'tmr', 'tyty', 'tyvm', 'um',
-                                                     'umm', 'viv', 'vn', 'vote', 'voted', 'w00t', 'wa', 'wadever',
-                                                     'wah', 'wasn', 'wasnt', 'wassup', 'wat', 'watcha', 'wateva',
-                                                     'watever', 'watnot', 'wats', 'wayy', 'wb', 'weren', 'werent',
-                                                     'whaha', 'wham', 'whammy', 'whaow', 'whatcha', 'whatev', 'whateva',
-                                                     'whatevar', 'whatever', 'whatnot', 'whats', 'whatsoever', 'whatz',
-                                                     'whee', 'whenz', 'whey', 'whore', 'whores', 'whoring', 'win', 'wo',
-                                                     'woah', 'woh', 'wooohooo', 'woot', 'wow', 'wrt', 'wtb', 'wtf',
-                                                     'wth', 'wts', 'wtt', 'www', 'xs', 'ya', 'yaah', 'yah', 'yahh',
-                                                     'yahoocurrency', 'yall', 'yar', 'yay', 'yea', 'yeah', 'yeahh',
-                                                     'yeh', 'yhoo', 'ymmv', 'young', 'youre', 'yr', 'yum', 'yummy',
-                                                     'yumyum', 'yw', 'zomg', 'zz', 'zzz', 'loz', 'lor', 'loh', 'tsk',
-                                                     'meh', 'lmao', 'wanna', 'doesn', 'liao', 'didn', 'didnt', 'omg',
-                                                     'ohh', 'ohgod', 'hoh', 'hoo', 'bye', 'byee', 'byeee', 'byeeee',
-                                                     'lmaolmao', 'yeah.1', 'yeahh.1', 'yeahhh', 'yeahhhh', 'yeahhhhh',
-                                                     'yup', 'yupp', 'hahahahahahaha', 'hahahahahah', 'hahhaha',
-                                                     'wooohoooo', 'wahaha', 'haah', '2moro', 'veh', 'noo', 'nooo',
-                                                     'noooo', 'hahas', 'ooooo', 'ahahaha', 'ahahahahah', 'tomolow',
-                                                     '.com.1', '.ly.1', '.net.1', '.org.1', 'aahh.1', 'aarrgghh.1',
-                                                     'abt.1', 'accent', 'accented', 'accents', 'acne', 'ads', 'afaik',
-                                                     'aft', 'ago', 'ahead', 'ain', 'aint', 'aircon', 'alot', 'am',
-                                                     'annoy', 'annoyed', 'annoys', 'anycase', 'anymore', 'app',
-                                                     'apparently', 'apps', 'argh', 'ass', 'asses', 'awesome', 'babeh',
-                                                     'bad', 'bai', 'based', 'bcos', 'bcoz', 'bday', 'bit', 'biz',
-                                                     'blah', 'bleh', 'bless', 'blessed', 'blk', 'blogcatalog', 'bro',
-                                                     'bros', 'btw', 'byee.1', 'com', 'congrats', 'contd', 'conv', 'cos',
-                                                     'cost', 'costs', 'couldn', 'couldnt', 'cove', 'coves', 'coz',
-                                                     'crap', 'cum', 'curnews', 'curr', 'cuz', 'dat', 'de', 'didn.1',
-                                                     'didnt.1', 'diff', 'dis', 'doc', 'doesn.1', 'doesnt', 'don',
-                                                     'dont', 'dr', 'dreamt', 'drs', 'due', 'dun', 'dunno', 'duper',
-                                                     'eh', 'ehh', 'emo', 'emos', 'eng', 'esp', 'fadein', 'ffs', 'fml',
-                                                     'frm', 'ftl.1', 'ftw.1', 'fu.1', 'fuck.1', 'fucks.1', 'fwah',
-                                                     'g2g', 'gajshost', 'gd', 'geez', 'gg', 'gigs', 'gtfo.1', 'gtg.1',
-                                                     'haa.1', 'haha.1', 'hahaha.1', 'hasn', 'hasnt', 'hav', 'haven',
-                                                     'havent', 'hee', 'heh.1', 'hehe.1', 'hehehe.1', 'hello', 'hey',
-                                                     'hi.1', 'hmm', 'ho', 'hohoho', 'http.1', 'https.1', 'huh.1',
-                                                     'huhu.1', 'huhuhu.1', 'idk.1', 'iirc.1', 'im.1', 'imho.1', 'imo.1',
-                                                     'info', 'ini.1', 'irl.1', 'ish.1', 'isn.1', 'isnt.1', 'issued',
-                                                     'j/k.1', 'jk.1', 'jus.1', 'just.1', 'justwit.1', 'juz.1',
+    set_of_stopwords = stopwords.words('english') + ['goldenglobes', 'golden', 'Golden', 'Globes', 'Globe', 'globe',
+                                                     'Yes', 'yes', 'No', 'no', 'He', 'he', 'She', 'she', 'OKAY',
+                                                     'Okay', 'globes', '.com', 'rt', 'RT', 'ok', 'OK', 'And',
+                                                     '.ly', '.net', '.org', 'aahh', 'aarrgghh', 'abt', 'ftl', 'ftw',
+                                                     'fu', 'fuck', 'fucks', 'gtfo', 'gtg', 'haa', 'hah', 'hahah',
+                                                     'haha', 'hahaha', 'hahahaha', 'hehe', 'heh', 'hehehe', 'hi',
+                                                     'hihi', 'hihihi', 'http', 'https', 'huge', 'huh', 'huhu', 'huhuhu',
+                                                     'idk', 'iirc', 'im', 'imho', 'imo', 'ini', 'irl', 'ish', 'isn',
+                                                     'isnt', 'j/k', 'jk', 'jus', 'just', 'justwit', 'juz', 'kinda',
+                                                     'kthx', 'kthxbai', 'kyou', 'laa', 'laaa', 'lah', 'lanuch', 'leavg',
+                                                     'leh', 'lol', 'lols', 'ltd', 'mph', 'mrt', 'msg', 'msgs',
+                                                     'muahahahahaha', 'nb', 'neways', 'ni', 'nice', 'pls', 'plz',
+                                                     'plzz', 'psd', 'pte', 'pwm', 'pwned', 'qfmft', 'qft', 'tis', 'tm',
+                                                     'tmr', 'tyty', 'tyvm', 'um', 'umm', 'viv', 'vn', 'vote', 'voted',
+                                                     'w00t', 'wa', 'wadever', 'wah', 'wasn', 'wasnt', 'wassup', 'wat',
+                                                     'watcha', 'wateva', 'watever', 'watnot', 'wats', 'wayy', 'wb',
+                                                     'weren', 'werent', 'whaha', 'wham', 'whammy', 'whaow', 'whatcha',
+                                                     'whatev', 'whateva', 'whatevar', 'whatever', 'whatnot', 'whats',
+                                                     'whatsoever', 'whatz', 'whee', 'whenz', 'whey', 'whore', 'whores',
+                                                     'whoring', 'win', 'wo', 'woah', 'woh', 'wooohooo', 'woot', 'wow',
+                                                     'wrt', 'wtb', 'wtf', 'wth', 'wts', 'wtt', 'www', 'xs', 'ya',
+                                                     'yaah', 'yah', 'yahh', 'yahoocurrency', 'yall', 'yar', 'yay',
+                                                     'yea', 'yeah', 'yeahh', 'yeh', 'yhoo', 'ymmv', 'young', 'youre',
+                                                     'yr', 'yum', 'yummy', 'yumyum', 'yw', 'zomg', 'zz', 'zzz', 'loz',
+                                                     'lor', 'loh', 'tsk', 'meh', 'lmao', 'wanna', 'doesn', 'liao',
+                                                     'didn', 'didnt', 'omg', 'ohh', 'ohgod', 'hoh', 'hoo', 'bye',
+                                                     'byee', 'byeee', 'byeeee', 'lmaolmao', 'yeah.1', 'yeahh.1',
+                                                     'yeahhh', 'yeahhhh', 'yeahhhhh', 'yup', 'yupp', 'hahahahahahaha',
+                                                     'hahahahahah', 'hahhaha', 'wooohoooo', 'wahaha', 'haah', '2moro',
+                                                     'veh', 'noo', 'nooo', 'noooo', 'hahas', 'ooooo', 'ahahaha',
+                                                     'ahahahahah', 'tomolow', '.com.1', '.ly.1', '.net.1', '.org.1',
+                                                     'aahh.1', 'aarrgghh.1', 'abt.1', 'accent', 'accented', 'accents',
+                                                     'acne', 'ads', 'afaik', 'aft', 'ago', 'ahead', 'ain', 'aint',
+                                                     'aircon', 'alot', 'am', 'annoy', 'annoyed', 'annoys', 'anycase',
+                                                     'anymore', 'app', 'apparently', 'apps', 'argh', 'ass', 'asses',
+                                                     'awesome', 'babeh', 'bad', 'bai', 'based', 'bcos', 'bcoz', 'bday',
+                                                     'bit', 'biz', 'blah', 'bleh', 'bless', 'blessed', 'blk',
+                                                     'blogcatalog', 'bro', 'bros', 'btw', 'byee.1', 'com', 'congrats',
+                                                     'contd', 'conv', 'cos', 'cost', 'costs', 'couldn', 'couldnt',
+                                                     'cove', 'coves', 'coz', 'crap', 'cum', 'curnews', 'curr', 'cuz',
+                                                     'dat', 'de', 'didn.1', 'didnt.1', 'diff', 'dis', 'doc', 'doesn.1',
+                                                     'doesnt', 'don', 'dont', 'dr', 'dreamt', 'drs', 'due', 'dun',
+                                                     'dunno', 'duper', 'eh', 'ehh', 'emo', 'emos', 'eng', 'esp',
+                                                     'fadein', 'ffs', 'fml', 'frm', 'ftl.1', 'ftw.1', 'fu.1', 'fuck.1',
+                                                     'fucks.1', 'fwah', 'g2g', 'gajshost', 'gd', 'geez', 'gg', 'gigs',
+                                                     'gtfo.1', 'gtg.1', 'haa.1', 'haha.1', 'hahaha.1', 'hasn', 'hasnt',
+                                                     'hav', 'haven', 'havent', 'hee', 'heh.1', 'hehe.1', 'hehehe.1',
+                                                     'hello', 'hey', 'hi.1', 'hmm', 'ho', 'hohoho', 'http.1', 'https.1',
+                                                     'huh.1', 'huhu.1', 'huhuhu.1', 'idk.1', 'iirc.1', 'im.1', 'imho.1',
+                                                     'imo.1', 'info', 'ini.1', 'irl.1', 'ish.1', 'isn.1', 'isnt.1',
+                                                     'issued', 'j/k.1', 'jk.1', 'jus.1', 'just.1', 'justwit.1', 'juz.1',
                                                      'kinda.1', 'kthx.1', 'kthxbai.1', 'kyou.1', 'laa.1', 'laaa.1',
                                                      'lah.1', 'lanuch.1', 'lawl', 'leavg.1', 'leh.1', 'lfg', 'lfm',
                                                      'll', 'lmao.1', 'lmfao', 'lnks', 'lol.1', 'lols.1', 'lotsa',
@@ -136,9 +137,18 @@ def get_stopwords():
 
 def clean_tweet(tweet, stopwords):
     # Remove all links hashtags and other things that are not words
-    tweet = tweet.lower()
+    tweet = re.sub(r"\'s", " ", tweet)
+    tweet = re.sub(r"RT ", "", tweet)
+    tweet = re.sub(r"\'ve", " have ", tweet)
+    tweet = re.sub(r"can't", "cannot ", tweet)
+    tweet = re.sub(r"n't", " not ", tweet)
+    tweet = re.sub(r"i'm", "i am ", tweet)
+    tweet = re.sub(r"\'re", " are ", tweet)
+    tweet = re.sub(r"\'d", " would ", tweet)
+    tweet = re.sub(r"\'ll", " will ", tweet)
+    tweet = re.sub(r"\'m", " am ", tweet)
 
-    tweet = re.sub(r'http(s)?\:\/\/[\w\.\d]*\b', ' ', tweet)  # remove links
+    tweet = re.sub(r'http(s)?\:\/\/[\w\.\d\/]*\b', ' ', tweet)  # remove links
     tweet = re.sub(r'#\w*', '', tweet)  # remove hastag
     tweet = re.sub(r'@[^ ]*\b', ' ', tweet)  # remove at tags
     tweet = re.sub(r'\b\d+\b', ' ', tweet)  # remove numbers
@@ -146,8 +156,9 @@ def clean_tweet(tweet, stopwords):
     tweet = tweet.lstrip(' ')  # moves single space left
     tweet = ''.join(c for c in tweet if (c <= u'\u007a' and c >= u'\u0061') or (
             c <= u'\u005a' and c >= u'\u0041') or c == u'\u0020')  # remove emojis
+    tweet = re.sub(r"[\b^][A-Za-z][\b$]", "", tweet)
 
-    tknzr = TweetTokenizer(preserve_case=False, reduce_len=True, strip_handles=True)  # reduce length of string
+    tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)  # reduce length of string
     tw_list = tknzr.tokenize(tweet)
     list_no_stopwords = [i for i in tw_list if i not in stopwords]
 
@@ -179,6 +190,7 @@ def convert_time(data, to_convert):
     data["minute"] = data[to_convert].apply(lambda x: x.minute)
     return data
 
+
 def create_vocabulary(data, column):
     # Setup the vocabulary for the ngrams
     tweet_list = list(data[column])
@@ -196,7 +208,8 @@ def count_ngram(n, vocabulary):
     bigram_freq.plot(30)
     plt.show()
 
-def count_ngram_with(n,word, vocabulary):
+
+def count_ngram_with(n, word, vocabulary):
     # Build ngrams and only keep ngrams that start with the given word
     ngram_list = list(ngrams(vocabulary, n))
     special_list = []
@@ -209,47 +222,50 @@ def count_ngram_with(n,word, vocabulary):
     ngram_freq.plot(30)
     plt.show()
 
+
 def save_dataframe(data, file):
-    #Save the dataframe on disk
+    # Save the dataframe on disk
     data.to_csv(file, index=False)
+
 
 def read_dataframe(file):
     # Read a dataframe from disk
     return pd.read_csv(file)
 
-# print("Load the Data:")
-# data = load_data('../data/', 2013)
-# print("Done\n")
-#
-# print("Show pre Analysis:")
-# show_analysis(data, "text", "total_words_before")
-# print("Done\n")
-#
-# print("Clean the Dataframe:")
-# custom_stopwords = get_stopwords()
-# data = clean_dataframe_column(data, 'text', 'clean_text', custom_stopwords)
-# print("Done\n")
-#
-# print("Show post Analysis:")
-# show_analysis(data, "clean_text", "total_words_after")
-# print("Done\n")
-#
-# print("Convert Time and Drop Columns:")
-# data = data.loc[data['total_words_after'] > 1, :]
-# data = convert_time(data, "timestamp_ms")
-# data = drop_column(data, "user")
-# data = drop_column(data, "id")
-# data = drop_column(data, "timestamp_ms")
-# print("Done\n")
-#
-# save_dataframe(data, "../data/cleaned_gg2013.csv")
+
+print("Load the Data:")
+data = load_data('../data/', 2013)
+print("Done\n")
+
+print("Show pre Analysis:")
+show_analysis(data, "text", "total_words_before")
+print("Done\n")
+
+print("Clean the Dataframe:")
+custom_stopwords = get_stopwords()
+data = clean_dataframe_column(data, 'text', 'clean_text', custom_stopwords)
+print("Done\n")
+
+print("Show post Analysis:")
+show_analysis(data, "clean_text", "total_words_after")
+print("Done\n")
+
+print("Convert Time and Drop Columns:")
+data = data.loc[data['total_words_after'] > 1, :]
+data = convert_time(data, "timestamp_ms")
+data = drop_column(data, "user")
+data = drop_column(data, "id")
+data = drop_column(data, "timestamp_ms")
+print("Done\n")
+
+save_dataframe(data, "../data/cleaned_gg2013.csv")
 
 data = read_dataframe("../data/cleaned_gg2013.csv")
 
 print("Count N-Grams:")
-vocabulary = create_vocabulary(data,"clean_text")
+vocabulary = create_vocabulary(data, "clean_text")
+# for i in range(2, 6):
+#     count_ngram_with(i, "hosts", vocabulary)
 for i in range(2,6):
-    count_ngram_with(i,"hosts",vocabulary)
-# for i in range(2,6):
-#     count_ngram(i,vocabulary)
+     count_ngram(i,vocabulary)
 print("Done\n")
