@@ -30,7 +30,7 @@ awards = ['Best Director - Motion Picture',
           'Best Performance by an Actor In a Television Series - Drama',
           'Best Performance by an Actor In a Television Series - Comedy Or Musical',
           'Best Performance by an Actor in a Mini-Series or Motion Picture Made for Television',
-          # 'cecil b. demille award'
+          'cecil b. demille award'
           ]
 
 
@@ -56,9 +56,9 @@ def check_for_words(text):
     return -1
 
 
-def count_people(text, people_count, category):
+def count_people_bigram(text, people_count, category):
     text = re.sub(awards[category], ' ', text, flags=re.IGNORECASE)
-    matches = re.findall(r'[A-Z][a-z]* [A-Z][a-z]*', text)
+    matches = re.findall(r'\b[A-Z][a-z]+ [A-Z][a-z]+\b', text)
     for match in matches:
         if match in people_count.keys():
             people_count[match] += 1
@@ -66,17 +66,35 @@ def count_people(text, people_count, category):
             people_count[match] = 1
     return people_count
 
+def count_people_unigram(text, people_count, category):
+    text = re.sub(awards[category], ' ', text, flags=re.IGNORECASE)
+    matches = re.findall(r'\b[A-Z][a-z]+\b', text)
+    for match in matches:
+        if match in people_count.keys():
+            people_count[match] += 1
+        else:
+            people_count[match] = 1
+    return people_count
 
 def find_winner(data):
     winners = {}
     for i in range(0, len(awards)):
         associated_awards = data[data["award"] == i]
-        people_count = {}
+        people_count_bigram = {}
+        people_count_unigram ={}
         for index, row in associated_awards.iterrows():
-            people_count = count_people(row['clean_text'], people_count, i)
-        winners[awards[i]] = max(people_count, key=people_count.get)
-        for p in sorted(people_count, key=people_count.get, reverse=True):
-            print("Award: ", awards[i], "Winner: ", p, "Count: ", people_count[str(p)])
+            people_count_bigram = count_people_bigram(row['clean_text'], people_count_bigram, i)
+            people_count_unigram = count_people_unigram(row['clean_text'], people_count_unigram, i)
+        unigram_winner = max(people_count_unigram, key=people_count_unigram.get)
+        bigram_winner = max(people_count_bigram, key=people_count_bigram.get)
+        if (2*people_count_bigram[bigram_winner] < people_count_unigram[unigram_winner]):
+            winners[awards[i]] = unigram_winner
+        else:
+            winners[awards[i]] = bigram_winner
+        for p in sorted(people_count_bigram, key=people_count_bigram.get, reverse=True):
+            print("Award: ", awards[i], "Winner: ", p, "Count: ", people_count_bigram[str(p)])
+        for p in sorted(people_count_unigram, key=people_count_unigram.get, reverse=True):
+            print("Award: ", awards[i], "Winner: ", p, "Count: ", people_count_unigram[str(p)])
     return winners
 
 
