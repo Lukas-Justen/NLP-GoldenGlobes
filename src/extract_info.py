@@ -234,7 +234,7 @@ def read_dataframe(file):
 
 
 print("Load the Data:")
-data = load_data('../data/', 2013)
+data = load_data('../data/', 2015)
 print("Done\n")
 
 print("Show pre Analysis:")
@@ -258,9 +258,9 @@ data = drop_column(data, "id")
 data = drop_column(data, "timestamp_ms")
 print("Done\n")
 
-save_dataframe(data, "../data/cleaned_gg2013.csv")
+save_dataframe(data, "../data/cleaned_gg2015.csv")
 
-data = read_dataframe("../data/cleaned_gg2013.csv")
+data = read_dataframe("../data/cleaned_gg2015.csv")
 
 print("Count N-Grams:")
 vocabulary = create_vocabulary(data, "clean_text")
