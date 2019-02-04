@@ -54,10 +54,8 @@ def get_nominees(year):
 def get_winner(year):
     # TODO: Load correct data here
     data = pd.read_csv("../data/cleaned_gg%s.csv" % year)
-    if year == 2015:
-        data = data.sample(frac=1)[:100000]
     stopwords = ["an", "in", "a", "for", "by", "-", "or"]
-    award_categorizer = TweetCategorizer(OFFICIAL_AWARDS, stopwords, "award", data, 3)
+    award_categorizer = TweetCategorizer(OFFICIAL_AWARDS, stopwords, "award", data, 3,170000)
     award_tweets = award_categorizer.get_categorized_tweets()
     winners = award_categorizer.find_frequent_entity(award_tweets)
     return winners

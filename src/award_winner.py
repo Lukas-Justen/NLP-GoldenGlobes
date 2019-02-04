@@ -56,8 +56,9 @@ funniest_moments = "funny|fun|funny|hilarious|absurd|amusing|droll|entertaining|
 
 class TweetCategorizer:
 
-    def __init__(self, group_indicators, stopwords, group_name, tweets, threshold):
+    def __init__(self, group_indicators, stopwords, group_name, tweets, threshold, sample_size):
         group_indicators = sorted(group_indicators, key=len)
+        tweets = tweets.sample(frac=1)[:sample_size]
         self.threshold = threshold
         self.winner = {}
         self.group_name = group_name
@@ -145,11 +146,10 @@ class TweetCategorizer:
         matches = re.findall(words, text)
         return len(matches)
 
-data = data.sample(frac=1)[:1500000]
-award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3)
-award_tweets = award_categorizer.get_categorized_tweets()
-award_winner = award_categorizer.find_frequent_entity(award_tweets)
-award_categorizer.print_frequent_entities()
+# award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
+# award_tweets = award_categorizer.get_categorized_tweets()
+# award_winner = award_categorizer.find_frequent_entity(award_tweets)
+# award_categorizer.print_frequent_entities()
 
 # nominee_categorizer = TweetCategorizer([nominee_keywords], stopwords, "category", data, 0)
 # nominee_tweets = nominee_categorizer.get_categorized_tweets()
@@ -174,21 +174,21 @@ award_categorizer.print_frequent_entities()
 # TODO: Unable to find winner message or output if dict is empty
 # TODO: Setup Multiple matching so that the first 2-3 groups get assigned to a tweet
 
-print()
-def parse_json(file_name):
-    json_file = open(file_name, "r")
-    json_text = json_file.read()
-    return json.loads(json_text)
-
-
-def get_real_answer(answer_file):
-    parsed_json_2013 = parse_json(answer_file)
-    winners = {}
-    for award in sorted(parsed_json_2013["award_data"]):
-        winners[award] = parsed_json_2013["award_data"][award]["winner"]
-    return winners
-
-
-winners_actual = get_real_answer("../data/gg2013answers.json")
-for key in sorted(winners_actual):
-    print("Winner: ", winners_actual[key], "Award: ", key)
+# print()
+# def parse_json(file_name):
+#     json_file = open(file_name, "r")
+#     json_text = json_file.read()
+#     return json.loads(json_text)
+#
+#
+# def get_real_answer(answer_file):
+#     parsed_json_2013 = parse_json(answer_file)
+#     winners = {}
+#     for award in sorted(parsed_json_2013["award_data"]):
+#         winners[award] = parsed_json_2013["award_data"][award]["winner"]
+#     return winners
+#
+#
+# winners_actual = get_real_answer("../data/gg2013answers.json")
+# for key in sorted(winners_actual):
+#     print("Winner: ", winners_actual[key], "Award: ", key)
