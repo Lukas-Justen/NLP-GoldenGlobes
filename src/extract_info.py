@@ -205,7 +205,7 @@ def count_ngram(n, vocabulary):
     # Do ngrams and plot the top 30 ngrams
     bigram_freq = FreqDist(list(ngrams(vocabulary, n)))
     plt.subplots(figsize=(20, 15))
-    bigram_freq.plot(30)
+    bigram_freq.plot(50)
     plt.show()
 
 
@@ -219,7 +219,7 @@ def count_ngram_with(n, word, vocabulary):
 
     ngram_freq = FreqDist(special_list)
     plt.subplots(figsize=(20, 15))
-    ngram_freq.plot(30)
+    ngram_freq.plot(50)
     plt.show()
 
 
@@ -234,7 +234,7 @@ def read_dataframe(file):
 
 
 print("Load the Data:")
-data = load_data('../data/', 2015)
+data = load_data('../data/', 2013)
 print("Done\n")
 
 print("Show pre Analysis:")
@@ -258,14 +258,14 @@ data = drop_column(data, "id")
 data = drop_column(data, "timestamp_ms")
 print("Done\n")
 
-save_dataframe(data, "../data/cleaned_gg2015.csv")
+save_dataframe(data, "../data/cleaned_gg2013.csv")
 
-data = read_dataframe("../data/cleaned_gg2015.csv")
+data = read_dataframe("../data/cleaned_gg2013.csv")
 
 print("Count N-Grams:")
 vocabulary = create_vocabulary(data, "clean_text")
 # for i in range(2, 6):
 #     count_ngram_with(i, "hosts", vocabulary)
-for i in range(2,6):
+for i in range(2,3):
      count_ngram(i,vocabulary)
 print("Done\n")
