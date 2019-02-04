@@ -166,6 +166,9 @@ data/gg2015.json.zip
 data/gg2013.json
 data/gg2015.json
 data/cleaned_gg2013.csv
+data/cleaned_gg2015.csv
+data/gg2013answers.json
+data/gg2015answers.json
 
 # Remove python-notebooks
 *.ipynb
