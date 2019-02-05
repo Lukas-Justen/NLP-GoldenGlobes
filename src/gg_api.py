@@ -33,13 +33,13 @@ OFFICIAL_AWARDS = ['cecil b. demille award',
 
 
 def get_hosts(year):
+    # TODO: Load correct data here
     data = pd.read_csv("../data/cleaned_gg%s.csv" % year)
     host_keywords = "host|hosting|hoster|hosts|anchor|entertainer|entertaining|moderator|moderating|moderated"
     host_categorizer = TweetCategorizer([host_keywords], [], "category", data, 0, 1500000)
     host_tweets = host_categorizer.get_categorized_tweets()
-    hosters = host_categorizer.find_frequent_entity(host_tweets)
-
-    return []
+    hosters = host_categorizer.find_list_of_entities(host_tweets, 2)
+    return hosters[host_keywords]
 
 
 def get_awards(year):
