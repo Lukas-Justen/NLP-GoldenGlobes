@@ -1,6 +1,7 @@
 import copy
 import json
 import re
+import time
 
 import pandas as pd
 
@@ -45,6 +46,7 @@ awards = ['cecil b. demille award', 'best motion picture - drama',
                    'best performance by an actress in a supporting role in a series, mini-series or motion picture made for television',
                    'best performance by an actor in a supporting role in a series, mini-series or motion picture made for television']
 
+host_keywords = "host|hosting|hoster|hosts|anchor|entertainer|entertaining|moderator|moderating|moderated|entertained"
 nominee_keywords = "nominee|nomination|nominated|nominees|nominations|nominate|vote|voting|voter|voted|candidate|candidates"
 presenter_keywords = "present|presents|presenting|presented|presentation|presenter|presenters"
 funniest_moments = "funny|fun|funny|hilarious|absurd|amusing|droll|entertaining|hilarious|ludicrous|playful|" + \
@@ -59,6 +61,11 @@ class TweetCategorizer:
     def __init__(self, group_indicators, stopwords, group_name, tweets, threshold, sample_size):
         group_indicators = sorted(group_indicators, key=len)
         tweets = tweets.sample(frac=1)[:sample_size]
+        self.stripper = re.compile(r'\b(\w+)-(\w+)\b')
+        self.detecter = []
+        self.replacor = []
+        self.bigram_finder = re.compile(r'\b[A-Z][a-z]+ [A-Z][a-z]+\b')
+        self.unigram_finder = re.compile(r'\b[A-Z][a-z]+\b')
         self.threshold = threshold
         self.winner = {}
         self.group_name = group_name
@@ -71,10 +78,12 @@ class TweetCategorizer:
         for index in range(0, len(group_indicators)):
             text = str(group_indicators[index]).lower()
             text = " ".join("" if x in stopwords else x for x in text.split())
-            matches = re.findall(r'\b(\w+)-(\w+)\b',text)
+            matches = self.stripper.findall(text)
             for match in matches:
                 text = text + " " + str(match[0])+str(match[1])
             group_indicators[index] = "|".join(text.split())
+            self.detecter.append(re.compile(str(group_indicators[index])))
+            self.replacor.append(re.compile(str(group_indicators[index]),flags=re.IGNORECASE))
         return group_indicators
 
     def apply_indicators(self, group_indicators, group_name, tweets):
@@ -85,7 +94,7 @@ class TweetCategorizer:
         counts_per_group = dict.fromkeys(range(0, len(group_indicators)), 0)
         text = str(text).lower()
         for index in range(0, len(group_indicators)):
-            matches = re.findall(group_indicators[index], text)
+            matches = self.detecter[index].findall(text)
             counts_per_group[index] = len(matches)
         max_value = max(counts_per_group.values())
         return max(counts_per_group, key=counts_per_group.get) if max_value > self.threshold else -1
@@ -96,14 +105,14 @@ class TweetCategorizer:
         return categorized_tweets
 
     def count_entity_bigram(self, text, entity_count, category):
-        text = re.sub(str(self.group_indicators[category]), ' ', text, flags=re.IGNORECASE)
-        matches = re.findall(r'\b[A-Z][a-z]+ [A-Z][a-z]+\b', text)
+        text = self.replacor[category].sub(' ', text)
+        matches = self.bigram_finder.findall(text)
         entity_count = self.aggregate_entity_count(matches, entity_count)
         return entity_count
 
     def count_entity_unigram(self, text, entity_count, category):
-        text = re.sub(str(self.group_indicators[category]), ' ', text, flags=re.IGNORECASE)
-        matches = re.findall(r'\b[A-Z][a-z]+\b', text)
+        text = self.replacor[category].sub(' ', text)
+        matches = self.unigram_finder.findall(text)
         entity_count = self.aggregate_entity_count(matches, entity_count)
         return entity_count
 
@@ -124,10 +133,10 @@ class TweetCategorizer:
         for index, row in tweets.iterrows():
             people_count_bigram = self.count_entity_bigram(row['clean_text'], people_count_bigram, group_index)
             people_count_unigram = self.count_entity_unigram(row['clean_text'], people_count_unigram, group_index)
-        # for key in sorted(people_count_unigram, key=people_count_unigram.get):
-        #     print("Award: ",self.original_groups[group_index],"Word: ", key, "Count: ",people_count_unigram[key])
-        # for key in sorted(people_count_bigram, key =people_count_bigram.get):
-        #     print("Award: ",self.original_groups[group_index],"Word: ", key, "Count: ",people_count_bigram[key])
+        for key in sorted(people_count_unigram, key=people_count_unigram.get):
+            print("Award: ",self.original_groups[group_index],"Word: ", key, "Count: ",people_count_unigram[key])
+        for key in sorted(people_count_bigram, key =people_count_bigram.get):
+            print("Award: ",self.original_groups[group_index],"Word: ", key, "Count: ",people_count_bigram[key])
         unigram_winner = max(people_count_unigram, key=people_count_unigram.get)
         bigram_winner = max(people_count_bigram, key=people_count_bigram.get)
         unigram_count = people_count_unigram[unigram_winner]
@@ -146,28 +155,27 @@ class TweetCategorizer:
         matches = re.findall(words, text)
         return len(matches)
 
+# start = time.time()
 # award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
 # award_tweets = award_categorizer.get_categorized_tweets()
 # award_winner = award_categorizer.find_frequent_entity(award_tweets)
 # award_categorizer.print_frequent_entities()
+# end = time.time()
+# print(end - start)
 
-# nominee_categorizer = TweetCategorizer([nominee_keywords], stopwords, "category", data, 0)
+# nominee_categorizer = TweetCategorizer([nominee_keywords], stopwords, "category", data, 0, 1500000)
 # nominee_tweets = nominee_categorizer.get_categorized_tweets()
-# nominee_tweets = nominee_categorizer.count_words(nominee_keywords, nominee_tweets, "nominee")
-# nominee_tweets = nominee_tweets[nominee_tweets["nominee"] > 0]
-#
-# presenter_categorizer = TweetCategorizer([presenter_keywords], stopwords, "category", data, 0)
-# presenter_tweets = presenter_categorizer.get_categorized_tweets()
-# presenter_tweets = presenter_categorizer.count_words(presenter_keywords, presenter_tweets, "presenter")
-# presenter_tweets = presenter_tweets[presenter_tweets["presenter"] > 0]
-#
-# fun_categorizer = TweetCategorizer([funniest_moments], stopwords, "category", data, 0)
-# fun_tweets = fun_categorizer.get_categorized_tweets()
-# fun_tweets = fun_categorizer.count_words(funniest_moments, fun_tweets, "fun")
-# fun_tweets = fun_tweets[fun_tweets["fun"] > 0]
+# nominee_categorizer.find_frequent_entity(nominee_tweets)
 
-# nominee_tweets = award_categorizer.count_words(presenter_keywords, award_tweets, "presenter")
-# nominee_tweets = award_tweets[operator.or_(award_tweets["nominee"] > 0, award_tweets["presenter"] > 0)]
+# presenter_categorizer = TweetCategorizer([presenter_keywords], stopwords, "category", data, 0, 1500000)
+# presenter_tweets = presenter_categorizer.get_categorized_tweets()
+# presenter_categorizer.find_frequent_entity(presenter_tweets)
+
+host_categorizer = TweetCategorizer([host_keywords], stopwords, "category", data, 0, 1500000)
+host_tweets = host_categorizer.get_categorized_tweets()
+hosters = host_categorizer.find_frequent_entity(host_tweets)
+print(hosters[list(hosters.keys())[0]],hosters[list(hosters.keys())[1]])
+
 
 # TODO: Assign probability to each entity based on its appearance in the whole corpus
 # TODO: Split long categories and short categories and adjust cutoff for match
