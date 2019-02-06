@@ -238,6 +238,8 @@ def count_ngram_with(n, word, vocabulary):
             special_list.append(gram)
 
     ngram_freq = FreqDist(special_list)
+    for key in sorted(ngram_freq, key=ngram_freq.get):
+        print(key, ngram_freq[key])
     plt.subplots(figsize=(20, 15))
     ngram_freq.plot(50)
     plt.show()
