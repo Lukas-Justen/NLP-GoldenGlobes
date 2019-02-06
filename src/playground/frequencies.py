@@ -1,11 +1,15 @@
 import pandas as pd
 
 import warnings
+
+from src.info_extractor import InfoExtractor
+
 warnings.filterwarnings('ignore')
 import matplotlib
-%matplotlib inline
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+
+year = 2013
 
 #This takes in a dataset and then replaces the column specified in the second parameter, with an instant instead of timestamp. Returns this data with conversion
 def convert_instants(data, timeLabel, numbins = 200):
@@ -50,6 +54,9 @@ def freq_hist(data, label, numbins=200):
 
     return maxvalindexes, interval_min, interval_max
 
+extractor = InfoExtractor()
+extractor.read_dataframe("../data/cleaned_gg%s.csv" % year)
+data = extractor.get_dataframe()
 new_data = convert_instants(data, 'timestamp_ms', 100)
 
 new_data.head()
@@ -64,5 +71,3 @@ print(maxval)
 
 print(len(data))
 print(indexes)
-
-data.iloc[56453:60612]
