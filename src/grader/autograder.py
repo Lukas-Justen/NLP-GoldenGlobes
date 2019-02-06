@@ -10,7 +10,7 @@ from pprint import pprint
 
 from nltk.metrics import edit_distance
 
-from src import gg_api
+from src.grader import gg_api
 
 global toMovie
 toMovie = {'johann johannsson': 'the theory of everything', 'alexandre desplat': 'the imitation game',
