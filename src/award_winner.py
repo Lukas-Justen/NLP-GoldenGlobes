@@ -177,37 +177,38 @@ def create_vocabulary(data, column):
     t.vocab()
     return t
 
-award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
-award_tweets = award_categorizer.get_categorized_tweets()
-award_tweets["absolute_time"] = award_tweets["hour"].apply(lambda hour: hour*60)
-award_tweets["absolute_time"] += award_tweets["minute"].apply(lambda minute: minute)
-average_time = award_tweets.groupby(['award']).mean()
-average_time = average_time.sort_values(by=["absolute_time","hour", "minute"])
+# award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
+# award_tweets = award_categorizer.get_categorized_tweets()
+# award_tweets["absolute_time"] = award_tweets["hour"].apply(lambda hour: hour*60)
+# award_tweets["absolute_time"] += award_tweets["minute"].apply(lambda minute: minute)
+# average_time = award_tweets.groupby(['award']).mean()
+# average_time = average_time.sort_values(by=["absolute_time","hour", "minute"])
 
 # award_winner = award_categorizer.find_frequent_entity(award_tweets)
 # award_categorizer.print_frequent_entities()
 
-# award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
-# award_tweets = award_categorizer.get_categorized_tweets()
+award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
+award_tweets = award_categorizer.get_categorized_tweets()
 # bigrams = count_ngram(2, data, 400)
-# presenter_categorizer = TweetCategorizer([presenter_keywords], [], "category", data, 0, 1500000)
-# presenter_tweets = presenter_categorizer.get_categorized_tweets()
+presenter_categorizer = TweetCategorizer([presenter_keywords], [], "category", data, 0, 1500000)
+presenter_tweets = presenter_categorizer.get_categorized_tweets()
+presenter_tweets = presenter_tweets.sort_values(by=["hour","minute"])
 # presenters = presenter_categorizer.find_list_of_entities(presenter_tweets, 200)
 # presenters = [p for p in presenters[presenter_keywords] if p in bigrams]
-# presenter_pattern = []
-# presenter_pattern.append(re.compile(r'([A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) ([A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) present'))
-# presenter_pattern.append(re.compile(r'[a-z]+ ([A-Z][a-zA-Z]* [A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) presents'))
-# presenter_pattern.append(re.compile(r'[a-z]+ [a-z]+ ([A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) presents'))
-# # presenter_pattern.append(re.compile(r'[pP][rR][eE][sS][eE][nN][tT]{[eE][dD]|[sS]|[iI][nN][gG]}{ by| BY| By| }[A-Z][a-zA-Z]* [A-Z][a-zA-Z]*'))
-# for index, row in presenter_tweets.iterrows():
-#     for p in presenter_pattern:
-#         matches = p.findall(row['clean_text'])
-#         for m in matches:
-#             print(m)
-#             # print(row['clean_text'])
+presenter_pattern = []
+presenter_pattern.append(re.compile(r'([A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) ([A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) present'))
+presenter_pattern.append(re.compile(r'[a-z]+ ([A-Z][a-zA-Z]* [A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) presents'))
+presenter_pattern.append(re.compile(r'[a-z]+ [a-z]+ ([A-Z][a-zA-Z]* [A-Z][a-zA-Z]*) presents'))
+# presenter_pattern.append(re.compile(r'[pP][rR][eE][sS][eE][nN][tT]{[eE][dD]|[sS]|[iI][nN][gG]}{ by| BY| By| }[A-Z][a-zA-Z]* [A-Z][a-zA-Z]*'))
+for index, row in presenter_tweets.iterrows():
+    for p in presenter_pattern:
+        matches = p.findall(row['clean_text'])
+        for m in matches:
+            print(m)
+            # print(row['clean_text'])
 # johan_hill = TweetCategorizer(['jonah'],[],"category",data,0,1500000)
 # johan_hill_tweets = johan_hill.get_categorized_tweets()
-# print("END")
+print("END")
 # award_presenters = award_categorizer.find_frequent_entities_from_list(award_tweets,presenters)
 # award_categorizer.print_frequent_entities()
 
