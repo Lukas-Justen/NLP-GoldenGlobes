@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+import time
 import zipfile
 
 import matplotlib.pyplot as plt
@@ -8,6 +9,24 @@ import pandas as pd
 import seaborn as sns
 from nltk import TweetTokenizer, word_tokenize, Text, FreqDist, ngrams
 from nltk.corpus import stopwords
+
+regex_sub_s = re.compile(r"\'s")
+regex_sub_rt = re.compile(r"RT ")
+regex_sub_ve = re.compile(r"\'ve")
+regex_sub_cant = re.compile(r"can\'t")
+regex_sub_nt = re.compile(r"n\'t")
+regex_sub_iam = re.compile(r"i\'m")
+regex_sub_are = re.compile(r"\'re")
+regex_sub_would = re.compile(r"\'d")
+regex_sub_will = re.compile(r"\'ll")
+regex_sub_am = re.compile(r"\'m")
+
+regex_sub_link = re.compile(r'http(s)?\:\/\/[\w\.\d\/]*\b')
+regex_sub_hashtags = re.compile(r'#\w*')
+regex_sub_people = re.compile(r'@[^ ]*\b')
+regex_sub_numbers = re.compile(r'\b\d+\b')
+regex_sub_spaces = re.compile(r'\s+')
+regex_sub_single_characters = re.compile(r'[\b^][A-Za-z][\b$]')
 
 
 def load_data(path, year):
@@ -137,26 +156,27 @@ def get_stopwords():
 
 def clean_tweet(tweet, stopwords):
     # Remove all links hashtags and other things that are not words
-    tweet = re.sub(r"\'s", " ", tweet)
-    tweet = re.sub(r"RT ", "", tweet)
-    tweet = re.sub(r"\'ve", " have ", tweet)
-    tweet = re.sub(r"can't", "cannot ", tweet)
-    tweet = re.sub(r"n't", " not ", tweet)
-    tweet = re.sub(r"i'm", "i am ", tweet)
-    tweet = re.sub(r"\'re", " are ", tweet)
-    tweet = re.sub(r"\'d", " would ", tweet)
-    tweet = re.sub(r"\'ll", " will ", tweet)
-    tweet = re.sub(r"\'m", " am ", tweet)
 
-    tweet = re.sub(r'http(s)?\:\/\/[\w\.\d\/]*\b', ' ', tweet)  # remove links
-    tweet = re.sub(r'#\w*', '', tweet)  # remove hastag
-    tweet = re.sub(r'@[^ ]*\b', ' ', tweet)  # remove at tags
-    tweet = re.sub(r'\b\d+\b', ' ', tweet)  # remove numbers
-    tweet = re.sub(r'\s+', ' ', tweet)  # remove whitespaces
+    tweet = regex_sub_s.sub(" ", tweet)
+    tweet = regex_sub_rt.sub("", tweet)
+    tweet = regex_sub_ve.sub(" have ", tweet)
+    tweet = regex_sub_cant.sub("cannot ", tweet)
+    tweet = regex_sub_nt.sub(" not ", tweet)
+    tweet = regex_sub_iam.sub("i am ", tweet)
+    tweet = regex_sub_are.sub(" are ", tweet)
+    tweet = regex_sub_would.sub(" would ", tweet)
+    tweet = regex_sub_will.sub(" will ", tweet)
+    tweet = regex_sub_am.sub(" am ", tweet)
+
+    tweet = regex_sub_link.sub(' ', tweet)  # remove links
+    tweet = regex_sub_hashtags.sub('', tweet)  # remove hastag
+    tweet = regex_sub_people.sub(' ', tweet)  # remove at tags
+    tweet = regex_sub_numbers.sub(' ', tweet)  # remove numbers
+    tweet = regex_sub_spaces.sub(' ', tweet)  # remove whitespaces
     tweet = tweet.lstrip(' ')  # moves single space left
     tweet = ''.join(c for c in tweet if (c <= u'\u007a' and c >= u'\u0061') or (
             c <= u'\u005a' and c >= u'\u0041') or c == u'\u0020')  # remove emojis
-    tweet = re.sub(r"[\b^][A-Za-z][\b$]", "", tweet)
+    tweet = regex_sub_single_characters.sub("", tweet)
 
     tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)  # reduce length of string
     tw_list = tknzr.tokenize(tweet)
@@ -205,7 +225,7 @@ def count_ngram(n, vocabulary):
     # Do ngrams and plot the top 30 ngrams
     bigram_freq = FreqDist(list(ngrams(vocabulary, n)))
     plt.subplots(figsize=(20, 15))
-    bigram_freq.plot(30)
+    bigram_freq.plot(50)
     plt.show()
 
 
@@ -218,8 +238,10 @@ def count_ngram_with(n, word, vocabulary):
             special_list.append(gram)
 
     ngram_freq = FreqDist(special_list)
+    for key in sorted(ngram_freq, key=ngram_freq.get):
+        print(key, ngram_freq[key])
     plt.subplots(figsize=(20, 15))
-    ngram_freq.plot(30)
+    ngram_freq.plot(50)
     plt.show()
 
 
@@ -233,39 +255,39 @@ def read_dataframe(file):
     return pd.read_csv(file)
 
 
-print("Load the Data:")
-data = load_data('../data/', 2015)
-print("Done\n")
+# print("Load the Data:")
+# data = load_data('../data/', 2013)
+# print("Done\n")
+#
+# print("Show pre Analysis:")
+# show_analysis(data, "text", "total_words_before")
+# print("Done\n")
+# print("Clean the Dataframe:")
+# start = time.time()
+# custom_stopwords = get_stopwords()
+# data = clean_dataframe_column(data, 'text', 'clean_text', custom_stopwords)
+# end = time.time()
+# print(end - start)
+# print("Done\n")
+#
+# print("Show post Analysis:")
+# show_analysis(data, "clean_text", "total_words_after")
+# print("Done\n")
+#
+# print("Convert Time and Drop Columns:")
+# data = data.loc[data['total_words_after'] > 1, :]
+# data = convert_time(data, "timestamp_ms")
+# data = drop_column(data, "user")
+# data = drop_column(data, "id")
+# data = drop_column(data, "timestamp_ms")
+# print("Done\n")
+#
+# save_dataframe(data, "../data/cleaned_gg2013.csv")
 
-print("Show pre Analysis:")
-show_analysis(data, "text", "total_words_before")
-print("Done\n")
-
-print("Clean the Dataframe:")
-custom_stopwords = get_stopwords()
-data = clean_dataframe_column(data, 'text', 'clean_text', custom_stopwords)
-print("Done\n")
-
-print("Show post Analysis:")
-show_analysis(data, "clean_text", "total_words_after")
-print("Done\n")
-
-print("Convert Time and Drop Columns:")
-data = data.loc[data['total_words_after'] > 1, :]
-data = convert_time(data, "timestamp_ms")
-data = drop_column(data, "user")
-data = drop_column(data, "id")
-data = drop_column(data, "timestamp_ms")
-print("Done\n")
-
-save_dataframe(data, "../data/cleaned_gg2015.csv")
-
-data = read_dataframe("../data/cleaned_gg2015.csv")
+data = read_dataframe("../data/cleaned_gg2013.csv")
 
 print("Count N-Grams:")
 vocabulary = create_vocabulary(data, "clean_text")
-# for i in range(2, 6):
-#     count_ngram_with(i, "hosts", vocabulary)
-for i in range(2,6):
-     count_ngram(i,vocabulary)
+for i in range(5, 7):
+    count_ngram_with(i,'best', vocabulary)
 print("Done\n")
