@@ -10,7 +10,7 @@ from pprint import pprint
 
 from nltk.metrics import edit_distance
 
-from src import gg_api
+from src.grader import gg_api
 
 global toMovie
 toMovie = {'johann johannsson': 'the theory of everything', 'alexandre desplat': 'the imitation game',
@@ -233,7 +233,7 @@ def main(years, grading):
 if __name__ == '__main__':
     years = ['2013', '2015']
     grading = ["hosts", "awards", "nominees", "presenters", "winner"]
-    grading = ["winner", "hosts", "awards"]
+    grading = ["winner"]
 
     if len(sys.argv) > 1:
         if '2013' in sys.argv:

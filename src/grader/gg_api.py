@@ -1,7 +1,7 @@
 '''Version 0.3'''
 import pandas as pd
 
-from src.award_winner import TweetCategorizer
+from src.tweet_categorizer import TweetCategorizer
 
 OFFICIAL_AWARDS = ['cecil b. demille award',
                    'best motion picture - drama',
@@ -13,7 +13,6 @@ OFFICIAL_AWARDS = ['cecil b. demille award',
                    'best foreign language film',
                    'best television series - comedy or musical',
                    'best animated feature film',
-
                    'best performance by an actress in a motion picture - drama',
                    'best performance by an actor in a motion picture - drama',
                    'best performance by an actress in a motion picture - comedy or musical',
