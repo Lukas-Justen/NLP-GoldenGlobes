@@ -124,6 +124,8 @@ class InfoExtractor:
             file_info = zip_file.infolist()
             if str(year) in os.path.basename(file_info[0].filename):
                 self.data = pd.read_json(zip_file.open(file_info[0].filename))
+                return
+        raise ValueError("There is no tweet ressources for " + str(year))
 
     def clean_tweet(self, tweet):
         # Remove all links hashtags and other things that are not words
@@ -187,3 +189,7 @@ class InfoExtractor:
         # Count the words in the spciefied column and safe it to a new column
         self.data[to_count + "_wordcount"] = self.data[to_count].apply(lambda x: len(x.split()))
         self.data = self.data.loc[self.data[to_count + "_wordcount"] > 1, :]
+
+    def load_save(self, path, year, file):
+        self.load_data(path, year)
+        self.save_dataframe(file % year)

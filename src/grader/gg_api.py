@@ -1,65 +1,33 @@
-'''Version 0.3'''
-import pandas as pd
+'''Version 0.35'''
+from src.info_extractor import InfoExtractor
+from src.wikidata_connector import WikidataConnector
 
-from src.tweet_categorizer import TweetCategorizer
+OFFICIAL_AWARDS_1315 = ['cecil b. demille award', 'best motion picture - drama', 'best performance by an actress in a motion picture - drama', 'best performance by an actor in a motion picture - drama', 'best motion picture - comedy or musical', 'best performance by an actress in a motion picture - comedy or musical', 'best performance by an actor in a motion picture - comedy or musical', 'best animated feature film', 'best foreign language film', 'best performance by an actress in a supporting role in a motion picture', 'best performance by an actor in a supporting role in a motion picture', 'best director - motion picture', 'best screenplay - motion picture', 'best original score - motion picture', 'best original song - motion picture', 'best television series - drama', 'best performance by an actress in a television series - drama', 'best performance by an actor in a television series - drama', 'best television series - comedy or musical', 'best performance by an actress in a television series - comedy or musical', 'best performance by an actor in a television series - comedy or musical', 'best mini-series or motion picture made for television', 'best performance by an actress in a mini-series or motion picture made for television', 'best performance by an actor in a mini-series or motion picture made for television', 'best performance by an actress in a supporting role in a series, mini-series or motion picture made for television', 'best performance by an actor in a supporting role in a series, mini-series or motion picture made for television']
+OFFICIAL_AWARDS_1819 = ['best motion picture - drama', 'best motion picture - musical or comedy', 'best performance by an actress in a motion picture - drama', 'best performance by an actor in a motion picture - drama', 'best performance by an actress in a motion picture - musical or comedy', 'best performance by an actor in a motion picture - musical or comedy', 'best performance by an actress in a supporting role in any motion picture', 'best performance by an actor in a supporting role in any motion picture', 'best director - motion picture', 'best screenplay - motion picture', 'best motion picture - animated', 'best motion picture - foreign language', 'best original score - motion picture', 'best original song - motion picture', 'best television series - drama', 'best television series - musical or comedy', 'best television limited series or motion picture made for television', 'best performance by an actress in a limited series or a motion picture made for television', 'best performance by an actor in a limited series or a motion picture made for television', 'best performance by an actress in a television series - drama', 'best performance by an actor in a television series - drama', 'best performance by an actress in a television series - musical or comedy', 'best performance by an actor in a television series - musical or comedy', 'best performance by an actress in a supporting role in a series, limited series or motion picture made for television', 'best performance by an actor in a supporting role in a series, limited series or motion picture made for television', 'cecil b. demille award']
+EXTERNAL_SOURCES = {'actors': 'actorLabel', 'films': 'filmLabel', 'directors': 'directorLabel', 'series': 'seriesLabel'}
+HOST_WORDS = "host|hosting|hoster|hosts|anchor|entertainer|entertaining|moderator|moderating|moderated|entertained"
+NOMINEE_WORDS = "nominee|nomination|nominated|nominees|nominations|nominate|vote|voting|voter|voted|candidate"
+PRESENTER_WORDS = "present|presents|presenting|presented|presentation|presenter|presenters|presentations|introduce"
+STOPWORDS = ["an", "in", "a", "for", "by", "-", "or"]
+YEARS = [2013, 2015, 2018, 2019]
 
-OFFICIAL_AWARDS = ['cecil b. demille award',
-                   'best motion picture - drama',
-                   'best director - motion picture',
-                   'best screenplay - motion picture',
-                   'best television series - drama',
-                   'best motion picture - comedy or musical',
-                   'best original song - motion picture',
-                   'best foreign language film',
-                   'best television series - comedy or musical',
-                   'best animated feature film',
-                   'best performance by an actress in a motion picture - drama',
-                   'best performance by an actor in a motion picture - drama',
-                   'best performance by an actress in a motion picture - comedy or musical',
-                   'best performance by an actor in a motion picture - comedy or musical',
-                   'best performance by an actress in a supporting role in a motion picture',
-                   'best performance by an actor in a supporting role in a motion picture',
-                   'best original score - motion picture',
-                   'best performance by an actress in a television series - drama',
-                   'best performance by an actor in a television series - drama',
-                   'best performance by an actress in a television series - comedy or musical',
-                   'best performance by an actor in a television series - comedy or musical',
-                   'best mini-series or motion picture made for television',
-                   'best performance by an actress in a mini-series or motion picture made for television',
-                   'best performance by an actor in a mini-series or motion picture made for television',
-                   'best performance by an actress in a supporting role in a series, mini-series or motion picture made for television',
-                   'best performance by an actor in a supporting role in a series, mini-series or motion picture made for television']
-
+wikidata = WikidataConnector()
+extractor = InfoExtractor()
+data = {}
 
 def get_hosts(year):
-    # TODO: Load correct data here
-    data = pd.read_csv("../data/cleaned_gg%s.csv" % year)
-    host_keywords = "host|hosting|hoster|hosts|anchor|entertainer|entertaining|moderator|moderating|moderated"
-    host_categorizer = TweetCategorizer([host_keywords], [], "category", data, 0, 1500000)
-    host_tweets = host_categorizer.get_categorized_tweets()
-    hosters = host_categorizer.find_list_of_entities(host_tweets, 2)
-    return hosters[host_keywords]
+    '''Hosts is a list of one or more strings. Do NOT change the name
+    of this function or what it returns.'''
+    # Your code here
+    hosts = []
+    return hosts
 
 
 def get_awards(year):
     '''Awards is a list of strings. Do NOT change the name
     of this function or what it returns.'''
     # Your code here
-    awards = ['best motion picture drama',
-              'best director motion picture',
-              'best screenplay motion picture',
-              'best television series drama',
-              'best motion picture musical or comedy',
-              'best original song motion picture',
-              'best foreign language film',
-              'best television series comedy or musical',
-              'best motion picture comedy or musical',
-              'best animated feature film',
-
-              # 'best tv series comedy',
-              # 'best television series actor',
-              # 'best actor tv series',
-              ]
+    awards = []
     return awards
 
 
@@ -73,12 +41,11 @@ def get_nominees(year):
 
 
 def get_winner(year):
-    # TODO: Load correct data here
-    data = pd.read_csv("../data/cleaned_gg%s.csv" % year)
-    stopwords = ["an", "in", "a", "for", "by", "-", "or"]
-    award_categorizer = TweetCategorizer(OFFICIAL_AWARDS, stopwords, "award", data, 3, 170000)
-    award_tweets = award_categorizer.get_categorized_tweets()
-    winners = award_categorizer.find_frequent_entity(award_tweets)
+    '''Winners is a dictionary with the hard coded award
+    names as keys, and each entry containing a single string.
+    Do NOT change the name of this function or what it returns.'''
+    # Your code here
+    winners = []
     return winners
 
 
@@ -92,24 +59,44 @@ def get_presenters(year):
 
 
 def pre_ceremony():
-    '''This function loads/fetches/processes any data your program
-    will use, and stores that data in your DB or in a json, csv, or
-    plain text file. It is the first thing the TA will run when grading.
-    Do NOT change the name of this function or what it returns.'''
-    # Your code here
+    # Here we load actors, films, directors and series from wikidata
+    print("Load Wikidata")
+    for key in EXTERNAL_SOURCES:
+        wikidata.call_wikidate(key, EXTERNAL_SOURCES[key])
+        print("Done loading " + key + " ...")
+    print("Done Wikidata\n")
+
+    # Here we load all the zip files and store them in a csv file
+    print("Load Tweets")
+    for year in YEARS:
+        try:
+            extractor.load_save("", year, "dirty_gg%s.csv")
+            print("Done loading tweets for " + str(year) + " ...")
+        except:
+            print("Unable to load tweets for " + str(year) + " ...")
+    print("Done Tweets\n")
+
+    # Done pre-processing now we can start cleaning it
     print("Pre-ceremony processing complete.")
     return
 
 
 def main():
-    '''This function calls your program. Typing "python gg_api.py"
-    will run this function. Or, in the interpreter, import gg_api
-    and then run gg_api.main(). This is the second thing the TA will
-    run when grading. Do NOT change the name of this function or
-    what it returns.'''
+    # Reload the csv files from disk and store the data in a dataframe
+    print("Load Dataframes")
+    for year in YEARS:
+        extractor.read_dataframe("dirty_gg%s.csv" % year)
+        print("Done loading " + str(year) + " dataframe ...")
+    print("Done Dataframes")
+
+    # '''This function calls your program. Typing "python gg_api.py"
+    # will run this function. Or, in the interpreter, import gg_api
+    # and then run gg_api.main(). This is the second thing the TA will
+    # run when grading. Do NOT change the name of this function or
+    # what it returns.'''
     # Your code here
     return
 
 
 if __name__ == '__main__':
-    main()
+    pre_ceremony()

@@ -1,9 +1,6 @@
-import re
-
-import pandas as pd
-
 from src.info_extractor import InfoExtractor
 from src.tweet_categorizer import TweetCategorizer
+from src.wikidata_connector import WikidataConnector
 
 year = 2013
 
@@ -31,7 +28,7 @@ stopwords = ["an", "in", "a", "for", "by", "-", "or"]
 
 # TODO: This code has to be uncommented for the final submission
 # extractor = InfoExtractor()
-# extractor.load_data("../data/", 2013)
+# extractor.load_data("../data/", year)
 # extractor.clean_dataframe_column("text", "clean_text")
 # extractor.convert_time("timestamp_ms")
 # extractor.drop_column("user")
@@ -53,16 +50,26 @@ extractor = InfoExtractor()
 extractor.read_dataframe("../data/cleaned_gg%s.csv" % year)
 data = extractor.get_dataframe()
 
+wikidata = WikidataConnector()
+actors = wikidata.call_wikidate('actors', 'actorLabel')
+films = wikidata.call_wikidate('films', 'filmLabel')
+series = wikidata.call_wikidate('directors', 'directorLabel')
+directors = wikidata.call_wikidate('series', 'seriesLabel')
+films.append("Transparent")
+actors.append("Brave")
+actors.append("Joanne Frogatte")
+
 # HOSTS
-host_categorizer = TweetCategorizer([host_keywords], [], "host_tweet", data, 0, 1700000)
-host_tweets = host_categorizer.get_categorized_tweets()
-hosters = host_categorizer.find_list_of_entities(host_tweets, 2)
-print(hosters)
+# host_categorizer = TweetCategorizer([host_keywords], [], "host_tweet", data, 0, 1700000)
+# host_tweets = host_categorizer.get_categorized_tweets()
+# print(len(host_tweets))
+# hosters = host_categorizer.find_list_of_entities(host_tweets, 10, actors)
+# print(hosters)
 
 # WINNERS
-winner_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 170000)
+winner_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1000000)
 winner_tweets = winner_categorizer.get_categorized_tweets()
-winners = winner_categorizer.find_frequent_entity(winner_tweets)
+winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, actors + directors, films + series)
 winner_categorizer.print_frequent_entities()
 
 # # TIMES
