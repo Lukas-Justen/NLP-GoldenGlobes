@@ -2,7 +2,7 @@ import nltk
 import itertools
 import gensim
 import random
-import src.kb_constant as kb_constant
+import src.constants as kb_constant
 from src.wikidata_connector import WikidataConnector
 from nltk import TweetTokenizer, word_tokenize, Text, FreqDist, ngrams
 from nltk.corpus import stopwords
@@ -90,6 +90,7 @@ class Chunker:
 
        except:
            return 'N/a'
+
     def fuzz_(self,catg_string, catg_list):
       try:
         string_list = catg_string.split()
@@ -103,7 +104,6 @@ class Chunker:
             for word_ in string_list:
                 if word_ in key:
                     count += 1
-            print((count / string_len)*100)
             if  (count / string_len)*100 > 90 and (string_len-1 == len(key) or string_len+1 == len(key)):
                 best_match = (count / string_len)*100
                 best_key = ' '.join(key)

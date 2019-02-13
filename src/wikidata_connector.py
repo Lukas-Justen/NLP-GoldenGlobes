@@ -1,52 +1,65 @@
-import re
+import pickle
+from pathlib import Path
 
 import requests
-
-actor_query = '''SELECT DISTINCT ?actorLabel WHERE {
-  ?film (wdt:P31*/wdt:P279*) wd:Q11424;
-        wdt:P577 ?date;
-        wdt:P161 ?actor.
-  FILTER (?date > "%d-01-01"^^xsd:dateTime && ?date < "%d-12-31"^^xsd:dateTime).
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-} ORDER BY ?actorLabel'''
-
-film_query = '''SELECT DISTINCT ?filmLabel WHERE {
-  ?film (wdt:P31*/wdt:P279*) wd:Q11424;
-        wdt:P577 ?date;
-  FILTER (?date > "%d-01-01"^^xsd:dateTime && ?date < "%d-12-31"^^xsd:dateTime).
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-} ORDER BY ?filmLabel'''
-
-director_query = '''SELECT DISTINCT ?directorLabel WHERE {
-  ?film (wdt:P31*/wdt:P279*) wd:Q11424;
-        wdt:P577 ?date;
-        wdt:P57 ?director.
-  FILTER (?date > "%d-01-01"^^xsd:dateTime && ?date < "%d-12-31"^^xsd:dateTime).
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-} ORDER BY ?directorLabel'''
-
-series_query = '''SELECT DISTINCT ?seriesLabel WHERE {
-  ?series (wdt:P31*/wdt:P279*) wd:Q5398426;
-        wdt:P580 ?startDate;
-  FILTER (?startDate > "%d-01-01"^^xsd:dateTime && ?startDate < "%d-12-31"^^xsd:dateTime).
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-} ORDER BY ?seriesLabel'''
+import unidecode
 
 
 class WikidataConnector:
 
-    def call_wikidate(self, query, field_name, year1, year2):
-        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
-        json = requests.get(url, params={'query': query % (year1, year2), 'format': 'json'}).json()
-        return self.parse_json(json, field_name)
+    def __init__(self):
+        self.queries = {"actors": """SELECT DISTINCT ?actorLabel WHERE {
+  ?actor wdt:P31 wd:Q5;
+         wdt:P106 wd:Q10800557.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} ORDER BY ?actorLabel""",
+                        "films": """SELECT DISTINCT ?filmLabel WHERE {
+  ?film wdt:P31 wd:Q11424;
+        wdt:P345 ?id;
+        wdt:P577 ?date.
+  FILTER (?date > "2000-01-01"^^xsd:dateTime && ?date < NOW())
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} ORDER BY ?filmLabel""",
+                        "directors": """SELECT DISTINCT ?directorLabel WHERE {
+  ?director wdt:P31 wd:Q5;
+         wdt:P106 wd:Q2526255.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} ORDER BY ?directorLabel""",
+                        "series": """SELECT DISTINCT ?seriesLabel WHERE {
+  ?series wdt:P31 wd:Q5398426;
+        wdt:P345 ?id;
+        wdt:P580 ?date.
+  FILTER (?date > "2000-01-01"^^xsd:dateTime && ?date < NOW())
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} ORDER BY ?seriesLabel"""}
+        self.results = {"actors": None,
+                        "films": None,
+                        "directors": None,
+                        "series": None}
+
+    def call_wikidate(self, query, field_name):
+        if not self.results[query]:
+            file = Path("wikidata_" + query + ".txt")
+            if file.exists():
+                with open("wikidata_" + query + ".txt", 'rb') as f:
+                    self.results[query] = pickle.load(f)
+            else:
+                url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
+                json = requests.get(url, params={'query': self.queries[query], 'format': 'json'}).json()
+                self.results[query] = self.parse_json(json, field_name)
+                with open("wikidata_" + query + ".txt", 'wb') as f:
+                    pickle.dump(self.results[query], f)
+        return self.results[query]
 
     def parse_json(self, json, field_name):
         entities = []
-        validator = re.compile(r'^[a-zA-Z\s.\-]+$')
         for item in json['results']['bindings']:
-            match = validator.findall(item[field_name]['value'])
-            if match and len(match[0]) > 5:
-                entities.append(match[0])
+            name = item[field_name]['value']
+            name = name.replace('-', ' ')
+            name = name.replace(' of ', ' ')
+            name = unidecode.unidecode(name)
+            entities.append(name)
+        entities.sort(key=len, reverse=True)
         return entities
 
 

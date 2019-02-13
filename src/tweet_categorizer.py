@@ -8,12 +8,12 @@ class TweetCategorizer:
         group_indicators = sorted(group_indicators, key=len)
         self.tweets = tweets.sample(frac=1)[:sample_size]
         self.stripper = re.compile(r'\b(\w+)-(\w+)\b')
-        self.bigram_finder = re.compile(r'\b[A-Z][a-z]+ [A-Z][a-z]+\b')
-        self.unigram_finder = re.compile(r'\b[A-Z][a-z]+\b')
+        self.entity_finder = re.compile(r'(?P<entity>([A-Z][A-Za-z]*\s?)+\b(?<=[a-zA-Z]))')
+        self.people_finder = re.compile(r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host')
         self.detecter = []
         self.replacor = []
         self.threshold = threshold
-        self.winner = {}
+        self.winners = {}
         self.group_name = group_name
         self.original_groups = copy.deepcopy(group_indicators)
         self.group_indicators = self.strip_indicators(group_indicators, stopwords)
@@ -49,71 +49,41 @@ class TweetCategorizer:
         categorized_tweets = categorized_tweets.sort_values(by=[self.group_name, "hour", "minute"])
         return categorized_tweets
 
-    def count_entity_bigram(self, text, entity_count, category):
+    def count_entity(self, text, entity_count, category):
         text = self.replacor[category].sub(' ', text)
-        matches = self.bigram_finder.findall(text)
-        entity_count = self.aggregate_entity_count(matches, entity_count)
-        return entity_count
-
-    def count_entity_unigram(self, text, entity_count, category):
-        text = self.replacor[category].sub(' ', text)
-        matches = self.unigram_finder.findall(text)
+        matches = self.entity_finder.findall(text)
         entity_count = self.aggregate_entity_count(matches, entity_count)
         return entity_count
 
     def aggregate_entity_count(self, matches, entity_count):
         for match in matches:
-            entity_count[match] = 1 if match not in entity_count.keys() else entity_count[match] + 1
+            for m in match:
+                entity_count[m] = 1 if m not in entity_count.keys() else entity_count[m] + 1
         return entity_count
 
-    def find_frequent_entity(self, tweets):
-        self.winner = {}
+    def find_list_of_entities(self, tweets, number_entities, verification_people, verification_things):
+        self.winners = {}
         for i in range(0, len(self.group_indicators)):
             associated_tweets = tweets[tweets[self.group_name] == i]
-            self.winner[self.original_groups[i]] = str(self.evaluate_entity_counts(i, associated_tweets)).lower()
-        return self.winner
-
-    def find_list_of_entities(self, tweets, number_entities):
-        counts = {}
-        for i in range(0, len(self.group_indicators)):
-            _, people_count_bigram = self.count_entities(tweets, i)
-            people_count_bigram = sorted(people_count_bigram, key=people_count_bigram.get, reverse=True)
-            counts[self.original_groups[i]] = [people_count_bigram[i] for i in range(0, number_entities)]
-        return counts
-
-    def find_frequent_entities_from_list(self,tweets,entity_list):
-        self.winner = {}
-        for i in range(0, len(self.group_indicators)):
-            associated_tweets = tweets[tweets[self.group_name] == i]
-            self.winner[self.original_groups[i]] = str(self.evaluate_entity_count_from_list(i, associated_tweets, entity_list)).lower()
-        return self.winner
-
-    def evaluate_entity_count_from_list(self, group_index,tweets, allowed_entities):
-        _, people_count_bigram = self.count_entities(tweets, group_index)
-        people_count_bigram = {key: people_count_bigram[key] for key in people_count_bigram if key not in allowed_entities}
-        people_count_bigram['NOTHING FOUND'] = 0
-        bigram_winner = max(people_count_bigram, key=people_count_bigram.get)
-        return bigram_winner
+            entities = self.count_entities(associated_tweets, i)
+            if self.people_finder.findall(self.original_groups[i]):
+                entities = {key: entities[key] for key in entities if key in verification_people}
+            else:
+                entities = {key: entities[key] for key in entities if key in verification_things}
+            entities = sorted(entities, key=entities.get, reverse=True)
+            actual_found = number_entities if number_entities < len(entities) else len(entities)
+            if actual_found == 1:
+                self.winners[self.original_groups[i]] = str(entities[0]).lower()
+            else:
+                self.winners[self.original_groups[i]] = [str(entities[j]).lower() for j in range(0, actual_found)]
+        return self.winners
 
     def count_entities(self, tweets, group_index):
-        people_count_bigram = {}
-        people_count_unigram = {}
+        entities = {}
         for index, row in tweets.iterrows():
-            people_count_bigram = self.count_entity_bigram(row['clean_text'], people_count_bigram, group_index)
-            people_count_unigram = self.count_entity_unigram(row['clean_text'], people_count_unigram, group_index)
-        return people_count_unigram, people_count_bigram
-
-    def evaluate_entity_counts(self, group_index, tweets):
-        people_count_unigram, people_count_bigram = self.count_entities(tweets, group_index)
-        people_count_unigram['NOTHING_FOUND'] = 0
-        people_count_bigram['NOTHING FOUND'] = 0
-        unigram_winner = max(people_count_unigram, key=people_count_unigram.get)
-        bigram_winner = max(people_count_bigram, key=people_count_bigram.get)
-        unigram_count = people_count_unigram[unigram_winner]
-        bigram_count = people_count_bigram[bigram_winner]
-        return unigram_winner if 3 * bigram_count < unigram_count else bigram_winner
+            entities = self.count_entity(row['clean_text'], entities, group_index)
+        return entities
 
     def print_frequent_entities(self):
-        for key in sorted(self.winner):
-            print("Entity: ", self.winner[key], "Award: ", key)
-
+        for key in sorted(self.winners):
+            print("Entity: ", self.winners[key], "Group: ", key)

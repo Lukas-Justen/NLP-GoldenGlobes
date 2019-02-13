@@ -10,7 +10,7 @@ from pprint import pprint
 
 from nltk.metrics import edit_distance
 
-from src.grader import gg_api
+from src.grader import gg_api_old
 
 global toMovie
 toMovie = {'johann johannsson': 'the theory of everything', 'alexandre desplat': 'the imitation game',
@@ -174,7 +174,7 @@ def score_structured(year, answers, info_type):
     # c_score is the completeness score
     spelling_score = 0
     c_score = 0
-    results = getattr(gg_api, 'get_%s' % info_type)(year)
+    results = getattr(gg_api_old, 'get_%s' % info_type)(year)
     length = 26
 
     if info_type == "nominees":
@@ -201,7 +201,7 @@ def score_structured(year, answers, info_type):
 
 
 def score_unstructured(year, answers, info_type):
-    results = getattr(gg_api, 'get_%s' % info_type)(year)
+    results = getattr(gg_api_old, 'get_%s' % info_type)(year)
     spelling_score, translation = calc_translation(results, answers[info_type])
     c_score = calc_score([translation[res] if res in translation else res for res in results], answers[info_type])
 
@@ -226,7 +226,6 @@ def main(years, grading):
 
         if "winner" in grading:
             del scores[y]['winner']['completeness']
-
     pprint(scores)
 
 
