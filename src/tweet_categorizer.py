@@ -9,7 +9,7 @@ class TweetCategorizer:
         self.tweets = tweets.sample(frac=1)[:sample_size]
         self.stripper = re.compile(r'\b(\w+)-(\w+)\b')
         self.entity_finder = re.compile(r'(?P<entity>([A-Z][A-Za-z]*\s?)+\b(?<=[a-zA-Z]))')
-        self.people_finder = re.compile(r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host')
+        self.people_finder = re.compile(r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host|entertain|moderat')
         self.detecter = []
         self.replacor = []
         self.threshold = threshold
@@ -32,7 +32,7 @@ class TweetCategorizer:
         return group_indicators
 
     def apply_indicators(self, group_indicators, group_name, tweets):
-        tweets[group_name] = tweets["clean_text"].apply(lambda text: self.detect_group(text, group_indicators))
+        tweets[group_name] = tweets["clean_upper"].apply(lambda text: self.detect_group(text, group_indicators))
         return tweets
 
     def detect_group(self, text, group_indicators):
@@ -46,7 +46,7 @@ class TweetCategorizer:
 
     def get_categorized_tweets(self):
         categorized_tweets = self.tweets[self.tweets[self.group_name] > -1]
-        categorized_tweets = categorized_tweets.sort_values(by=[self.group_name, "hour", "minute"])
+        # categorized_tweets = categorized_tweets.sort_values(by=[self.group_name, "hour", "minute"])
         return categorized_tweets
 
     def count_entity(self, text, entity_count, category):
@@ -81,7 +81,7 @@ class TweetCategorizer:
     def count_entities(self, tweets, group_index):
         entities = {}
         for index, row in tweets.iterrows():
-            entities = self.count_entity(row['clean_text'], entities, group_index)
+            entities = self.count_entity(row['clean_upper'], entities, group_index)
         return entities
 
     def print_frequent_entities(self):
