@@ -2,7 +2,7 @@
 
 from src import resources
 from src.info_extractor import InfoExtractor
-from src.resources import wikidata, EXTERNAL_SOURCES, OFFICIAL_AWARDS_1315, STOPWORDS
+from src.resources import wikidata, EXTERNAL_SOURCES, OFFICIAL_AWARDS_1315, STOPWORDS, OFFICIAL_AWARDS_1819
 from src.tweet_categorizer import TweetCategorizer
 
 
@@ -80,7 +80,8 @@ def main():
     # Reload the csv files from disk and store the data in a dataframe
     print("Load Dataframes")
     # TODO: REMOVE THIS
-    resources.years = [2013,2015]
+    resources.years = [2013, 2015]
+    results = {}
     for year in resources.years:
         extractor = InfoExtractor()
         print("Read ...")
@@ -101,6 +102,7 @@ def main():
         extractor.drop_column("language")
         resources.data[year] = extractor.get_dataframe()
         print("Done loading and cleaning " + str(year) + " dataframe ...")
+        results[year] = {}
     print("Done Dataframes\n")
 
     # We start by finding the awards for each year
@@ -126,18 +128,22 @@ def main():
         host_categorizer = TweetCategorizer([resources.HOST_WORDS], [], "host_tweet", resources.data[year], 0, 200000)
         host_tweets = host_categorizer.get_categorized_tweets()
         hosters = host_categorizer.find_list_of_entities(host_tweets, 2, people, [])
-        print(hosters)
+        results[year]["Hosts"] = hosters
     print("Done Hosts")
 
-    # We search for the hosts
+    # Search for the winners
     print("Find Winners")
     for year in resources.years:
-        winner_categorizer = TweetCategorizer(OFFICIAL_AWARDS_1315, STOPWORDS, "award", resources.data[year], 3, 1000000)
+        awards = OFFICIAL_AWARDS_1315
+        if year in [2018, 2019]:
+            awards = OFFICIAL_AWARDS_1819
+        winner_categorizer = TweetCategorizer(awards, STOPWORDS, "award", resources.data[year], 3, 1000000)
         winner_tweets = winner_categorizer.get_categorized_tweets()
         winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things)
+        for key in winners:
+            results[year][key] = {}
+            results[year][key]["Winner"] = winners[key]
     print("Done Winners")
-
-
     return
 
 
