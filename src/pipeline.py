@@ -1,41 +1,39 @@
+import re
+import pandas as pd
+
+import src.kb_constant as kb_constant
 from src.info_extractor import InfoExtractor
 from src.tweet_categorizer import TweetCategorizer
+from src.find_categories import Chunker
 from src.wikidata_connector import WikidataConnector
 
-year = 2013
-
-awards = ['cecil b. demille award', 'best performance by an actress in a supporting role in a motion picture',
-          'best motion picture - drama', 'best performance by an actor in a television series - comedy or musical',
-          'best director - motion picture', 'best performance by an actor in a supporting role in a motion picture',
-          'best screenplay - motion picture', 'best mini-series or motion picture made for television',
-          'best television series - drama', 'best performance by an actress in a television series - comedy or musical',
-          'best motion picture - comedy or musical', 'best original song - motion picture',
-          'best foreign language film', 'best television series - comedy or musical', 'best animated feature film',
-          'best performance by an actress in a motion picture - drama',
-          'best performance by an actor in a motion picture - drama', 'best original score - motion picture',
-          'best performance by an actress in a motion picture - comedy or musical',
-          'best performance by an actor in a motion picture - comedy or musical',
-          'best performance by an actress in a television series - drama',
-          'best performance by an actor in a television series - drama',
-          'best performance by an actress in a mini-series or motion picture made for television',
-          'best performance by an actor in a mini-series or motion picture made for television',
-          'best performance by an actress in a supporting role in a series, mini-series or motion picture made for television',
-          'best performance by an actor in a supporting role in a series, mini-series or motion picture made for television']
-host_keywords = "host|hosting|hoster|hosts|anchor|entertainer|entertaining|moderator|moderating|moderated|entertained"
-nominee_keywords = "nominee|nomination|nominated|nominees|nominations|nominate|vote|voting|voter|voted|candidate"
-presenter_keywords = "present|presents|presenting|presented|presentation|presenter|presenters|presentations|introduce"
-stopwords = ["an", "in", "a", "for", "by", "-", "or"]
 
 # TODO: This code has to be uncommented for the final submission
-# extractor = InfoExtractor()
-# extractor.load_data("../data/", year)
-# extractor.clean_dataframe_column("text", "clean_text")
-# extractor.convert_time("timestamp_ms")
-# extractor.drop_column("user")
-# extractor.drop_column("id")
-# extractor.drop_column("timestamp_ms")
-# extractor.save_dataframe("../data/cleaned_gg%s.csv" %year)
-# data = extractor.get_dataframe()
+extractor = InfoExtractor()
+extractor.load_data("../data/", 2013)
+extractor.get_EngTweets()
+extractor.clean_dataframe_column("text", "clean_text")
+extractor.convert_time("timestamp_ms")
+extractor.drop_column("user")
+extractor.drop_column("id")
+extractor.drop_column("timestamp_ms")
+extractor.drop_column("language")
+extractor.save_dataframe("../data/cleaned_gg%s.csv" %kb_constant.year)
+data = extractor.get_dataframe()
+
+# TODO: Identify the categories and return the list of top categories using chuncking
+chunker = Chunker()
+data['categorie'] =  data.apply(chunker.extract_wrapper,axis=1)
+data = data.loc[data.categorie != 'N/a',:]
+data.reset_index(drop=True,inplace=True)
+data[['nominee_mentioned','presenter_mentioned','categorie']] = pd.DataFrame(data['categorie'].values.tolist(), index= data.index)
+data = data.loc[data.categorie.str.split().map(len) > 3,:]
+found_categories = chunker.pick_categories(data)
+print(found_categories)
+
+# TODO: Identify list of presenter for awards
+
+
 
 # TODO: Remove the visualization tasks for the final submission
 # extractor.count_words_per_tweet("text")
@@ -46,9 +44,9 @@ stopwords = ["an", "in", "a", "for", "by", "-", "or"]
 # visualizer_new.show_analysis()
 
 # TODO: Remove these lines since they are only for here debugging
-extractor = InfoExtractor()
-extractor.read_dataframe("../data/cleaned_gg%s.csv" % year)
-data = extractor.get_dataframe()
+# extractor = InfoExtractor()
+# extractor.read_dataframe("../data/cleaned_gg%s.csv" % kb_constant.year)
+# data = extractor.get_dataframe()
 
 wikidata = WikidataConnector()
 actors = wikidata.call_wikidate('actors', 'actorLabel')
@@ -73,7 +71,7 @@ winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, actors + di
 winner_categorizer.print_frequent_entities()
 
 # # TIMES
-# award_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1500000)
+# award_categorizer = TweetCategorizer(kb_constant.awards, kb_constant.stopwords, "award", data, 3, 1500000)
 # award_tweets = award_categorizer.get_categorized_tweets()
 # award_tweets["absolute_time"] = award_tweets["hour"].apply(lambda hour: hour * 60)
 # award_tweets["absolute_time"] += award_tweets["minute"].apply(lambda minute: minute)
@@ -81,12 +79,12 @@ winner_categorizer.print_frequent_entities()
 # average_time = average_time.sort_values(by=["absolute_time", "hour", "minute"])
 #
 # # NOMINEES
-# nominee_categorizer = TweetCategorizer([nominee_keywords], [], "category", data, 0, 1500000)
+# nominee_categorizer = TweetCategorizer([kb_constant.nominee_keywords], [], "category", data, 0, 1500000)
 # nominee_tweets = nominee_categorizer.get_categorized_tweets()
 # nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 200)
 #
 # # PRESENTER
-# presenter_categorizer = TweetCategorizer([presenter_keywords], [], "category", data, 0, 1500000)
+# presenter_categorizer = TweetCategorizer([kb_constant.presenter_keywords], [], "category", data, 0, 1500000)
 # presenter_tweets = presenter_categorizer.get_categorized_tweets()
 # presenter_tweets = presenter_tweets.sort_values(by=["hour", "minute"])
 # presenter_pattern = []

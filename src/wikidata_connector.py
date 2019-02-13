@@ -61,3 +61,17 @@ class WikidataConnector:
             entities.append(name)
         entities.sort(key=len, reverse=True)
         return entities
+
+
+# year = 2013
+#
+# wikidata = WikidataConnector()
+# actors = wikidata.call_wikidate(actor_query, 'actorLabel', year, year)
+# films = wikidata.call_wikidate(film_query, 'filmLabel', year, year)
+# directors = wikidata.call_wikidate(director_query, 'directorLabel', year, year)
+# series = wikidata.call_wikidate(series_query, 'seriesLabel', year - 10, year)
+#
+# print("Actors: ", actors)
+# print("Films: ", films)
+# print("Directors: ", directors)
+# print("Series: ", series)
