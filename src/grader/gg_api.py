@@ -1,19 +1,12 @@
 '''Version 0.35'''
+from src.constants import EXTERNAL_SOURCES, YEARS
 from src.info_extractor import InfoExtractor
 from src.wikidata_connector import WikidataConnector
-
-OFFICIAL_AWARDS_1315 = ['cecil b. demille award', 'best motion picture - drama', 'best performance by an actress in a motion picture - drama', 'best performance by an actor in a motion picture - drama', 'best motion picture - comedy or musical', 'best performance by an actress in a motion picture - comedy or musical', 'best performance by an actor in a motion picture - comedy or musical', 'best animated feature film', 'best foreign language film', 'best performance by an actress in a supporting role in a motion picture', 'best performance by an actor in a supporting role in a motion picture', 'best director - motion picture', 'best screenplay - motion picture', 'best original score - motion picture', 'best original song - motion picture', 'best television series - drama', 'best performance by an actress in a television series - drama', 'best performance by an actor in a television series - drama', 'best television series - comedy or musical', 'best performance by an actress in a television series - comedy or musical', 'best performance by an actor in a television series - comedy or musical', 'best mini-series or motion picture made for television', 'best performance by an actress in a mini-series or motion picture made for television', 'best performance by an actor in a mini-series or motion picture made for television', 'best performance by an actress in a supporting role in a series, mini-series or motion picture made for television', 'best performance by an actor in a supporting role in a series, mini-series or motion picture made for television']
-OFFICIAL_AWARDS_1819 = ['best motion picture - drama', 'best motion picture - musical or comedy', 'best performance by an actress in a motion picture - drama', 'best performance by an actor in a motion picture - drama', 'best performance by an actress in a motion picture - musical or comedy', 'best performance by an actor in a motion picture - musical or comedy', 'best performance by an actress in a supporting role in any motion picture', 'best performance by an actor in a supporting role in any motion picture', 'best director - motion picture', 'best screenplay - motion picture', 'best motion picture - animated', 'best motion picture - foreign language', 'best original score - motion picture', 'best original song - motion picture', 'best television series - drama', 'best television series - musical or comedy', 'best television limited series or motion picture made for television', 'best performance by an actress in a limited series or a motion picture made for television', 'best performance by an actor in a limited series or a motion picture made for television', 'best performance by an actress in a television series - drama', 'best performance by an actor in a television series - drama', 'best performance by an actress in a television series - musical or comedy', 'best performance by an actor in a television series - musical or comedy', 'best performance by an actress in a supporting role in a series, limited series or motion picture made for television', 'best performance by an actor in a supporting role in a series, limited series or motion picture made for television', 'cecil b. demille award']
-EXTERNAL_SOURCES = {'actors': 'actorLabel', 'films': 'filmLabel', 'directors': 'directorLabel', 'series': 'seriesLabel'}
-HOST_WORDS = "host|hosting|hoster|hosts|anchor|entertainer|entertaining|moderator|moderating|moderated|entertained"
-NOMINEE_WORDS = "nominee|nomination|nominated|nominees|nominations|nominate|vote|voting|voter|voted|candidate"
-PRESENTER_WORDS = "present|presents|presenting|presented|presentation|presenter|presenters|presentations|introduce"
-STOPWORDS = ["an", "in", "a", "for", "by", "-", "or"]
-YEARS = [2013, 2015, 2018, 2019]
 
 wikidata = WikidataConnector()
 extractor = InfoExtractor()
 data = {}
+
 
 def get_hosts(year):
     '''Hosts is a list of one or more strings. Do NOT change the name
@@ -86,7 +79,16 @@ def main():
     print("Load Dataframes")
     for year in YEARS:
         extractor.read_dataframe("dirty_gg%s.csv" % year)
-        print("Done loading " + str(year) + " dataframe ...")
+        extractor.get_english_tweets()
+        extractor.clean_dataframe_column("text", "clean_text")
+        extractor.convert_time("timestamp_ms")
+        extractor.drop_column("user")
+        extractor.drop_column("id")
+        extractor.drop_column("timestamp_ms")
+        extractor.drop_column("language")
+        extractor.save_dataframe("cleaned_gg%s.csv" % year)
+        data[year] = extractor.get_dataframe()
+        print("Done loading and cleaning " + str(year) + " dataframe ...")
     print("Done Dataframes")
 
     # '''This function calls your program. Typing "python gg_api.py"

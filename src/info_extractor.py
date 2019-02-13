@@ -12,12 +12,18 @@ import pandas as pd
 
 import nltk
 from nltk import TweetTokenizer
-from nltk.corpus import stopwords
 
 
 class InfoExtractor:
 
     def __init__(self):
+
+        self.z = u'\u007a'
+        self.Z = u'\u005a'
+        self.a = u'\u0061'
+        self.A = u'\u0041'
+        self.space = u'\u0020'
+
         self.stopwords = ['.org', 'aahh', 'aarrgghh', 'abt', 'ftl', 'ftw', 'fu', 'fuck', 'fucks', 'gtfo', 'gtg', 'haa',
                           'hah', 'hahah', 'haha', 'hahaha', 'hahahaha', 'hehe', 'heh', 'hehehe', 'hi', 'hihi', 'hihihi',
                           'http', 'https', 'huge', 'huh', 'huhu', 'huhuhu', 'idk', 'iirc', 'im', 'imho', 'imo', 'ini',
@@ -56,7 +62,7 @@ class InfoExtractor:
                           'hahahahah', 'zzzzz', 'hahahahha', 'lolololol', 'lololol', 'lolol', 'lol', 'dude', 'hmmm',
                           'humm', 'tumblr', 'kkkk', 'fk', 'yayyyyyy', 'fffffffuuuuuuuuuuuu', 'zzzz', 'noooooooooo',
                           'hahahhaha', 'woohoo', 'lalalalalalala', 'lala', 'lalala', 'lalalala', 'whahahaahahahahahah',
-                          'hahahahahahahahahahaha', 'AHHH', 'RT', 'rt', 'gif', 'amp','.com', '.ly', '.net',]
+                          'hahahahahahahahahahaha', 'AHHH', 'RT', 'rt', 'gif', 'amp', '.com', '.ly', '.net', ]
 
         self.stopwords_dict = {lang: set(nltk.corpus.stopwords.words(lang)) for lang in nltk.corpus.stopwords.fileids()}
         self.nlp = spacy.load('en')
@@ -85,7 +91,7 @@ class InfoExtractor:
         tweet = re.sub("(.)([A-Z])", r'\1 \2', tweet)  # split CamelCase letters
         tweet = re.sub(r' +', ' ', tweet)  # remove multiple whitespaces
         tweet = tweet.lstrip(' ')  # moves single space left
-        tweet = ''.join(c for c in tweet if (c <= u'\u007a' and c >= u'\u0061') or (c <= u'\u005a' and c >= u'\u0041') or c == u'\u0020')  # remove emojis
+        tweet = ''.join(c for c in tweet if self.check_emoji(c))  # remove emojis
 
         tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)  # reduce length of string
         tw_list = tknzr.tokenize(tweet)
@@ -96,16 +102,16 @@ class InfoExtractor:
         tweet = tweet.replace('miniseries', 'mini series')
         return tweet
 
-    # def check_emoji(self, c):
-    #     # Checks if the given character is a letter or space
-    #     if (c <= self.z and c >= self.a) or (c <= self.Z and c >= self.A) or c == self.s:
-    #         return True
-    #     return False
+    def check_emoji(self, c):
+        # Checks if the given character is a letter or space
+        if (c <= self.z and c >= self.a) or (c <= self.Z and c >= self.A) or c == self.s:
+            return True
+        return False
 
     def clean_dataframe_column(self, to_clean, new_col):
         # Clean the specified column and return the whole dataframe
         self.data[new_col] = self.data[to_clean].apply(lambda x: self.clean_tweet(x))
-        self.data = self.data.loc[(self.data[new_col] != '') | (self.data[new_col] != None),:]
+        self.data = self.data.loc[(self.data[new_col] != '') | (self.data[new_col] != None), :]
 
     def save_dataframe(self, file):
         # Save the dataframe on disk
@@ -136,36 +142,33 @@ class InfoExtractor:
     def load_save(self, path, year, file):
         self.load_data(path, year)
         self.save_dataframe(file % year)
-        
-    # function to detect language based on # of stop words for particular language
+
     def get_language(self, text):
-
-      try:
-        text = text.lower()
-        words_ = set(nltk.wordpunct_tokenize(text.lower()))
-        lang = max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()), key=lambda x: x[1])[
-            0]
-        if lang == 'english' or lang == 'arabic':
-            return True
-        else:
+        # function to detect language based on # of stop words for particular language
+        try:
+            text = text.lower()
+            words_ = set(nltk.wordpunct_tokenize(text.lower()))
+            lang = max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()),
+                       key=lambda x: x[1])[0]
+            if lang == 'english' or lang == 'arabic':
+                return True
+            else:
+                return False
+        except:
             return False
-      except:
-            return False
 
-    def get_EngTweets(self):
+    def get_english_tweets(self):
         self.data['language'] = self.data['text'].apply(lambda x: self.get_language(x))
         self.data = self.data.loc[(self.data.language == True)]
         self.data.reset_index(drop=True, inplace=True)
 
-    def entites_ident(self,tweet):
-       try:
-        document = self.nlp(tweet)
-
-        entities = [e.string.strip() for e in document.ents if 'PERSON' == e.label_]
-        entities = list(entities)
-        if entities == [] or entities == None:
+    def entites_ident(self, tweet):
+        try:
+            document = self.nlp(tweet)
+            entities = [e.string.strip() for e in document.ents if 'PERSON' == e.label_]
+            entities = list(entities)
+            if entities == [] or entities == None:
+                return 'N/a'
+            return entities
+        except:
             return 'N/a'
-        return entities
-
-       except:
-           return 'N/a'
