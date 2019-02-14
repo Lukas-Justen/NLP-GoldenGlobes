@@ -9,7 +9,8 @@ class TweetCategorizer:
         self.tweets = tweets.sample(frac=1)[:sample_size]
         self.stripper = re.compile(r'\b(\w+)-(\w+)\b')
         self.entity_finder = re.compile(r'(?P<entity>([A-Z][A-Za-z]*\s?)+\b(?<=[a-zA-Z]))')
-        self.people_finder = re.compile(r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host|entertain|moderat')
+        self.people_finder = re.compile(
+            r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host|entertain|moderat')
         self.detecter = []
         self.replacor = []
         self.threshold = threshold
@@ -46,7 +47,6 @@ class TweetCategorizer:
 
     def get_categorized_tweets(self):
         categorized_tweets = self.tweets[self.tweets[self.group_name] > -1]
-        # categorized_tweets = categorized_tweets.sort_values(by=[self.group_name, "hour", "minute"])
         return categorized_tweets
 
     def count_entity(self, text, entity_count, category):
@@ -70,6 +70,10 @@ class TweetCategorizer:
                 entities = {key: entities[key] for key in entities if key in verification_people}
             else:
                 entities = {key: entities[key] for key in entities if key in verification_things}
+            entities = self.merge_entities(entities)
+            entities = {key:entities[key] for key in sorted(entities,key=entities.get,reverse=True)}
+            for k in entities:
+                print(k,entities[k])
             entities = sorted(entities, key=entities.get, reverse=True)
             actual_found = number_entities if number_entities < len(entities) else len(entities)
             if actual_found == 1:
@@ -77,6 +81,33 @@ class TweetCategorizer:
             else:
                 self.winners[self.original_groups[i]] = [str(entities[j]).lower() for j in range(0, actual_found)]
         return self.winners
+
+    def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things):
+        self.winners = {}
+        for i in range(0, len(self.group_indicators)):
+            associated_tweets = tweets[tweets[self.group_name] == i]
+            entities = self.count_entities(associated_tweets, i)
+            if self.people_finder.findall(self.original_groups[i]):
+                entities = {key: entities[key] for key in entities if key in verification_people}
+            else:
+                entities = {key: entities[key] for key in entities if key in verification_things}
+            entities = self.merge_entities(entities)
+            total_count = sum(entities.values())
+            keep_entities = []
+            self.winners[self.original_groups[i]] = [str(key).lower() for key in entities if entities[key]/total_count >= percentage]
+        return self.winners
+
+    def merge_entities(self, entities):
+        remove = []
+        for key in entities.keys():
+            for sub in entities.keys():
+                if key.find(sub) >= 0:
+                    if key == sub:
+                        continue
+                    else:
+                        remove.append(sub)
+        entities = {k: entities[k] for k in entities if k not in remove}
+        return entities
 
     def count_entities(self, tweets, group_index):
         entities = {}

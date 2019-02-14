@@ -232,7 +232,7 @@ def main(years, grading):
 if __name__ == '__main__':
     years = ['2013', '2015']
     grading = ["hosts", "awards", "nominees", "presenters", "winner"]
-    grading = ["hosts"]
+    grading = ["hosts", "winner"]
 
     if len(sys.argv) > 1:
         if '2013' in sys.argv:

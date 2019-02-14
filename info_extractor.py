@@ -111,9 +111,8 @@ class InfoExtractor:
         self.data[new_col] = self.data[to_clean].apply(lambda x: self.clean_tweet(x))
         self.data = self.data.loc[(self.data[new_col] != '') | (self.data[new_col] != None), :]
 
-    def save_dataframe(self, file, limit):
+    def save_dataframe(self, file):
         # Save the dataframe on disk
-        self.data = self.data.sample(frac=1)[:limit]
         self.data.to_csv(file, index=False)
 
     def read_dataframe(self, file):
@@ -141,7 +140,8 @@ class InfoExtractor:
 
     def load_save(self, path, year, file, limit):
         self.load_data(path, year)
-        self.save_dataframe(file % year, limit)
+        self.data = self.data.sample(frac=1)[:limit]
+        self.save_dataframe(file % year)
 
     def get_language(self, text):
         # Detects language based on # of stop words for particular language
