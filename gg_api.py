@@ -1,8 +1,10 @@
 '''Version 0.35'''
 import json
-
 import resources
+import pandas as pd
+
 from info_extractor import InfoExtractor
+from find_categories import Chunker
 from resources import wikidata, EXTERNAL_SOURCES, OFFICIAL_AWARDS_1315, STOPWORDS, OFFICIAL_AWARDS_1819
 from tweet_categorizer import TweetCategorizer
 
@@ -73,7 +75,7 @@ def pre_ceremony():
 def main():
     # Reload the csv files from disk and store the data in a dataframe
     # TODO: REMOVE THIS
-    resources.years = [2013, 2015]
+    resources.years = [2013]
     results = {}
 
     # Load the csv files and clean data
@@ -99,18 +101,19 @@ def main():
     print("Done Dataframes\n")
 
     # We start by finding the awards for each year
-    # print("Find Awards")
-    # for year in resources.years:
-    #     chunker = Chunker()
-    #     resources.data[year]['categorie'] = resources.data[year].apply(chunker.extract_wrapper, axis=1)
-    #     resources.data[year] = resources.data[year].loc[resources.data[year]['categorie'] != 'N/a', :]
-    #     resources.data[year].reset_index(drop=True, inplace=True)
-    #     resources.data[year][['nominee_mentioned', 'presenter_mentioned', 'categorie']] = pd.DataFrame(
-    #         resources.data[year]['categorie'].values.tolist(), index=resources.data[year].index)
-    #     resources.data[year] = resources.data[year].loc[resources.data[year]['categorie'].str.split().map(len) > 3, :]
-    #     found_categories = chunker.pick_categories(resources.data[year])
-    #     print(found_categories)
-    # print("Done Awards")
+    print("Find Awards")
+    for year in resources.years:
+         chunker = Chunker()
+         categorie_data = resources.data[year].copy()
+         categorie_data['categorie'] = categorie_data.apply(chunker.extract_wrapper, axis=1)
+         categorie_data = categorie_data.loc[categorie_data.categorie != 'N/a', :]
+         categorie_data.reset_index(drop=True, inplace=True)
+         categorie_data = categorie_data.loc[categorie_data.categorie.str.split().map(len) > 3, :]
+         best_categories = chunker.pick_categories(categorie_data)
+         best_categories = chunker.filter_categories(best_categories)
+         print(best_categories)
+
+    print("Done Awards")
 
     # Load the wikidata from disk
     people = wikidata.call_wikidate('actors', 'actorLabel') + wikidata.call_wikidate('directors', 'directorLabel')

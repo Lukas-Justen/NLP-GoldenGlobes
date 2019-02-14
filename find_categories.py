@@ -2,7 +2,7 @@ import nltk
 import itertools
 
 import pandas as pd
-import src.kb_constant as kb_constant
+import resources as kb_constant
 
 from nltk import word_tokenize
 from nltk.corpus import stopwords
@@ -14,18 +14,6 @@ class Chunker:
     def __init__(self):
         self.word_dict = dict.fromkeys(words.words() , 1)
         self.stop_words = set(stopwords.words('english'))
-        self.nominee_keys = kb_constant.nominee_keywords.split("|")
-        self.presenter_keys = kb_constant.presenter_keywords.split("|")
-
-    def detector(self,text_string, find_words):
-      try:
-        text_string = text_string.lower()
-        for each_word in text_string.split():
-            if each_word in find_words:
-                return True
-        return False
-      except:
-          return False
 
     def extract_chunks(self,text_string, chunker):
 
@@ -41,9 +29,7 @@ class Chunker:
 
         if candidates != []:
             candidates[0] = ' '.join([w for w in word_tokenize(candidates[0]) if w in self.word_dict])
-            nominee_mentioned = self.detector(text_string,self.nominee_keys)
-            presenter_mentioned = self.detector(text_string,self.presenter_keys)
-            return [nominee_mentioned, presenter_mentioned, candidates[0]]
+            return candidates[0]
         else:
             return 'N/a'
 
@@ -53,19 +39,19 @@ class Chunker:
     def extract_noun_pattern(self,series):
 
         chunker = nltk.RegexpParser("""Chunk: {<NN.?><NN.?|VB.?><NN.?>+}""")
-        text_string = series['clean_text']
+        text_string = series['clean_lower']
         return self.extract_chunks(text_string, chunker)
 
     def extract_adjective_pattern(self,series):
 
         chunker = nltk.RegexpParser("""Chunk: {<JJ.?|RB.?><JJ.?|NN.?|VB.?><NN.?><JJ.?|NN.?>?<CC.?|NN.?>?<JJ.?|NN.?>+}""")
-        text_string = series['clean_text']
+        text_string = series['clean_lower']
         return self.extract_chunks(text_string, chunker)
 
     def extract_adverb_pattern(self,series):
 
         chunker = nltk.RegexpParser("""Chunk: {<RB.?> <NN.?> <IN>? <DT>? <CC>? <NN.?>+ <IN>? <DT>? <VB.?>? <NN.?|JJ.?> <NN.?>+ <CC>? <JJ>? <IN>? <DT>? <NN.?>? <VB.?>? <IN>? <NN.?>?}""")
-        text_string = series['clean_text']
+        text_string = series['clean_lower']
         #text_string = text_string.lower()
 
         return self.extract_chunks(text_string, chunker)
@@ -73,7 +59,7 @@ class Chunker:
     def extract_wrapper(self,series):
 
        try:
-        text_string = series['clean_text']
+        text_string = series['clean_lower']
 
         if not 'best' in text_string.split():
             return 'N/a'
@@ -99,7 +85,7 @@ class Chunker:
             list_copy.remove(each_categorie)
 
             for copy_categorie in list_copy:
-                if (each_categorie in copy_categorie) or copy_categorie.split()[0] != 'best':
+                if (each_categorie in copy_categorie) or (copy_categorie.split()[0] != 'best'):
                     top_categories.remove(copy_categorie)
         return top_categories
 
