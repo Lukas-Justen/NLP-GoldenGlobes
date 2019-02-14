@@ -2,7 +2,7 @@ import pickle
 from pathlib import Path
 
 import requests
-import unidecode
+import unidecode as unidecode
 
 
 class WikidataConnector:

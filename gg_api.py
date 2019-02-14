@@ -17,10 +17,9 @@ def get_hosts(year):
 
 
 def get_awards(year):
-    '''Awards is a list of strings. Do NOT change the name
-    of this function or what it returns.'''
-    # Your code here
-    awards = []
+    with open("results.json") as f:
+        results = json.load(f)
+        awards = results[year]["Awards"]
     return awards
 
 
@@ -103,19 +102,20 @@ def main():
         results[year] = {}
     print("Done Dataframes\n")
 
-    # We start by finding the awards for each year
-    # print("Find Awards")
-    # for year in resources.years:
-    #      chunker = Chunker()
-    #      categorie_data = resources.data[year].copy()
-    #      categorie_data['categorie'] = categorie_data.apply(chunker.extract_wrapper, axis=1)
-    #      categorie_data = categorie_data.loc[categorie_data.categorie != 'N/a', :]
-    #      categorie_data.reset_index(drop=True, inplace=True)
-    #      categorie_data = categorie_data.loc[categorie_data.categorie.str.split().map(len) > 3, :]
-    #      best_categories = chunker.pick_categories(categorie_data)
-    #      best_categories = chunker.filter_categories(best_categories)
-    #      print(best_categories)
-    # print("Done Awards")
+    #We start by finding the awards for each year
+    print("Find Awards")
+    for year in resources.years:
+         chunker = Chunker()
+         categorie_data = resources.data[year].copy()
+         categorie_data['categorie'] = categorie_data.apply(chunker.extract_wrapper, axis=1)
+         categorie_data = categorie_data.loc[categorie_data.categorie != 'N/a', :]
+         categorie_data.reset_index(drop=True, inplace=True)
+         categorie_data = categorie_data.loc[categorie_data.categorie.str.split().map(len) > 3, :]
+         best_categories = chunker.pick_categories(categorie_data)
+         best_categories = chunker.filter_categories(best_categories)
+         print(best_categories)
+         results[year]["Awards"] = best_categories
+    print("Done Awards")
 
     # Load the wikidata from disk
     people = wikidata.call_wikidate('actors', 'actorLabel') + wikidata.call_wikidate('directors', 'directorLabel')
@@ -130,19 +130,21 @@ def main():
         results[year]["Hosts"] = hosters[resources.HOST_WORDS]
     print("Done Hosts")
 
+
+
     # Search for the winners
-    print("Find Winners")
-    for year in resources.years:
-        awards = OFFICIAL_AWARDS_1315
-        if year in [2018, 2019]:
-            awards = OFFICIAL_AWARDS_1819
-        winner_categorizer = TweetCategorizer(awards, STOPWORDS, "award", resources.data[year], 3, 1000000)
-        winner_tweets = winner_categorizer.get_categorized_tweets()
-        winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things)
-        for key in winners:
-            results[year][key] = {}
-            results[year][key]["Winner"] = winners[key]
-    print("Done Winners")
+    # print("Find Winners")
+    # for year in resources.years:
+    #     awards = OFFICIAL_AWARDS_1315
+    #     if year in [2018, 2019]:
+    #         awards = OFFICIAL_AWARDS_1819
+    #     winner_categorizer = TweetCategorizer(awards, STOPWORDS, "award", resources.data[year], 3, 1000000)
+    #     winner_tweets = winner_categorizer.get_categorized_tweets()
+    #     winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things)
+    #     for key in winners:
+    #         results[year][key] = {}
+    #         results[year][key]["Winner"] = winners[key]
+    # print("Done Winners")
 
     # Save the final results to disk
     with open("results.json", "w") as f:
