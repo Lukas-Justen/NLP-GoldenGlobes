@@ -4,7 +4,7 @@ import nltk
 from nltk import word_tokenize
 from nltk.corpus import words
 
-from src.resources import NOMINEE_WORDS, PRESENTER_WORDS
+from resources import NOMINEE_WORDS, PRESENTER_WORDS
 
 
 class Chunker:

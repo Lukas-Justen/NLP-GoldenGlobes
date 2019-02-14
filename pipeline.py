@@ -1,12 +1,4 @@
-import re
-import pandas as pd
-
-import src.resources as kb_constant
-from src.info_extractor import InfoExtractor
-from src.tweet_categorizer import TweetCategorizer
-from src.find_categories import Chunker
-from src.wikidata_connector import WikidataConnector
-
+from tweet_categorizer import TweetCategorizer
 
 # TODO: Remove the visualization tasks for the final submission
 # extractor.count_words_per_tweet("text")
@@ -22,9 +14,7 @@ from src.wikidata_connector import WikidataConnector
 # data = extractor.get_dataframe()
 
 
-films.append("Transparent")
-actors.append("Brave")
-actors.append("Joanne Frogatte")
+print("HALLLO")
 
 # HOSTS
 # host_categorizer = TweetCategorizer([host_keywords], [], "host_tweet", data, 0, 1700000)
@@ -34,10 +24,10 @@ actors.append("Joanne Frogatte")
 # print(hosters)
 
 # WINNERS
-winner_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1000000)
-winner_tweets = winner_categorizer.get_categorized_tweets()
-winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, actors + directors, films + series)
-winner_categorizer.print_frequent_entities()
+# winner_categorizer = TweetCategorizer(awards, stopwords, "award", data, 3, 1000000)
+# winner_tweets = winner_categorizer.get_categorized_tweets()
+# winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, actors + directors, films + series)
+# winner_categorizer.print_frequent_entities()
 
 # # TIMES
 # award_categorizer = TweetCategorizer(kb_constant.awards, kb_constant.stopwords, "award", data, 3, 1500000)

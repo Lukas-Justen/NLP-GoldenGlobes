@@ -2,7 +2,7 @@ import pandas as pd
 
 import warnings
 
-from src.info_extractor import InfoExtractor
+from info_extractor import InfoExtractor
 
 warnings.filterwarnings('ignore')
 import matplotlib

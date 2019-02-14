@@ -1,17 +1,17 @@
 '''Version 0.35'''
+import json
 
-from src import resources
-from src.info_extractor import InfoExtractor
-from src.resources import wikidata, EXTERNAL_SOURCES, OFFICIAL_AWARDS_1315, STOPWORDS, OFFICIAL_AWARDS_1819
-from src.tweet_categorizer import TweetCategorizer
+import resources
+from info_extractor import InfoExtractor
+from resources import wikidata, EXTERNAL_SOURCES, OFFICIAL_AWARDS_1315, STOPWORDS, OFFICIAL_AWARDS_1819
+from tweet_categorizer import TweetCategorizer
 
 
 def get_hosts(year):
-    '''Hosts is a list of one or more strings. Do NOT change the name
-    of this function or what it returns.'''
-    # Your code here
-    hosts = []
-    return hosts
+    with open("results.json") as f:
+        results = json.load(f)
+        print(results[year]["Hosts"])
+    return results[year]["Hosts"]
 
 
 def get_awards(year):
@@ -59,29 +59,25 @@ def pre_ceremony():
 
     # Here we load all the zip files and store them in a csv file
     print("Load Tweets")
-    remove = []
     for year in resources.years:
         try:
             extractor = InfoExtractor()
             extractor.load_save("", year, "dirty_gg%s.csv", 500000)
             print("Done loading tweets for " + str(year) + " ...")
         except:
-            remove.append(year)
             print("Unable to load tweets for " + str(year) + " ...")
-    resources.years = [y for y in resources.years if y not in remove]
     print("Done Tweets\n")
-
-    # Done pre-processing now we can start cleaning it
-    print("Pre-ceremony processing complete.")
     return
 
 
 def main():
     # Reload the csv files from disk and store the data in a dataframe
-    print("Load Dataframes")
     # TODO: REMOVE THIS
     resources.years = [2013, 2015]
     results = {}
+
+    # Load the csv files and clean data
+    print("Load Dataframes")
     for year in resources.years:
         extractor = InfoExtractor()
         print("Read ...")
@@ -94,11 +90,8 @@ def main():
         extractor.make_to_lowercase("clean_upper", "clean_lower")
         print("Drop ...")
         extractor.drop_column("user")
-        print("Drop ...")
         extractor.drop_column("id")
-        print("Drop ...")
         extractor.drop_column("timestamp_ms")
-        print("Drop ...")
         extractor.drop_column("language")
         resources.data[year] = extractor.get_dataframe()
         print("Done loading and cleaning " + str(year) + " dataframe ...")
@@ -119,8 +112,12 @@ def main():
     #     print(found_categories)
     # print("Done Awards")
 
+    # Load the wikidata from disk
     people = wikidata.call_wikidate('actors', 'actorLabel') + wikidata.call_wikidate('directors', 'directorLabel')
+    people.append("Joanne Frogatte")
     things = wikidata.call_wikidate('films', 'filmLabel') + wikidata.call_wikidate('series', 'seriesLabel')
+    things.append("Transparent")
+    things.append("Brave")
 
     # We search for the hosts
     print("Find Hosts")
@@ -128,7 +125,7 @@ def main():
         host_categorizer = TweetCategorizer([resources.HOST_WORDS], [], "host_tweet", resources.data[year], 0, 200000)
         host_tweets = host_categorizer.get_categorized_tweets()
         hosters = host_categorizer.find_list_of_entities(host_tweets, 2, people, [])
-        results[year]["Hosts"] = hosters
+        results[year]["Hosts"] = hosters[resources.HOST_WORDS]
     print("Done Hosts")
 
     # Search for the winners
@@ -144,6 +141,10 @@ def main():
             results[year][key] = {}
             results[year][key]["Winner"] = winners[key]
     print("Done Winners")
+
+    # Save the final results to disk
+    with open("results.json", "w") as f:
+        json.dump(results, f)
     return
 
 
