@@ -101,7 +101,7 @@ class Chunker:
         sum_ = catg_data.categorie.sum()
 
         catg_data['percent'] = catg_data.categorie.apply(lambda x: (x / sum_) * 100)
-        catg_data = catg_data.loc[catg_data.percent > 0.6, :]
+        catg_data = catg_data.loc[catg_data.percent > 0.65, :]
         return catg_data['index'].tolist()
 
        except:

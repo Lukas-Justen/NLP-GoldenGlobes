@@ -11,7 +11,7 @@ HOST_WORDS = "hosting"
 
 NOMINEE_WORDS = "nominee|nomination|nominated|nominees|nominations|nominate|vote|voting|voter|voted|candidate"
 
-PRESENTER_WORDS = "presents|presenting|presented|presentation|presenter|presenters|presentations|introduce|announce|announces|announced"
+PRESENTER_WORDS = "presents|presenting|presented|presentation|presenter|presenters|presentations|announce|announces|announced"
 
 STOPWORDS = ["an", "in", "a", "for", "by", "-", "or"]
 

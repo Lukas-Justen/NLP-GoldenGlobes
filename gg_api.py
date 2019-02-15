@@ -103,7 +103,7 @@ def main():
     print("Done Dataframes\n")
 
     #We start by finding the awards for each year
-    print("Find Awards")
+    # print("Find Awards")
     for year in resources.years:
          chunker = Chunker()
          categorie_data = resources.data[year].copy()
@@ -130,21 +130,66 @@ def main():
         results[year]["Hosts"] = hosters[resources.HOST_WORDS]
     print("Done Hosts")
 
-
-
+    all_winners = {}
     # Search for the winners
-    # print("Find Winners")
-    # for year in resources.years:
-    #     awards = OFFICIAL_AWARDS_1315
-    #     if year in [2018, 2019]:
-    #         awards = OFFICIAL_AWARDS_1819
-    #     winner_categorizer = TweetCategorizer(awards, STOPWORDS, "award", resources.data[year], 3, 1000000)
-    #     winner_tweets = winner_categorizer.get_categorized_tweets()
-    #     winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things)
-    #     for key in winners:
-    #         results[year][key] = {}
-    #         results[year][key]["Winner"] = winners[key]
-    # print("Done Winners")
+    print("Find Winners")
+    for year in resources.years:
+        all_winners[year] = []
+        awards = OFFICIAL_AWARDS_1315
+        if year in [2018, 2019]:
+            awards = OFFICIAL_AWARDS_1819
+        winner_categorizer = TweetCategorizer(awards, STOPWORDS, "award", resources.data[year], 3, 1000000)
+        winner_tweets = winner_categorizer.get_categorized_tweets()
+        winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things)
+        for key in winners:
+            results[year][key] = {}
+            results[year][key]["Winner"] = winners[key]
+            all_winners[year].append(winners[key])
+    print("Done Winners")
+
+    print("Find Presenters")
+    for year in resources.years:
+
+        if year in [2013, 2015]:
+            awards = OFFICIAL_AWARDS_1315
+        else:
+            awards = OFFICIAL_AWARDS_1819
+
+        temp_list = []
+        for each_award in awards:
+            temp_list.append(each_award + " " + results[year][each_award]["Winner"])
+
+        presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet", resources.data[year], 0, resources.data[year].shape[0])
+        presenter_tweets = presenter_categorizer.get_categorized_tweets()
+        presenter = presenter_categorizer.find_list_of_entities(presenter_tweets, 70, people, [], people=True)[resources.PRESENTER_WORDS]
+        print(presenter)
+        presenter = [p for p in presenter if p not in all_winners[year] and p not in results[year]["Hosts"]]
+        print(presenter)
+
+        nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", resources.data[year], 0, resources.data[year].shape[0])
+        nominee_tweets = nominee_categorizer.get_categorized_tweets()
+        nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 150, people + things, [], people=True)[resources.NOMINEE_WORDS]
+        print(nominees)
+        nominees = [p for p in nominees if p not in all_winners[year] and p not in results[year]["Hosts"]]
+        print(nominees)
+
+        # presenters_dict = {}
+        # for each_award in awards:
+        #     each_award = each_award + " " + results[year][each_award]["Winner"]
+        #     each_award = each_award.split()
+        #
+        #     each_award = [each_ for each_ in each_award if not each_ == '-' and len(each_) > 2]
+        #
+        #     format_award = '|'.join(each_award)
+        #
+        #     award_categorizer = TweetCategorizer([format_award], [], "specific_award_tweet", presenter_tweets, 3, presenter_tweets.shape[0])
+        #     award_tweets = award_categorizer.get_categorized_tweets()
+        #
+        #     presenters = award_categorizer.find_list_of_entities(award_tweets, 2, people, [], people=True)
+        #
+        #     each_award = ' '.join(each_award)
+        #     presenters_dict[each_award] = presenters[format_award]
+        #     print(each_award, ' - ', presenters[format_award])
 
     # Save the final results to disk
     with open("results.json", "w") as f:

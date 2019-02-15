@@ -10,7 +10,7 @@ class TweetCategorizer:
         self.stripper = re.compile(r'\b(\w+)-(\w+)\b')
         self.entity_finder = re.compile(r'(?P<entity>([A-Z][A-Za-z]*\s?)+\b(?<=[a-zA-Z]))')
         self.people_finder = re.compile(
-            r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host|entertain|moderat')
+            r'actor|actress|director|singer|songwriter|composer|regisseur|cecil|host|entertain|moderat|present|announc')
         self.detecter = []
         self.replacor = []
         self.threshold = threshold
@@ -61,19 +61,16 @@ class TweetCategorizer:
                 entity_count[m] = 1 if m not in entity_count.keys() else entity_count[m] + 1
         return entity_count
 
-    def find_list_of_entities(self, tweets, number_entities, verification_people, verification_things):
+    def find_list_of_entities(self, tweets, number_entities, verification_people, verification_things, people = False):
         self.winners = {}
         for i in range(0, len(self.group_indicators)):
             associated_tweets = tweets[tweets[self.group_name] == i]
             entities = self.count_entities(associated_tweets, i)
-            if self.people_finder.findall(self.original_groups[i]):
+            if  people or self.people_finder.findall(self.original_groups[i]):
                 entities = {key: entities[key] for key in entities if key in verification_people}
             else:
                 entities = {key: entities[key] for key in entities if key in verification_things}
             entities = self.merge_entities(entities)
-            entities = {key:entities[key] for key in sorted(entities,key=entities.get,reverse=True)}
-            for k in entities:
-                print(k,entities[k])
             entities = sorted(entities, key=entities.get, reverse=True)
             actual_found = number_entities if number_entities < len(entities) else len(entities)
             if actual_found == 1:
