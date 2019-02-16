@@ -54,6 +54,12 @@ NOMINEE_WORDS = "nominee|nomination|nominated|nominees|nominations|nominate|vote
 
 PRESENTER_WORDS = "presents|presenting|presented|presentation|presenter|presenters|presentations|announce|announces|announced"
 
+BEST_DRESS = "beautiful|pretty|awesome|wonderful|stunning|nice|elegant|alluring|dazzling|fascinating|favorite"
+
+WORST_DRESS = "ugly|awful|grisly|grotesque|unattractive|disgusting|distasteful|horrid"
+
+DRESS = "dress|wardrobe|costume|attire|robe"
+
 STOPWORDS = ["an", "in", "a", "for", "by", "-", "or"]
 
 # Variable Resources

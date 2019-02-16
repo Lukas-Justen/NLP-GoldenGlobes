@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+import warnings
 import zipfile
 
 import nltk
@@ -84,6 +85,7 @@ class InfoExtractor:
 
     def clean_tweet(self, tweet):
         # Remove all links hashtags and other things that are not words
+        tweet = str(tweet)
         tweet = self.sub_links.sub(' ', tweet)
         tweet = self.sub_hashtag.sub('', tweet)
         tweet = self.sub_tags.sub('', tweet)
@@ -155,7 +157,8 @@ class InfoExtractor:
     def is_english(self, words_):
         # Checks if the given words belong to the english language or not
         lang = \
-        max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()), key=lambda x: x[1])[0]
+            max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()),
+                key=lambda x: x[1])[0]
         if lang == 'english' or lang == 'arabic':
             return True
         return False
@@ -169,3 +172,6 @@ class InfoExtractor:
     def make_to_lowercase(self, src_column, dest_column):
         # Converts the given column to lowercase
         self.data[dest_column] = self.data[src_column].apply(lambda text: text.lower())
+
+
+warnings.filterwarnings('ignore')
