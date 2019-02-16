@@ -90,7 +90,6 @@ class TweetCategorizer:
                 entities = {key: entities[key] for key in entities if key in verification_things}
             entities = self.merge_entities(entities)
             total_count = sum(entities.values())
-            keep_entities = []
             self.winners[self.original_groups[i]] = [str(key).lower() for key in entities if entities[key]/total_count >= percentage]
         return self.winners
 

@@ -1,10 +1,9 @@
 '''Version 0.35'''
 import json
-import resources
-import pandas as pd
 
-from info_extractor import InfoExtractor
+import resources
 from find_categories import Chunker
+from info_extractor import InfoExtractor
 from resources import wikidata, EXTERNAL_SOURCES, OFFICIAL_AWARDS_1315, STOPWORDS, OFFICIAL_AWARDS_1819
 from tweet_categorizer import TweetCategorizer
 
@@ -34,7 +33,7 @@ def get_nominees(year):
 
 def get_winner(year):
     awards = resources.OFFICIAL_AWARDS_1315
-    if year in [2018,2019]:
+    if year in [2018, 2019]:
         awards = resources.OFFICIAL_AWARDS_1819
     with open("results.json") as f:
         results = json.load(f)
@@ -102,19 +101,19 @@ def main():
         results[year] = {}
     print("Done Dataframes\n")
 
-    #We start by finding the awards for each year
+    # We start by finding the awards for each year
     # print("Find Awards")
     for year in resources.years:
-         chunker = Chunker()
-         categorie_data = resources.data[year].copy()
-         categorie_data['categorie'] = categorie_data.apply(chunker.extract_wrapper, axis=1)
-         categorie_data = categorie_data.loc[categorie_data.categorie != 'N/a', :]
-         categorie_data.reset_index(drop=True, inplace=True)
-         categorie_data = categorie_data.loc[categorie_data.categorie.str.split().map(len) > 3, :]
-         best_categories = chunker.pick_categories(categorie_data)
-         best_categories = chunker.filter_categories(best_categories)
-         print(best_categories)
-         results[year]["Awards"] = best_categories
+        chunker = Chunker()
+        categorie_data = resources.data[year].copy()
+        categorie_data['categorie'] = categorie_data.apply(chunker.extract_wrapper, axis=1)
+        categorie_data = categorie_data.loc[categorie_data.categorie != 'N/a', :]
+        categorie_data.reset_index(drop=True, inplace=True)
+        categorie_data = categorie_data.loc[categorie_data.categorie.str.split().map(len) > 3, :]
+        best_categories = chunker.pick_categories(categorie_data)
+        best_categories = chunker.filter_categories(best_categories)
+        print(best_categories)
+        results[year]["Awards"] = best_categories
     print("Done Awards")
 
     # Load the wikidata from disk
@@ -122,13 +121,13 @@ def main():
     things = wikidata.call_wikidate('films', 'filmLabel') + wikidata.call_wikidate('series', 'seriesLabel')
 
     # We search for the hosts
-    print("Find Hosts")
-    for year in resources.years:
-        host_categorizer = TweetCategorizer([resources.HOST_WORDS], [], "host_tweet", resources.data[year], 0, 200000)
-        host_tweets = host_categorizer.get_categorized_tweets()
-        hosters = host_categorizer.find_percentage_of_entities(host_tweets, 0.3, people, [])
-        results[year]["Hosts"] = hosters[resources.HOST_WORDS]
-    print("Done Hosts")
+    # print("Find Hosts")
+    # for year in resources.years:
+    #     host_categorizer = TweetCategorizer([resources.HOST_WORDS], [], "host_tweet", resources.data[year], 0, 200000)
+    #     host_tweets = host_categorizer.get_categorized_tweets()
+    #     hosters = host_categorizer.find_percentage_of_entities(host_tweets, 0.3, people, [])
+    #     results[year]["Hosts"] = hosters[resources.HOST_WORDS]
+    # print("Done Hosts")
 
     all_winners = {}
     # Search for the winners
@@ -159,16 +158,20 @@ def main():
         for each_award in awards:
             temp_list.append(each_award + " " + results[year][each_award]["Winner"])
 
-        presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet", resources.data[year], 0, resources.data[year].shape[0])
+        presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet",
+                                                 resources.data[year], 0, resources.data[year].shape[0])
         presenter_tweets = presenter_categorizer.get_categorized_tweets()
-        presenter = presenter_categorizer.find_list_of_entities(presenter_tweets, 70, people, [], people=True)[resources.PRESENTER_WORDS]
+        presenter = presenter_categorizer.find_list_of_entities(presenter_tweets, 70, people, [], people=True)[
+            resources.PRESENTER_WORDS]
         print(presenter)
         presenter = [p for p in presenter if p not in all_winners[year] and p not in results[year]["Hosts"]]
         print(presenter)
 
-        nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", resources.data[year], 0, resources.data[year].shape[0])
+        nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", resources.data[year], 0,
+                                               resources.data[year].shape[0])
         nominee_tweets = nominee_categorizer.get_categorized_tweets()
-        nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 150, people + things, [], people=True)[resources.NOMINEE_WORDS]
+        nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 150, people + things, [], people=True)[
+            resources.NOMINEE_WORDS]
         print(nominees)
         nominees = [p for p in nominees if p not in all_winners[year] and p not in results[year]["Hosts"]]
         print(nominees)

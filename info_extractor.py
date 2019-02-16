@@ -1,16 +1,11 @@
-import warnings
-
-warnings.filterwarnings('ignore')
-
 import glob
 import os
 import re
 import zipfile
-import spacy
-
-import pandas as pd
 
 import nltk
+import pandas as pd
+import spacy
 from nltk import TweetTokenizer
 
 
@@ -64,6 +59,14 @@ class InfoExtractor:
                           'hahahhaha', 'woohoo', 'lalalalalalala', 'lala', 'lalala', 'lalalala', 'whahahaahahahahahah',
                           'hahahahahahahahahahaha', 'ahhh', 'RT', 'rt', 'gif', 'amp', '.com', '.ly', '.net', ]
 
+        self.sub_links = re.compile(r'http(s)?\:\/\/[\w\.\d]*\b')
+        self.sub_hashtag = re.compile(r'#\w*')
+        self.sub_tags = re.compile(r'@[^ ]*\b')
+        self.sub_numbers = re.compile(r'\b\d+\b')
+        self.sub_punctuation = re.compile(r'[^\w\d\s]+')
+        self.sub_splitter = re.compile("([a-z])([A-Z])")
+        self.sub_spaces = re.compile(r'\s+')
+
         self.stopwords_dict = {lang: set(nltk.corpus.stopwords.words(lang)) for lang in nltk.corpus.stopwords.fileids()}
         self.nlp = spacy.load('en')
         self.data = None
@@ -81,17 +84,17 @@ class InfoExtractor:
 
     def clean_tweet(self, tweet):
         # Remove all links hashtags and other things that are not words
-        tweet = re.sub(r'http(s)?\:\/\/[\w\.\d]*\b', ' ', tweet)  # remove links
-        tweet = re.sub(r'#\w*', '', tweet)  # remove hastag
-        tweet = re.sub(r'@[^ ]*\b', '', tweet)  # remove at tags
-        tweet = re.sub(r'\b\d+\b', '', tweet)  # remove numbers
-        tweet = re.sub(r'[^\w\d\s]+', ' ', tweet)  # remove punctuations
-        tweet = re.sub("([a-z])([A-Z])", r'\1 \2', tweet)  # split CamelCase letters
-        tweet = re.sub(r'\s+', ' ', tweet)  # remove multiple whitespaces
-        tweet = tweet.lstrip(' ')  # moves single space left
-        tweet = ''.join(c for c in tweet if self.check_emoji(c))  # remove emojis
+        tweet = self.sub_links.sub(' ', tweet)
+        tweet = self.sub_hashtag.sub('', tweet)
+        tweet = self.sub_tags.sub('', tweet)
+        tweet = self.sub_numbers.sub('', tweet)
+        tweet = self.sub_punctuation.sub(' ', tweet)
+        tweet = self.sub_splitter.sub(r'\1 \2', tweet)
+        tweet = self.sub_spaces.sub(' ', tweet)
+        tweet = tweet.lstrip(' ')
+        tweet = ''.join(c for c in tweet if self.check_emoji(c))
 
-        tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)  # reduce length of string
+        tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)
         tw_list = tknzr.tokenize(tweet)
         list_no_stopwords = [i for i in tw_list if i.lower() not in self.stopwords]
 
@@ -145,16 +148,14 @@ class InfoExtractor:
 
     def get_language(self, text):
         # Detects language based on # of stop words for particular language
-        try:
-            text = text.lower()
-            words_ = set(nltk.wordpunct_tokenize(text.lower()))
-            return self.is_english(words_)
-        except:
-            return False
+        text = str(text).lower()
+        words_ = set(nltk.wordpunct_tokenize(text.lower()))
+        return self.is_english(words_)
 
     def is_english(self, words_):
         # Checks if the given words belong to the english language or not
-        lang = max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()), key=lambda x: x[1])[0]
+        lang = \
+        max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()), key=lambda x: x[1])[0]
         if lang == 'english' or lang == 'arabic':
             return True
         return False
