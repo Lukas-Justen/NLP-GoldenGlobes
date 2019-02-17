@@ -96,9 +96,8 @@ class InfoExtractor:
         tweet = tweet.lstrip(' ')
         tweet = ''.join(c for c in tweet if self.check_emoji(c))
 
-        tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)
-        tw_list = tknzr.tokenize(tweet)
-        list_no_stopwords = [i for i in tw_list if i.lower() not in self.stopwords]
+
+        list_no_stopwords = [i for i in tweet.split() if i.lower() not in self.stopwords]
 
         tweet = ' '.join(list_no_stopwords)
         tweet = tweet.replace('tv', 'telvision')
@@ -144,9 +143,9 @@ class InfoExtractor:
         self.data[to_count + "_wordcount"] = self.data[to_count].apply(lambda x: len(x.split()))
         self.data = self.data.loc[self.data[to_count + "_wordcount"] > 1, :]
 
-    def load_save(self, path, year):
+    def load_save(self, path, year, limit):
         self.load_data(path, year)
-        #self.data = self.data.sample(frac=1)
+        self.data = self.data.sample(frac=1).reset_index(drop=True)[:limit]
         self.data.to_csv('dirty_gg{}.csv'.format(year))
 
     def get_language(self, text):

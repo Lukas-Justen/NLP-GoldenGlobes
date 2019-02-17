@@ -74,10 +74,7 @@ class TweetCategorizer:
             entities = self.merge_entities(entities)
             entities = sorted(entities, key=entities.get, reverse=True)
             actual_found = number_entities if number_entities < len(entities) else len(entities)
-            if actual_found == 1:
-                self.winners[self.original_groups[i]] = str(entities[0]).lower()
-            else:
-                self.winners[self.original_groups[i]] = [str(entities[j]).lower() for j in range(0, actual_found)]
+            self.winners[self.original_groups[i]] = [str(entities[j]).lower() for j in range(0, actual_found)]
         return self.winners
 
     def list_probabilities(self, tweets, number_entities, verification_people, verification_things, people = False):
@@ -96,8 +93,7 @@ class TweetCategorizer:
         entities = {key: entities[key] for key in entities if str(key).lower() in keys}
         return entities
 
-    def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things):
-    def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things,people = False):
+    def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things, people = False):
         self.winners = {}
         for i in range(0, len(self.group_indicators)):
             associated_tweets = tweets[tweets[self.group_name] == i]
