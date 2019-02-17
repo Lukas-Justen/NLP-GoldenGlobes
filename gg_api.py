@@ -1,23 +1,15 @@
 '''Version 0.35'''
 import json
-import urllib.request
-import urllib.parse
 import re
 
+import pandas as pd
 from google_images_download import google_images_download
 
-import re
-import nltk
 import resources
-import pandas as pd
-import operator
-import matplotlib.pyplot as plt
-
 from find_categories import Chunker
 from info_extractor import InfoExtractor
 from resources import wikidata, EXTERNAL_SOURCES
 from tweet_categorizer import TweetCategorizer
-from info_extractor import InfoExtractor
 
 
 def get_hosts(year):
@@ -82,7 +74,11 @@ def pre_ceremony():
     # Here we load actors, films, directors and series from wikidata
     print("Load Wikidata")
     for key in EXTERNAL_SOURCES:
-        wikidata.call_wikidate(key, EXTERNAL_SOURCES[key])
+        if key == "films":
+            for year in resources.years:
+                wikidata.call_wikidate(key, EXTERNAL_SOURCES[key], str(year - 2), str(year))
+        else:
+            wikidata.call_wikidate(key, EXTERNAL_SOURCES[key])
         print("Done loading " + key + " ...")
     print("Done Wikidata\n")
 
@@ -91,7 +87,7 @@ def pre_ceremony():
     for year in resources.years:
         try:
             extractor = InfoExtractor()
-            extractor.load_save("", year, 200000)
+            extractor.load_save("", year, 300000)
             print("Done loading tweets for " + str(year) + " ...")
         except:
             print("Unable to load tweets for " + str(year) + " ...")
@@ -126,7 +122,7 @@ def fuzz_(ident_catg, awards):
 def main():
     # Reload the csv files from disk and store the data in a dataframe
     # TODO: REMOVE THIS
-    resources.years = [2015]
+    resources.years = [2013]
     results = {}
     all_winners = {}
 
@@ -212,8 +208,8 @@ def main():
     print("time based categorie identification end")
 
     # Load the wikidata from disk
-    people = wikidata.call_wikidate('actors', 'actorLabel') + wikidata.call_wikidate('directors', 'directorLabel')
-    things = wikidata.call_wikidate('films', 'filmLabel') + wikidata.call_wikidate('series', 'seriesLabel')
+    people = wikidata.call_wikidate('actors', 'actorLabel') + wikidata.call_wikidate('directors', 'directorLabel') + wikidata.call_wikidate('actresses', 'actorLabel')
+    things = wikidata.call_wikidate('series', 'seriesLabel')
     people = [re.sub(r'[^\w\d\s]+', '', person_) for person_ in people]
     things = [re.sub(r'[^\w\d\s]+', '', thing_) for thing_ in things]
 
@@ -237,7 +233,7 @@ def main():
         winner_categorizer = TweetCategorizer(awards, resources.STOPWORDS, "award", resources.data[year], 3,
                                               resources.data[year].shape[0])
         winner_tweets = winner_categorizer.get_categorized_tweets()
-        winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things)
+        winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people, things + wikidata.call_wikidate("films","filmLabel", str(year -2), str(year)))
         for key in winners:
             results[year][key] = {}
             if winners[key]:
@@ -289,16 +285,22 @@ def main():
                 data_temp = data_temp.loc[(data_temp.minute == int(each_value[1])), :]
                 data_new = pd.concat([data_new, data_temp])
 
-            nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", data_new, 0,data_new.shape[0])
+            nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", data_new, 0,
+                                                   data_new.shape[0])
             nominee_tweets = nominee_categorizer.get_categorized_tweets()
 
             # presenters = find_names(presenter_tweets.clean_upper.tolist(),2,people,all_winners[year],results[year]["Hosts"])
-            if ('actor' in key.split()) or ('actress' in key.split()) or ('director' in key.split()):
-                nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, people, [], people=True)
+            if ('actress' in key.split()):
+                nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, wikidata.call_wikidate('actresses', 'actorLabel'), [], people=True)
+            elif ('actor' in key.split()):
+                nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, wikidata.call_wikidate('actors', 'actorLabel'), [], people=True)
+            elif ('director' in key.split()):
+                nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, wikidata.call_wikidate('directors', 'actorLabel'), [], people=True)
             else:
-                nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, [], things)
+                nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, [], things + wikidata.call_wikidate("films","filmLabel", str(year -2), str(year)))
 
-            nominees = [p for p in nominees[list(nominees.keys())[0]] if (p not in all_winners[year]) and (p not in results[year]["Hosts"] and (p not in results[year][key]['Presenters']))]
+            nominees = [p for p in nominees[list(nominees.keys())[0]] if (p not in all_winners[year]) and (
+                        p not in results[year]["Hosts"] and (p not in results[year][key]['Presenters']))]
 
             results[year][key]['Nominees'] = nominees[-6:]
             print(key, ' - ', nominees[-6:])

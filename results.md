@@ -1,30 +1,56 @@
-# 2015 Golden Globes
+# 2013 Golden Globes
+##### Hosts
+ - tina fey
+ - amy poehler
+##### Awards
+ - best motion picture comedy or musical
+ - best original song motion picture
+ - best animated feature film
+ - best motion picture drama
+ - best motion picture musical or comedy
+ - best television series drama homeland
+ - best acceptance speech ever foster
+ - best foreign film amour
+ - best screenplay motion picture
+ - best director motion picture
+ - best television series actor drama
+ - best television series comedy or musical
+ - best actor in a motion picture comedy or musical for
+ - best series drama homeland
+ - best supporting actor motion picture
+ - best movie comedy or musical
+ - best series actress comedy
+ - best foreign language film
+ - best actor series comedy
+ - best animated film brave
+ - best exotic marigold hotel
+ - best original score motion picture
+ - best actress motion picture comedy
 ##### Best Dressed
- 0. Kate Hudson (0.09166666666666666) 
- 1. Julianne Moore (0.058333333333333334) 
- 2. Anna Kendrick (0.05) 
+ 0. Kate Hudson (0.11363636363636363) 
+ 1. Julia Roberts (0.10606060606060606) 
+ 2. Lucy Liu (0.08333333333333333) 
 
-<img src='file:///Users/vamsi/PycharmProjects/NLP_GoldenGlobes/downloads/Kate Hudson 2015 Golden Globes Dress/1. o-kate-hudson-900.jpg' height=300px alt='Kate Hudson 2015 Golden Globes Dress'>  <img src='file:///Users/vamsi/PycharmProjects/NLP_GoldenGlobes/downloads/Julianne Moore 2015 Golden Globes Dress/1. julianne_moore.jpg' height=300px alt='Julianne Moore 2015 Golden Globes Dress'>  <img src='file:///Users/vamsi/PycharmProjects/NLP_GoldenGlobes/downloads/Anna Kendrick 2015 Golden Globes Dress/1. anna-kendrick-golden-globes-2015-ftr1.jpg' height=300px alt='Anna Kendrick 2015 Golden Globes Dress'>  
+<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Kate Hudson 2013 Golden Globes Dress/1. 4a1d071bbf38a72f251201f10f429956.jpg' height=300px alt='Kate Hudson 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Julia Roberts 2013 Golden Globes Dress/1. 624821af8ff75b4117a6d4e85cecb51e.jpg' height=300px alt='Julia Roberts 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Lucy Liu 2013 Golden Globes Dress/1. lucy-liu-in-carolina-herrera-2012-golden-globe-awards.jpg' height=300px alt='Lucy Liu 2013 Golden Globes Dress'>  
 
-I know #sfa about fashion but Kate Hudson in that white dress is pretty stylish. Bloke in the background? Not so much
-http://t.co/N0G0gN8vx6  
+"@PerezHilton: Kate Hudson was also one of my best dressed at the #GoldenGlobes!!! http://t.co/lK445iRT" agreed! Sexy, stunning  
 
-Julianne Moore and Amy Poehler tie at a close second.Julianne's dress was stunning,and Amy looked great in EVERYTHING tonight. #GoldenGlobes  
+Julia Roberts = stunning  #GoldenGlobes  
 
-"@eonline: Anna Kendrick on the #ERedCarpet! More #GoldenGlobes arrivals: http://t.co/AJUd7JEFQW http://t.co/snaqGTS7S3" beautiful dress  
+omg Lucy Liu is so pretty in her dress omg #GoldenGlobes  
 
 
 ##### Worst Dressed
- 0. Keira Knightley (0.3055555555555556) 
- 1. Jennifer Aniston (0.1388888888888889) 
- 2. Sienna Miller (0.1111111111111111) 
+ 0. Halle Berry (0.6170212765957447) 
+ 1. Lucy Liu (0.06382978723404255) 
+ 2. Anne Hathaway (0.0425531914893617) 
 
-<img src='file:///Users/vamsi/PycharmProjects/NLP_GoldenGlobes/downloads/Keira Knightley 2015 Golden Globes Dress/1. 2015-golden-globes-431.jpg' height=300px alt='Keira Knightley 2015 Golden Globes Dress'>  <img src='file:///Users/vamsi/PycharmProjects/NLP_GoldenGlobes/downloads/Jennifer Aniston 2015 Golden Globes Dress/1. dd511fbc2c4e70128c0251fae7beb654.jpg' height=300px alt='Jennifer Aniston 2015 Golden Globes Dress'>  <img src='file:///Users/vamsi/PycharmProjects/NLP_GoldenGlobes/downloads/Sienna Miller 2015 Golden Globes Dress/1. 07e42e97024820aa7ca4c47351bded9c.jpg' height=300px alt='Sienna Miller 2015 Golden Globes Dress'>  
+<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Halle Berry 2013 Golden Globes Dress/1. 5badd263250000320037a28f.jpeg' height=300px alt='Halle Berry 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Lucy Liu 2013 Golden Globes Dress/1. lucy-liu-in-carolina-herrera-2012-golden-globe-awards.jpg' height=300px alt='Lucy Liu 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Anne Hathaway 2013 Golden Globes Dress/1. a159d52256bcd8ef8ea62246319a8f07.jpg' height=300px alt='Anne Hathaway 2013 Golden Globes Dress'>  
 
-Worst Dressed Stars at the 2015 Golden Globes—Keira Knightley, Claire Danes &amp; More!: It's about to get really ... http://t.co/vRzvyuukJf  
+“@PerezHilton: Halle Berry is easily one of the WORST dressed at the #GoldenGlobes! http://t.co/nosXWZz3 WTF????”  
 
-Golden Globes 2015 best and worst dressed, from Amal Clooney to Jennifer Aniston http://t.co/zbQx0f4kwB  
+Worst dress ..Lucy Liu 70th #GoldenGlobes http://t.co/jg8tHYoa  
 
-RT @booth1: Worst dressed #GoldenGlobes: Rosamund Pike, Kate Hudson, Heidi Klum, Jessica Chastain and Sienna Miller (over the plunge front)…  
+Worst dressed so far for me… Anne Hathaway and Sienna Miller. WTF were they thinking? #GoldenGlobes  
 
 

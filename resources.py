@@ -46,7 +46,7 @@ OFFICIAL_AWARDS_1819 = ['best motion picture - drama', 'best motion picture - mu
                         'best performance by an actor in a supporting role in a series, limited series or motion picture made for television',
                         'cecil b. demille award']
 
-EXTERNAL_SOURCES = {'actors': 'actorLabel', 'films': 'filmLabel', 'directors': 'directorLabel', 'series': 'seriesLabel'}
+EXTERNAL_SOURCES = {'actors': 'actorLabel', 'films': 'filmLabel', 'directors': 'directorLabel', 'series': 'seriesLabel', 'actresses':'actorLabel'}
 
 HOST_WORDS = "hosting"
 
