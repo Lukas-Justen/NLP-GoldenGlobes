@@ -4,9 +4,10 @@ import re
 
 class TweetCategorizer:
 
-    def __init__(self, group_indicators, stopwords, group_name, tweets, threshold, sample_size):
+    def __init__(self, group_indicators, stopwords, group_name, tweets, threshold, sample_size, column="clean_upper"):
         group_indicators = sorted(group_indicators, key=len)
         self.tweets = tweets.sample(frac=1)[:sample_size]
+        self.column = column
         self.stripper = re.compile(r'\b(\w+)-(\w+)\b')
         self.entity_finder = re.compile(r'(?P<entity>([A-Z][A-Za-z]*\s?)+\b(?<=[a-zA-Z]))')
         self.people_finder = re.compile(
@@ -33,7 +34,7 @@ class TweetCategorizer:
         return group_indicators
 
     def apply_indicators(self, group_indicators, group_name, tweets):
-        tweets[group_name] = tweets["clean_upper"].apply(lambda text: self.detect_group(text, group_indicators))
+        tweets[group_name] = tweets[self.column].apply(lambda text: self.detect_group(text, group_indicators))
         return tweets
 
     def detect_group(self, text, group_indicators):
@@ -79,6 +80,22 @@ class TweetCategorizer:
                 self.winners[self.original_groups[i]] = [str(entities[j]).lower() for j in range(0, actual_found)]
         return self.winners
 
+    def list_probabilities(self, tweets, number_entities, verification_people, verification_things, people = False):
+        self.winners = {}
+        entities = self.count_entities(tweets, 0)
+        if  people or self.people_finder.findall(self.original_groups[0]):
+            entities = {key: entities[key] for key in entities if key in verification_people}
+        else:
+            entities = {key: entities[key] for key in entities if key in verification_things}
+        entities = self.merge_entities(entities)
+        total_count = sum(entities.values())
+        actual_found = number_entities if number_entities < len(entities) else len(entities)
+        entities = {key: entities[key]/total_count for key in sorted(entities,key=entities.get,reverse=True)}
+        keys = sorted(entities,key=entities.get,reverse=True)
+        keys = [str(keys[j]).lower() for j in range(0, actual_found)]
+        entities = {key: entities[key] for key in entities if str(key).lower() in keys}
+        return entities
+
     def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things):
         self.winners = {}
         for i in range(0, len(self.group_indicators)):
@@ -108,7 +125,7 @@ class TweetCategorizer:
     def count_entities(self, tweets, group_index):
         entities = {}
         for index, row in tweets.iterrows():
-            entities = self.count_entity(row['clean_upper'], entities, group_index)
+            entities = self.count_entity(row[self.column], entities, group_index)
         return entities
 
     def print_frequent_entities(self):

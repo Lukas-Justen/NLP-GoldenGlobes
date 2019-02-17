@@ -56,9 +56,15 @@ PRESENTER_WORDS = "presents|presenting|presented|presentation|presenter|presente
 
 BEST_DRESS = "beautiful|pretty|awesome|wonderful|stunning|nice|elegant|alluring|dazzling|fascinating|favorite"
 
-WORST_DRESS = "ugly|awful|grisly|grotesque|unattractive|disgusting|distasteful|horrid"
+WORST_DRESS = "worst|ugly|awful|grisly|grotesque|unattractive|disgusting|distasteful|horrid"
 
 DRESS = "dress|wardrobe|costume|attire|robe"
+
+JOKES = "joke|gag|banter|tease|laugh"
+
+MOMENTS = "moment"
+
+MOMENT_TYPES = ["fun", "surprise", "win", "horror"]
 
 STOPWORDS = ["an", "in", "a", "for", "by", "-", "or"]
 
