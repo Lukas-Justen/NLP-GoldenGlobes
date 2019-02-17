@@ -394,15 +394,11 @@ def main():
 
         markdown += "# " + str(year) + " Golden Globes\n"
 
-        markdown += "##### Hosts\n"
+        markdown += "## Hosts\n"
         for h in results[year]["Hosts"]:
             markdown += " - " + h + "\n"
 
-        markdown += "##### Awards\n"
-        for a in results[year]["Awards"]:
-            markdown += " - " + a + "\n"
-
-        markdown += "##### Best Dressed\n"
+        markdown += "## Best Dressed\n"
         i = 0
         best_dressed = list(results[year]["BestDressed"].keys())
         for b in best_dressed:
@@ -421,7 +417,7 @@ def main():
             markdown += b + "  \n\n"
         markdown += "\n"
 
-        markdown += "##### Worst Dressed\n"
+        markdown += "## Worst Dressed\n"
         i = 0
         worst_dressed = list(results[year]["WorstDressed"].keys())
         for w in worst_dressed:
@@ -440,6 +436,19 @@ def main():
         for w in results[year]["WorstDressedTweets"]:
             markdown += w + "  \n\n"
         markdown += "\n"
+        markdown += "## Awards\n"
+        for cat in awards:
+            markdown += "### " + cat + "\n"
+            # Presenters
+            markdown += "#####Presenters:\n"
+            for a in results[year][cat]['Presenters']:
+                markdown += "- " + a + "\n"
+            # Nominees
+            markdown += "\n#####Nominees:\n"
+            for a in results[year][cat]['Nominees']:
+                markdown += " - " + a + "\n"
+            # Winner
+            markdown += "\n#####Winner- " + results[year][cat]['Winner'] + "\n"
 
     # Save the final results to disk
     with open('results.md', 'w') as file:
@@ -452,3 +461,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    #pre_ceremony()
