@@ -13,16 +13,24 @@ from tweet_categorizer import TweetCategorizer
 
 
 def get_hosts(year):
-    with open("results.json") as f:
-        results = json.load(f)
-    hosts = results[year]["Hosts"]
+    hosts = []
+    try:
+        with open("results.json") as f:
+            results = json.load(f)
+        hosts = results[year]["Hosts"]
+    except:
+        print("Couldn't read hosts for " + str(year))
     return hosts
 
 
 def get_awards(year):
-    with open("results.json") as f:
-        results = json.load(f)
+    awards = []
+    try:
+        with open("results.json") as f:
+            results = json.load(f)
         awards = results[year]["Awards"]
+    except:
+        print("Couldn't read awards for " + str(year))
     return awards
 
 
@@ -30,11 +38,14 @@ def get_nominees(year):
     awards = resources.OFFICIAL_AWARDS_1315
     if year in [2018, 2019]:
         awards = resources.OFFICIAL_AWARDS_1819
-    with open("results.json") as f:
-        results = json.load(f)
-    nominees = {}
-    for key in awards:
-        nominees[key] = results[year][key]["Nominees"]
+    nominees = {key:[] for key in awards}
+    try:
+        with open("results.json") as f:
+            results = json.load(f)
+        for key in awards:
+            nominees[key] = results[year][key]["Nominees"]
+    except:
+        print("Couldn't read nominees for " + str(year))
     return nominees
 
 
@@ -42,11 +53,14 @@ def get_winner(year):
     awards = resources.OFFICIAL_AWARDS_1315
     if year in [2018, 2019]:
         awards = resources.OFFICIAL_AWARDS_1819
-    with open("results.json") as f:
-        results = json.load(f)
-    winners = {}
-    for key in awards:
-        winners[key] = results[year][key]["Winner"]
+    winners = {key:[] for key in awards}
+    try:
+        with open("results.json") as f:
+            results = json.load(f)
+        for key in awards:
+            winners[key] = results[year][key]["Winner"]
+    except:
+        print("Couldn't read winners for " + str(year))
     return winners
 
 
@@ -54,11 +68,14 @@ def get_presenters(year):
     awards = resources.OFFICIAL_AWARDS_1315
     if year in [2018, 2019]:
         awards = resources.OFFICIAL_AWARDS_1819
-    with open("results.json") as f:
-        results = json.load(f)
-    presenters = {}
-    for key in awards:
-        presenters[key] = results[year][key]["Presenters"]
+    presenters = {key: [] for key in awards}
+    try:
+        with open("results.json") as f:
+            results = json.load(f)
+        for key in awards:
+            presenters[key] = results[year][key]["Presenters"]
+    except:
+        print("Couldn't read presenters for " + str(year))
     return presenters
 
 
