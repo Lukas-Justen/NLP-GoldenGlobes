@@ -60,11 +60,9 @@ WORST_DRESS = "worst|ugly|awful|grisly|grotesque|unattractive|disgusting|distast
 
 DRESS = "dress|wardrobe|costume|attire|robe"
 
-JOKES = "joke|gag|banter|tease|laugh"
-
 MOMENTS = "moment"
 
-MOMENT_TYPES = ["fun", "surprise", "win", "horror"]
+MOMENT_TYPES = ["fun|laugh|hilarious|surprise", "win|winner|victory", "awkward|horror|pain|delicate", "sad|bitter|heartbroken|unhappy"]
 
 STOPWORDS = ["an", "in", "a", "for", "by", "-", "or"]
 

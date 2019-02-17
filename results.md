@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # 2013 Golden Globes
 ## Hosts
  - amy poehler
@@ -187,3 +188,5 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 #####Nominees:
 
 #####Winner- ed harris
+=======
+>>>>>>> Stashed changes
