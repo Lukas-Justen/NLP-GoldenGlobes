@@ -102,6 +102,7 @@ class InfoExtractor:
 
         tweet = ' '.join(list_no_stopwords)
         tweet = tweet.replace('tv', 'telvision')
+        tweet = tweet.replace('mini-series','mini series')
         tweet = tweet.replace('miniseries', 'mini series')
         return tweet
 
@@ -143,10 +144,10 @@ class InfoExtractor:
         self.data[to_count + "_wordcount"] = self.data[to_count].apply(lambda x: len(x.split()))
         self.data = self.data.loc[self.data[to_count + "_wordcount"] > 1, :]
 
-    def load_save(self, path, year, file, limit):
+    def load_save(self, path, year):
         self.load_data(path, year)
-        self.data = self.data.sample(frac=1)[:limit]
-        self.save_dataframe(file % year)
+        #self.data = self.data.sample(frac=1)
+        self.data.to_csv('dirty_gg{}.csv'.format(year))
 
     def get_language(self, text):
         # Detects language based on # of stop words for particular language

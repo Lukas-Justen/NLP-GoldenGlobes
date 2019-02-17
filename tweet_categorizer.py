@@ -97,11 +97,12 @@ class TweetCategorizer:
         return entities
 
     def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things):
+    def find_percentage_of_entities(self, tweets, percentage, verification_people, verification_things,people = False):
         self.winners = {}
         for i in range(0, len(self.group_indicators)):
             associated_tweets = tweets[tweets[self.group_name] == i]
             entities = self.count_entities(associated_tweets, i)
-            if self.people_finder.findall(self.original_groups[i]):
+            if people or self.people_finder.findall(self.original_groups[i]):
                 entities = {key: entities[key] for key in entities if key in verification_people}
             else:
                 entities = {key: entities[key] for key in entities if key in verification_things}

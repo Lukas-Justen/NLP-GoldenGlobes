@@ -40,9 +40,8 @@ class Chunker:
         text_string = series['clean_lower']
         return self.extract_chunks(text_string, chunker)
 
-    def extract_adjective_pattern(self, series):
-        chunker = nltk.RegexpParser(
-            """Chunk: {<JJ.?|RB.?><JJ.?|NN.?|VB.?><NN.?><JJ.?|NN.?>?<CC.?|NN.?>?<JJ.?|NN.?>+}""")
+    def extract_adjective_pattern(self,series):
+        chunker = nltk.RegexpParser("""Chunk: {<JJ.?|RB.?><JJ.?|NN.?|VB.?><NN.?><JJ.?|NN.?>?<CC.?|NN.?>?<JJ.?|NN.?>?}""")
         text_string = series['clean_lower']
         return self.extract_chunks(text_string, chunker)
 

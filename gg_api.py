@@ -6,10 +6,17 @@ import re
 
 from google_images_download import google_images_download
 
+import re
+import nltk
 import resources
+import pandas as pd
+import operator
+import matplotlib.pyplot as plt
+
 from info_extractor import InfoExtractor
 from resources import wikidata, EXTERNAL_SOURCES
 from tweet_categorizer import TweetCategorizer
+from info_extractor import InfoExtractor
 
 
 def get_hosts(year):
@@ -31,7 +38,14 @@ def get_nominees(year):
     names as keys, and each entry a list of strings. Do NOT change
     the name of this function or what it returns.'''
     # Your code here
-    nominees = []
+    awards = resources.OFFICIAL_AWARDS_1315
+    if year in [2018, 2019]:
+        awards = resources.OFFICIAL_AWARDS_1819
+    with open("results.json") as f:
+        results = json.load(f)
+    nominees = {}
+    for key in awards:
+        nominees[key] = results[year][key]["Nominees"]
     return nominees
 
 
@@ -52,7 +66,14 @@ def get_presenters(year):
     names as keys, and each entry a list of strings. Do NOT change the
     name of this function or what it returns.'''
     # Your code here
-    presenters = []
+    awards = resources.OFFICIAL_AWARDS_1315
+    if year in [2018, 2019]:
+        awards = resources.OFFICIAL_AWARDS_1819
+    with open("results.json") as f:
+        results = json.load(f)
+    presenters = {}
+    for key in awards:
+        presenters[key] = results[year][key]["Presenters"]
     return presenters
 
 
@@ -69,7 +90,7 @@ def pre_ceremony():
     for year in resources.years:
         try:
             extractor = InfoExtractor()
-            extractor.load_save("", year, "dirty_gg%s.csv", 500000)
+            extractor.load_save("", year)
             print("Done loading tweets for " + str(year) + " ...")
         except:
             print("Unable to load tweets for " + str(year) + " ...")
@@ -77,10 +98,33 @@ def pre_ceremony():
     return
 
 
+def fuzz_(ident_catg,awards):
+    list_ident = ident_catg.split()
+    total_len = len(list_ident)
+
+    best_value_percent = 0
+    best_value = ''
+
+    for key,value in awards.items():
+        value = value.split()
+        count = 0
+        for each_ in list_ident:
+            if each_ in value:
+                count += 1
+
+        if count / total_len > best_value_percent:
+            best_value_percent = count / total_len
+            best_value = key
+
+    if best_value_percent > 0.4:
+       return best_value
+    else:
+       return 'N/a'
+
 def main():
     # Reload the csv files from disk and store the data in a dataframe
     # TODO: REMOVE THIS
-    resources.years = [2013]
+    resources.years = [2015]
     results = {}
     all_winners = {}
 
@@ -98,6 +142,9 @@ def main():
         print("Lowering ...")
         extractor.make_to_lowercase("clean_upper", "clean_lower")
         print("Droping ...")
+        print("Drop ...")
+
+        extractor.convert_time('timestamp_ms')
         extractor.drop_column("user")
         extractor.drop_column("id")
         extractor.drop_column("timestamp_ms")
@@ -107,21 +154,58 @@ def main():
         results[year] = {}
     print("Done Dataframes\n")
 
-    # # We start by finding the awards for each year
-    # print("Find Awards")
-    # for year in resources.years:
-    #     chunker = Chunker()
-    #     categorie_data = resources.data[year].copy()
-    #     categorie_data['categorie'] = categorie_data.apply(chunker.extract_wrapper, axis=1)
-    #     categorie_data = categorie_data.loc[categorie_data.categorie != 'N/a', :]
-    #     categorie_data.reset_index(drop=True, inplace=True)
-    #     categorie_data = categorie_data.loc[categorie_data.categorie.str.split().map(len) > 3, :]
-    #     best_categories = chunker.pick_categories(categorie_data)
-    #     best_categories = chunker.filter_categories(best_categories)
-    #     results[year]["Awards"] = best_categories
-    # print("Done Awards\n")
-    #
-    # # Load the wikidata from disk
+    #We start by finding the awards for each year
+    print("Find Awards")
+    categorie_data = {}
+    best_catg_time = {}
+    clean_awards ={}
+    for year in resources.years:
+         chunker = Chunker()
+
+         categorie_data[year] = resources.data[year].copy()
+         categorie_data[year]['categorie'] = categorie_data[year].apply(chunker.extract_wrapper, axis=1)
+         categorie_data[year] = categorie_data[year].loc[categorie_data[year].categorie != 'N/a', :]
+         categorie_data[year].reset_index(drop=True, inplace=True)
+         categorie_data[year] = categorie_data[year].loc[categorie_data[year].categorie.str.split().map(len) > 3, :]
+         best_categories = chunker.pick_categories(categorie_data[year])
+         best_categories = chunker.filter_categories(best_categories)
+         print(best_categories)
+         results[year]["Awards"] = best_categories
+
+    print("Done Awards")
+
+    print("time based categorie identification start")
+    # additional step to match with real categories so during presenters  it would be easy to classify based on award type
+    for year in resources.years:
+        if year in [2013, 2015]:
+            awards = OFFICIAL_AWARDS_1315
+        else:
+            awards = OFFICIAL_AWARDS_1819
+
+        info_extract = InfoExtractor()
+        for each_award in awards:
+            clean_awards[each_award] = info_extract.clean_tweet(each_award)
+
+        categorie_data[year]['real_categorie'] = categorie_data[year]['categorie'].apply(lambda x: fuzz_(x, clean_awards))
+        categorie_data[year] = categorie_data[year].loc[categorie_data[year]['real_categorie'] != 'N/a', :]
+        categorie_data[year].reset_index(drop=True, inplace=True)
+
+        data_catg = categorie_data[year].groupby(['hour', 'minute', 'real_categorie']).count()['clean_lower'].unstack().reset_index()
+        data_catg = data_catg.dropna(how='all', axis=1)
+
+        best_catg_time[year] = {}
+        for each_ in list(data_catg.columns):
+            if not each_ in ['hour', 'minute']:
+                best_catg_time[year][each_] = []
+                max_idx = data_catg[each_].idxmax()
+                best_catg_time[year][each_].append((data_catg.iloc[max_idx - 2]['hour'], data_catg.iloc[max_idx - 2]['minute']))
+                best_catg_time[year][each_].append((data_catg.iloc[max_idx - 1]['hour'], data_catg.iloc[max_idx - 1]['minute']))
+                best_catg_time[year][each_].append((data_catg.iloc[max_idx]['hour'], data_catg.iloc[max_idx]['minute']))
+                best_catg_time[year][each_].append((data_catg.iloc[max_idx + 1]['hour'], data_catg.iloc[max_idx + 1]['minute']))
+                best_catg_time[year][each_].append((data_catg.iloc[max_idx + 2]['hour'], data_catg.iloc[max_idx + 2]['minute']))
+    print("time based categorie identification end")
+
+    # Load the wikidata from disk
     people = wikidata.call_wikidate('actors', 'actorLabel') + wikidata.call_wikidate('directors', 'directorLabel')
     # things = wikidata.call_wikidate('films', 'filmLabel') + wikidata.call_wikidate('series', 'seriesLabel')
     #
@@ -150,6 +234,17 @@ def main():
     #         all_winners[year].append(winners[key])
     # print("Done Winners\n")
 
+    people = [re.sub(r'[^\w\d\s]+', '', person_) for person_ in people]
+    things = [re.sub(r'[^\w\d\s]+', '', thing_) for thing_ in things]
+
+    # We search for the hosts
+    print("Find Hosts")
+    for year in resources.years:
+        host_categorizer = TweetCategorizer([resources.HOST_WORDS], [], "host_tweet", resources.data[year], 0, 200000)
+        host_tweets = host_categorizer.get_categorized_tweets()
+        hosters = host_categorizer.find_percentage_of_entities(host_tweets, 0.3, people, [])
+        results[year]["Hosts"] = hosters[resources.HOST_WORDS]
+    print("Done Hosts")
     # Search for best and worst dress
     # print("Find Dresses")
     # for year in resources.years:
@@ -225,15 +320,38 @@ def main():
     print("Done Jokes\n")
 
     markdown = ""
+
+    print("Find Presenters")
     for year in resources.years:
         markdown += "# " + str(year) + " Golden Globes\n"
         # markdown += "##### Hosts\n"
         # for h in results[year]["Hosts"]:
         #     markdown += " - " + h + "\n"
+        for key, value in best_catg_time[year].items():
+                data_new = pd.DataFrame(columns=list(resources.data[year].columns))
 
         # markdown += "##### Awards\n"
         # for a in results[year]["Awards"]:
         #     markdown += " - " + a + "\n"
+                for each_value in value:
+                    data_temp = resources.data[year].loc[(resources.data[year].hour == int(each_value[0])), :]
+                    data_temp = data_temp.loc[(data_temp.minute == int(each_value[1])), :]
+                    data_new = pd.concat([data_new, data_temp])
+
+                presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet",data_new, 0, data_new.shape[0])
+                presenter_tweets = presenter_categorizer.get_categorized_tweets()
+
+                #presenters = find_names(presenter_tweets.clean_upper.tolist(),2,people,all_winners[year],results[year]["Hosts"])
+                presenters = presenter_categorizer.find_list_of_entities(presenter_tweets, 4, people, [], people=True)
+                presenters = [p for p in presenters[list(presenters.keys())[0]] if (p not in all_winners[year]) and (p not in results[year]["Hosts"])]
+
+                results[year][key]['Presenters'] = presenters[-4:]
+                print(key, ' - ', presenters[-4:])
+
+        if year in [2013, 2015]:
+            awards = OFFICIAL_AWARDS_1315
+        else:
+            awards = OFFICIAL_AWARDS_1819
 
         markdown += "##### Best Dressed\n"
         i = 0
@@ -253,6 +371,10 @@ def main():
         for b in results[year]["BestDressedTweets"]:
             markdown += b + "  \n\n"
         markdown += "\n"
+        for each_ in awards:
+            if not each_ in best_catg_time[year].keys():
+                results[year][each_]['Presenters'] = []
+    print("End Presenters")
 
         markdown += "##### Worst Dressed\n"
         i = 0
@@ -260,6 +382,10 @@ def main():
         for w in worst_dressed:
             markdown += " " + str(i) + ". " + w + " (" + str(results[year]["WorstDressed"][w]) + ") " + "\n"
             i += 1
+    print("Find Nominees")
+    for year in resources.years:
+        for key, value in best_catg_time[year].items():
+            data_new = pd.DataFrame(columns=list(resources.data[year].columns))
 
         markdown += "\n"
         for w in worst_dressed:
@@ -273,54 +399,34 @@ def main():
         for w in results[year]["WorstDressedTweets"]:
             markdown += w + "  \n\n"
         markdown += "\n"
+            for each_value in value:
+                data_temp = resources.data[year].loc[(resources.data[year].hour == int(each_value[0])), :]
+                data_temp = data_temp.loc[(data_temp.minute == int(each_value[1])), :]
+                data_new = pd.concat([data_new, data_temp])
 
-        # print("Find Presenters")
-        # for year in resources.years:
-        #
-        #     if year in [2013, 2015]:
-        #         awards = OFFICIAL_AWARDS_1315
-        #     else:
-        #         awards = OFFICIAL_AWARDS_1819
-        #
-        #     temp_list = []
-        #     for each_award in awards:
-        #         temp_list.append(each_award + " " + results[year][each_award]["Winner"])
-        #
-        #     presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet",
-        #                                              resources.data[year], 0, resources.data[year].shape[0])
-        #     presenter_tweets = presenter_categorizer.get_categorized_tweets()
-        #     presenter = presenter_categorizer.find_list_of_entities(presenter_tweets, 70, people, [], people=True)[
-        #         resources.PRESENTER_WORDS]
-        #     print(presenter)
-        #     presenter = [p for p in presenter if p not in all_winners[year] and p not in results[year]["Hosts"]]
-        #     print(presenter)
-        #
-        #     nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", resources.data[year], 0,
-        #                                            resources.data[year].shape[0])
-        #     nominee_tweets = nominee_categorizer.get_categorized_tweets()
-        #     nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 150, people + things, [], people=True)[
-        #         resources.NOMINEE_WORDS]
-        #     print(nominees)
-        #     nominees = [p for p in nominees if p not in all_winners[year] and p not in results[year]["Hosts"]]
-        #     print(nominees)
-        #
-        #     presenters_dict = {}
-        #     for each_award in awards:
-        #         each_award = each_award + " " + results[year][each_award]["Winner"]
-        #         each_award = each_award.split()
-        #
-        #         each_award = [each_ for each_ in each_award if not each_ == '-' and len(each_) > 2]
-        #
-        #         format_award = '|'.join(each_award)
-        #
-        #         award_categorizer = TweetCategorizer([format_award], [], "specific_award_tweet", presenter_tweets, 3, presenter_tweets.shape[0])
-        #         award_tweets = award_categorizer.get_categorized_tweets()
-        #
-        #         presenters = award_categorizer.find_list_of_entities(award_tweets, 2, people, [], people=True)
-        #
-        #         each_award = ' '.join(each_award)
-        #         presenters_dict[each_award] = presenters[format_award]
-        #         print(each_award, ' - ', presenters[format_award])
+            nominee_categorizer = TweetCategorizer([resources.NOMINEE_WORDS], [], "nominee_tweet", data_new, 0,data_new.shape[0])
+            nominee_tweets = nominee_categorizer.get_categorized_tweets()
+
+            # presenters = find_names(presenter_tweets.clean_upper.tolist(),2,people,all_winners[year],results[year]["Hosts"])
+            if ('actor' in key.split()) or ('actress' in key.split()) or ('director' in key.split()):
+               nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, people, [], people=True)
+            else:
+               nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, things, [])
+
+            nominees = [p for p in nominees[list(nominees.keys())[0]] if (p not in all_winners[year]) and (p not in results[year]["Hosts"] and (p not in results[year][key]['Presenters']))]
+
+            results[year][key]['Nominees'] = nominees[-6:]
+            print(key, ' - ', nominees[-6:])
+
+        if year in [2013, 2015]:
+            awards = OFFICIAL_AWARDS_1315
+        else:
+            awards = OFFICIAL_AWARDS_1819
+
+        for each_ in awards:
+            if not each_ in best_catg_time[year].keys():
+                results[year][each_]['Nominees'] = []
+    print("End Nominees")
 
     # Save the final results to disk
     with open('results.md', 'w') as file:
