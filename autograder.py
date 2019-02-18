@@ -10,7 +10,7 @@ from pprint import pprint
 
 from nltk.metrics import edit_distance
 
-from src.grader import gg_api
+import gg_api
 
 global toMovie
 toMovie = {'johann johannsson': 'the theory of everything', 'alexandre desplat': 'the imitation game',
@@ -213,7 +213,7 @@ def main(years, grading):
 
     scores = {y: {g: {t: 0 for t in types} for g in grading} for y in years}
     for y in years:
-        with open('../data/gg%sanswers.json' % y, 'r') as f:
+        with open('gg%sanswers.json' % y, 'r') as f:
             answers = json.load(f)
 
         answers['awards'] = list(answers['award_data'].keys())
@@ -226,14 +226,12 @@ def main(years, grading):
 
         if "winner" in grading:
             del scores[y]['winner']['completeness']
-
     pprint(scores)
 
 
 if __name__ == '__main__':
     years = ['2013', '2015']
     grading = ["hosts", "awards", "nominees", "presenters", "winner"]
-    grading = ["winner"]
 
     if len(sys.argv) > 1:
         if '2013' in sys.argv:
