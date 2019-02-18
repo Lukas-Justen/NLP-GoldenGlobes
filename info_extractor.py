@@ -1,17 +1,12 @@
-import warnings
-
-warnings.filterwarnings('ignore')
-
 import glob
 import os
 import re
+import warnings
 import zipfile
-import spacy
-
-import pandas as pd
 
 import nltk
-from nltk import TweetTokenizer
+import pandas as pd
+import spacy
 
 
 class InfoExtractor:
@@ -62,7 +57,15 @@ class InfoExtractor:
                           'hahahahah', 'zzzzz', 'hahahahha', 'lolololol', 'lololol', 'lolol', 'lol', 'dude', 'hmmm',
                           'humm', 'tumblr', 'kkkk', 'fk', 'yayyyyyy', 'fffffffuuuuuuuuuuuu', 'zzzz', 'noooooooooo',
                           'hahahhaha', 'woohoo', 'lalalalalalala', 'lala', 'lalala', 'lalalala', 'whahahaahahahahahah',
-                          'hahahahahahahahahahaha', 'AHHH', 'RT', 'rt', 'gif', 'amp', '.com', '.ly', '.net', ]
+                          'hahahahahahahahahahaha', 'ahhh', 'RT', 'rt', 'gif', 'amp', '.com', '.ly', '.net', ]
+
+        self.sub_links = re.compile(r'http(s)?\:\/\/[\w\.\d]*\b')
+        self.sub_hashtag = re.compile(r'#\w*')
+        self.sub_tags = re.compile(r'@[^ ]*\b')
+        self.sub_numbers = re.compile(r'\b\d+\b')
+        self.sub_punctuation = re.compile(r'[^\w\d\s]+')
+        self.sub_splitter = re.compile("([a-z])([A-Z])")
+        self.sub_spaces = re.compile(r'\s+')
 
         self.stopwords_dict = {lang: set(nltk.corpus.stopwords.words(lang)) for lang in nltk.corpus.stopwords.fileids()}
         self.nlp = spacy.load('en')
@@ -81,30 +84,28 @@ class InfoExtractor:
 
     def clean_tweet(self, tweet):
         # Remove all links hashtags and other things that are not words
+        tweet = str(tweet)
+        tweet = self.sub_links.sub(' ', tweet)
+        tweet = self.sub_hashtag.sub('', tweet)
+        tweet = self.sub_tags.sub('', tweet)
+        tweet = self.sub_numbers.sub('', tweet)
+        tweet = self.sub_punctuation.sub(' ', tweet)
+        tweet = self.sub_splitter.sub(r'\1 \2', tweet)
+        tweet = self.sub_spaces.sub(' ', tweet)
+        tweet = tweet.lstrip(' ')
+        tweet = ''.join(c for c in tweet if self.check_emoji(c))
 
-        tweet = tweet.lower()
-        tweet = re.sub(r'http(s)?\:\/\/[\w\.\d]*\b', ' ', tweet)  # remove links
-        tweet = re.sub(r'#\w*', '', tweet)  # remove hastag
-        tweet = re.sub(r'@[^ ]*\b', '', tweet)  # remove at tags
-        tweet = re.sub(r'\b\d+\b', '', tweet)  # remove numbers
-        tweet = re.sub(r'[^\w\d\s]+', ' ', tweet)  # remove punctuations
-        tweet = re.sub("(.)([A-Z])", r'\1 \2', tweet)  # split CamelCase letters
-        tweet = re.sub(r' +', ' ', tweet)  # remove multiple whitespaces
-        tweet = tweet.lstrip(' ')  # moves single space left
-        tweet = ''.join(c for c in tweet if self.check_emoji(c))  # remove emojis
-
-        tknzr = TweetTokenizer(preserve_case=True, reduce_len=True, strip_handles=True)  # reduce length of string
-        tw_list = tknzr.tokenize(tweet)
-        list_no_stopwords = [i for i in tw_list if i not in self.stopwords]
+        list_no_stopwords = [i for i in tweet.split() if i.lower() not in self.stopwords]
 
         tweet = ' '.join(list_no_stopwords)
         tweet = tweet.replace('tv', 'telvision')
+        tweet = tweet.replace('mini-series', 'mini series')
         tweet = tweet.replace('miniseries', 'mini series')
         return tweet
 
     def check_emoji(self, c):
         # Checks if the given character is a letter or space
-        if (c <= self.z and c >= self.a) or (c <= self.Z and c >= self.A) or c == self.s:
+        if (c <= self.z and c >= self.a) or (c <= self.Z and c >= self.A) or c == self.space:
             return True
         return False
 
@@ -127,6 +128,7 @@ class InfoExtractor:
 
     def convert_time(self, to_convert):
         # Convert the specified columns timestamp to hour and time
+        self.data[to_convert] = pd.to_datetime(self.data[to_convert])
         self.data["hour"] = self.data[to_convert].apply(lambda x: x.hour)
         self.data["minute"] = self.data[to_convert].apply(lambda x: x.minute)
 
@@ -139,36 +141,35 @@ class InfoExtractor:
         self.data[to_count + "_wordcount"] = self.data[to_count].apply(lambda x: len(x.split()))
         self.data = self.data.loc[self.data[to_count + "_wordcount"] > 1, :]
 
-    def load_save(self, path, year, file):
+    def load_save(self, path, year, limit):
         self.load_data(path, year)
-        self.save_dataframe(file % year)
+        self.data = self.data.sample(frac=1).reset_index(drop=True)[:limit]
+        self.data.to_csv('dirty_gg{}.csv'.format(year))
 
     def get_language(self, text):
-        # function to detect language based on # of stop words for particular language
-        try:
-            text = text.lower()
-            words_ = set(nltk.wordpunct_tokenize(text.lower()))
-            lang = max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()),
-                       key=lambda x: x[1])[0]
-            if lang == 'english' or lang == 'arabic':
-                return True
-            else:
-                return False
-        except:
-            return False
+        # Detects language based on # of stop words for particular language
+        text = str(text).lower()
+        words_ = set(nltk.wordpunct_tokenize(text.lower()))
+        return self.is_english(words_)
 
-    def get_english_tweets(self):
-        self.data['language'] = self.data['text'].apply(lambda x: self.get_language(x))
+    def is_english(self, words_):
+        # Checks if the given words belong to the english language or not
+        lang = \
+            max(((lang, len(words_ & stopwords)) for lang, stopwords in self.stopwords_dict.items()),
+                key=lambda x: x[1])[0]
+        if lang == 'english' or lang == 'arabic':
+            return True
+        return False
+
+    def get_english_tweets(self, src_column, dest_column):
+        # Creates new column that indicates if tweet is english or not
+        self.data[dest_column] = self.data[src_column].apply(lambda x: self.get_language(x))
         self.data = self.data.loc[(self.data.language == True)]
         self.data.reset_index(drop=True, inplace=True)
 
-    def entites_ident(self, tweet):
-        try:
-            document = self.nlp(tweet)
-            entities = [e.string.strip() for e in document.ents if 'PERSON' == e.label_]
-            entities = list(entities)
-            if entities == [] or entities == None:
-                return 'N/a'
-            return entities
-        except:
-            return 'N/a'
+    def make_to_lowercase(self, src_column, dest_column):
+        # Converts the given column to lowercase
+        self.data[dest_column] = self.data[src_column].apply(lambda text: text.lower())
+
+
+warnings.filterwarnings('ignore')

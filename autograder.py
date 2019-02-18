@@ -10,7 +10,7 @@ from pprint import pprint
 
 from nltk.metrics import edit_distance
 
-from src.grader import gg_api_old
+import gg_api
 
 global toMovie
 toMovie = {'johann johannsson': 'the theory of everything', 'alexandre desplat': 'the imitation game',
@@ -174,7 +174,7 @@ def score_structured(year, answers, info_type):
     # c_score is the completeness score
     spelling_score = 0
     c_score = 0
-    results = getattr(gg_api_old, 'get_%s' % info_type)(year)
+    results = getattr(gg_api, 'get_%s' % info_type)(year)
     length = 26
 
     if info_type == "nominees":
@@ -201,7 +201,7 @@ def score_structured(year, answers, info_type):
 
 
 def score_unstructured(year, answers, info_type):
-    results = getattr(gg_api_old, 'get_%s' % info_type)(year)
+    results = getattr(gg_api, 'get_%s' % info_type)(year)
     spelling_score, translation = calc_translation(results, answers[info_type])
     c_score = calc_score([translation[res] if res in translation else res for res in results], answers[info_type])
 
@@ -213,7 +213,7 @@ def main(years, grading):
 
     scores = {y: {g: {t: 0 for t in types} for g in grading} for y in years}
     for y in years:
-        with open('../data/gg%sanswers.json' % y, 'r') as f:
+        with open('gg%sanswers.json' % y, 'r') as f:
             answers = json.load(f)
 
         answers['awards'] = list(answers['award_data'].keys())
@@ -232,7 +232,6 @@ def main(years, grading):
 if __name__ == '__main__':
     years = ['2013', '2015']
     grading = ["hosts", "awards", "nominees", "presenters", "winner"]
-    grading = ["winner"]
 
     if len(sys.argv) > 1:
         if '2013' in sys.argv:
