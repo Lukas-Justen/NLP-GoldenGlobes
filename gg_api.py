@@ -555,4 +555,3 @@ def main():
 if __name__ == '__main__':
     pre_ceremony()
     main()
-    autograder.__name__()

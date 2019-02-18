@@ -71,14 +71,6 @@ if __name__ == '__main__':
     main()
 ```
 
-If you only want to run the whole pipeline just run all three functions after each other:
-
-```python
-if __name__ == '__main__':
-    pre_ceremony()
-    main()
-    autograder.__name__()
-```
 
 ### Results
 The code will produce two result files. First, it creates a ```results.json``` which contains the results for the autograder. The ```gg_api.py``` will automatically read the content of that file and feed it into the autograder. Secondly, we are creating a ```results.md``` file which is human readable and contains the same results. Furthermore, we added some visualizations to that file which show the results for the additional goals we had.
