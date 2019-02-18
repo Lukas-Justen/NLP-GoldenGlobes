@@ -50,7 +50,7 @@ EXTERNAL_SOURCES = {'actors': 'actorLabel', 'films': 'filmLabel', 'directors': '
 
 HOST_WORDS = "hosting"
 
-NOMINEE_WORDS = "nominee|nomination|nominated|nominees|nominations|nominate|introduce|introduced|introducing" #|vote|voting|voter|voted|candidate
+NOMINEE_WORDS = "nominee|nomination|nominated|nominees|nominations|nominate|introduce|introduced|introducing" #|vote|voting|voter|voted|candidate|hope"
 
 PRESENTER_WORDS = "presents|presenting|presented|presentation|presenter|presenters|presentations|announce|announces|announced"
 

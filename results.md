@@ -1,33 +1,33 @@
 # 2013 Golden Globes
 ## Hosts
- - amy poehler
  - tina fey
+ - amy poehler
 ## Best Dressed
  0. Kate Hudson (0.11363636363636363) 
  1. Julia Roberts (0.10606060606060606) 
  2. Lucy Liu (0.08333333333333333) 
 
-<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Kate Hudson 2013 Golden Globes Dress/1. ce575ad2ee770c792e39691263cf94ae.jpg' height=300px alt='Kate Hudson 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Julia Roberts 2013 Golden Globes Dress/1. 624821af8ff75b4117a6d4e85cecb51e.jpg' height=300px alt='Julia Roberts 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Lucy Liu 2013 Golden Globes Dress/1. lucy-liu-in-carolina-herrera-2012-golden-globe-awards.jpg' height=300px alt='Lucy Liu 2013 Golden Globes Dress'>  
+<img src='https://static.gofugyourself.com/uploads/2013/01/159422573.jpg' height=300px alt='Kate Hudson 2013 Golden Globes Dress'>  <img src='https://media1.popsugar-assets.com/files/thumbor/FH31FkzGw5pcpkJhotijvsmou1I/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2013/01/03/1/192/1922398/3d2882dc391eefa7_159445965_10/i/Julia-Roberts-presented-Golden-Globes-black-dress.jpg' height=300px alt='Julia Roberts 2013 Golden Globes Dress'>  <img src='http://applesandonions.com/wp-content/uploads/2013/01/lucy-liu-2013-golden-globes-red-carpet.jpg' height=300px alt='Lucy Liu 2013 Golden Globes Dress'>  
 
-Kate Hudson and @JessicaAlba you gals win my best dressed. Stunning! #GoldenGlobes  
+“@PerezHilton: Kate Hudson was also one of my best dressed at the #GoldenGlobes!!! http://t.co/5826njRa” beautiful  
 
-RT @LancomeUSA: Lancome Ambassadress Julia Roberts looks stunning as she presents the best motion picture drama at the #GoldenGlobes  
+Julia Roberts! Always beautiful #goldenglobes  
 
-omg Lucy Liu is so pretty in her dress omg #GoldenGlobes  
+RT @bookoisseur: I want to make out with Lucy Liu's dress. It is that pretty. I would go lesbian for that dress. #goldenglobes  
 
 
 ## Worst Dressed
  0. Halle Berry (0.6170212765957447) 
  1. Lucy Liu (0.06382978723404255) 
- 2. Eva Longoria (0.0425531914893617) 
+ 2. Jennifer Lawrence (0.0425531914893617) 
 
-<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Halle Berry 2013 Golden Globes Dress/1. 5badd263250000320037a28f.jpeg' height=300px alt='Halle Berry 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Lucy Liu 2013 Golden Globes Dress/1. lucy-liu-in-carolina-herrera-2012-golden-globe-awards.jpg' height=300px alt='Lucy Liu 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Eva Longoria 2013 Golden Globes Dress/1. f7a3cbe4b146aeb71d97828079c9ccc6.jpg' height=300px alt='Eva Longoria 2013 Golden Globes Dress'>  
+<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Halle Berry 2013 Golden Globes Dress/1. 5badd263250000320037a28f.jpeg' height=300px alt='Halle Berry 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Lucy Liu 2013 Golden Globes Dress/1. lucy-liu-in-carolina-herrera-2012-golden-globe-awards.jpg' height=300px alt='Lucy Liu 2013 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Jennifer Lawrence 2013 Golden Globes Dress/1. d7c009d7f2ff869e79ad1973f6ce90cd.jpg' height=300px alt='Jennifer Lawrence 2013 Golden Globes Dress'>  
 
 RT @PerezHilton: Halle Berry is easily one of the WORST dressed at the #GoldenGlobes! http://t.co/NN45RgjF WTF????  
 
-Worst dress ..Lucy Liu 70th #GoldenGlobes http://t.co/jg8tHYoa  
+Least favorite dress was Kristen Bell. My boys said that Lucy Liu's flowered dress will win worst dressed award. #GoldenGlobes  
 
-Oh god! Eva Longoria's dress is awful. #GoldenGlobes  
+My best-dressed: Stacy Kiebler. I know! My worst-dressed: Jennifer Lawrence and her crazy 50s/sci-fi breast parts. #GoldenGlobes  
 
 
 #### Awards found
@@ -48,8 +48,8 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - best supporting actor motion picture
  - best movie comedy or musical
  - best series actress comedy
- - best actor series comedy
  - best foreign language film
+ - best actor series comedy
  - best animated film brave
  - best exotic marigold hotel
  - best original score motion picture
@@ -62,28 +62,28 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 - RT @cocorocha: Funniest moment of the night!! “@BuzzFeed: Amy Poehler + George Clooney canoodling http://t.co/BOAZWBiX #goldenglobes”
 ##### Links:
 - http://t.co/9wdp3hki
-- http://t.co/BOAZWBiX
+- http://t.co/nje0GXMi
 - http://t.co/50DeLhr7
 
 ## win or winner or victory moments
 ##### Person:
 - claire danes
 ##### Tweet:
-- RT @goldenglobes: We captured this moment with @GoldenGlobes winner Claire Danes right after she left the stage! http://t.co/baJMyeTX
+- RT @gossipandgab: Best moment so far? Golden Globes 2013 Winner List: Live Recap | Gossip and Gab http://t.co/gVWiAW5n #GoldenGlobes @goldenglobes
 ##### Links:
-- http://t.co/PiSG1vl5
-- http://t.co/0jFx1dtJ
-- http://t.co/50DeLhr7
+- http://t.co/baJMyeTX
+- http://t.co/gVWiAW5n
+- http://t.co/VZXlkfXV
 
 ## awkward or horror or pain or delicate moments
 ##### Person:
 - paul rudd
 ##### Tweet:
-- Paul Rudd And Salma Hayek Had The Most Awkward Improv Moment Ever At The Golden Globes:  “Homeland” may have jus... http://t.co/iKFrVuoZ
+- @amatthews417 That awkward moment when you realize this is us in 20 years. #GoldenGlobes http://t.co/nabWjEJK
 ##### Links:
-- http://t.co/mjwV5P3K
-- http://t.co/iKFrVuoZ
 - http://t.co/Wfl5wjxd
+- http://t.co/iKFrVuoZ
+- http://t.co/mjwV5P3K
 
 ## Awards
 ### cecil b. demille award
@@ -91,22 +91,24 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 
 #####Nominees:
 
-#####Winner- jodie foster
+#####Winner:
+- jodie foster
 ### best motion picture - drama
 #####Presenters:
 - julia roberts
 - will ferrell
-- kristen wiig
+- daniel day lewis
 
 #####Nominees:
  - argo
- - lewis
- - homeland
  - lincoln
- - drama
+ - homeland
+ - lewis
+ - django unchained
  - thank you
 
-#####Winner- argo
+#####Winner:
+- argo
 ### best performance by an actress in a motion picture - drama
 #####Presenters:
 - kristen wiig
@@ -115,7 +117,8 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 
 #####Nominees:
 
-#####Winner- jessica chastain
+#####Winner:
+- jessica chastain
 ### best performance by an actor in a motion picture - drama
 #####Presenters:
 - kristen wiig
@@ -127,7 +130,8 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - victor garber
  - george clooney
 
-#####Winner- daniel day lewis
+#####Winner:
+- daniel day lewis
 ### best motion picture - comedy or musical
 #####Presenters:
 - kristen wiig
@@ -135,14 +139,15 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 - jennifer garner
 
 #####Nominees:
- - skyfall
  - zero dark thirty
  - lincoln
  - prometheus
  - amazing
+ - skyfall
  - silver linings playbook
 
-#####Winner- les miserables
+#####Winner:
+- les miserables
 ### best performance by an actress in a motion picture - comedy or musical
 #####Presenters:
 - kristen wiig
@@ -150,45 +155,48 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 - tommy lee jones
 
 #####Nominees:
- - meryl streep
  - jennifer lawrence
+ - meryl streep
  - selena
  - connie britton
 
-#####Winner- jennifer lawrence
+#####Winner:
+- jennifer lawrence
 ### best performance by an actor in a motion picture - comedy or musical
 #####Presenters:
-- hugh jackman
 - ben affleck
 - jennifer garner
+- hugh jackman
 
 #####Nominees:
  - kristen wiig
  - will ferrell
- - jon bon jovi
  - rosie huntington whiteley
+ - jon bon jovi
 
-#####Winner- hugh jackman
+#####Winner:
+- hugh jackman
 ### best animated feature film
 #####Presenters:
 - sacha baron cohen
-- liev schreiber
+- sylvester stallone
 - robert pattinson
 
 #####Nominees:
  - homeland
- - sasha
  - lincoln
  - life
- - parenthood
+ - sasha
  - turbo
+ - parenthood
 
-#####Winner- love
+#####Winner:
+- love
 ### best foreign language film
 #####Presenters:
 - tommy lee jones
 - arnold schwarzenegger
-- quentin tarantino
+- sylvester stallone
 
 #####Nominees:
  - amour
@@ -198,38 +206,38 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - rob
  - glee
 
-#####Winner- amour
+#####Winner:
+- amour
 ### best performance by an actress in a supporting role in a motion picture
 #####Presenters:
-- kristen wiig
-- will ferrell
 - robert pattinson
+- amanda seyfried
+- jonah hill
 
 #####Nominees:
  - anne hathaway
- - amanda seyfried
- - kerry washington
  - jessica chastain
+ - kerry washington
 
-#####Winner- anne hathaway
+#####Winner:
+- anne hathaway
 ### best performance by an actor in a supporting role in a motion picture
 #####Presenters:
 - kate hudson
 
 #####Nominees:
  - christoph waltz
- - hayden panettiere
- - connie britton
- - nicole kidman
  - sarah paulson
  - tommy lee jones
+ - nicole kidman
 
-#####Winner- christoph waltz
+#####Winner:
+- christoph waltz
 ### best director - motion picture
 #####Presenters:
 - jodie foster
+- tommy lee jones
 - josh brolin
-- jimmy fallon
 
 #####Nominees:
  - ben affleck
@@ -237,25 +245,27 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - orson welles
  - kingdom
 
-#####Winner- ben affleck
+#####Winner:
+- ben affleck
 ### best screenplay - motion picture
 #####Presenters:
 - robert pattinson
-- quentin tarantino
 - amanda seyfried
+- quentin tarantino
 
 #####Nominees:
  - rob
  - lincoln
- - lewis
  - king
+ - lewis
 
-#####Winner- django unchained
+#####Winner:
+- django unchained
 ### best original score - motion picture
 #####Presenters:
-- jason statham
 - ben affleck
-- paul rudd
+- jason statham
+- salma hayek
 
 #####Nominees:
  - argo
@@ -264,49 +274,53 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - drama
  - mad men
 
-#####Winner- life
+#####Winner:
+- life
 ### best original song - motion picture
 #####Presenters:
 - ben affleck
-- kanye west
-- jennifer lopez
+- eva longoria
+- mel gibson
 
 #####Nominees:
  - skyfall
- - love
- - safe
  - argo
- - wild
+ - safe
+ - love
  - les miserables
+ - wild
 
-#####Winner- skyfall
+#####Winner:
+- skyfall
 ### best television series - drama
 #####Presenters:
-- salma hayek
 - paul rudd
+- salma hayek
 
 #####Nominees:
  - lewis
  - homeland
- - president
  - no
+ - president
  - mad men
- - the newsroom
+ - the walking dead
 
-#####Winner- homeland
+#####Winner:
+- homeland
 ### best performance by an actress in a television series - drama
 #####Presenters:
-- tommy lee jones
 - arnold schwarzenegger
-- nathan fillion
+- tommy lee jones
+- michael haneke
 
 #####Nominees:
- - claire danes
  - lea michele
- - meryl streep
  - selena
+ - claire danes
+ - meryl streep
 
-#####Winner- claire danes
+#####Winner:
+- claire danes
 ### best performance by an actor in a television series - drama
 #####Presenters:
 - bradley cooper
@@ -315,26 +329,28 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 #####Nominees:
  - jeff daniels
  - judi dench
- - liza minnelli
  - rosario dawson
+ - liza minnelli
  - damian lewis
 
-#####Winner- damian lewis
+#####Winner:
+- damian lewis
 ### best television series - comedy or musical
 #####Presenters:
 - jodie foster
-- tommy lee jones
-- mel gibson
+- jimmy fallon
+- halle berry
 
 #####Nominees:
  - smash
  - argo
+ - moonrise kingdom
  - the big bang theory
- - he
- - community
  - homeland
+ - he
 
-#####Winner- girls
+#####Winner:
+- girls
 ### best performance by an actress in a television series - comedy or musical
 #####Presenters:
 - sacha baron cohen
@@ -343,7 +359,8 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - lena dunham
  - zooey deschanel
 
-#####Winner- lena dunham
+#####Winner:
+- lena dunham
 ### best performance by an actor in a television series - comedy or musical
 #####Presenters:
 - lindsay lohan
@@ -356,19 +373,21 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - barbara
  - tommy lee jones
 
-#####Winner- lena dunham
+#####Winner:
+- lena dunham
 ### best mini-series or motion picture made for television
 #####Presenters:
-- kim kardashian
-- michael j fox
-- bradley cooper
+- eva longoria
+- dennis quaid
+- randy quaid
 
 #####Nominees:
  - idiots
  - dexter
  - lincoln
 
-#####Winner- 
+#####Winner:
+- 
 ### best performance by an actress in a mini-series or motion picture made for television
 #####Presenters:
 - kristen wiig
@@ -380,7 +399,8 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
  - meryl streep
  - selena
 
-#####Winner- nicole kidman
+#####Winner:
+- nicole kidman
 ### best performance by an actor in a mini-series or motion picture made for television
 #####Presenters:
 - jessica alba
@@ -388,25 +408,27 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 - kevin costner
 
 #####Nominees:
- - salma hayek
  - jennifer lawrence
  - valentine
+ - salma hayek
 
-#####Winner- kevin costner
+#####Winner:
+- kevin costner
 ### best performance by an actress in a supporting role in a series, mini-series or motion picture made for television
 #####Presenters:
-- bradley cooper
 - kate hudson
-- dennis quaid
+- bradley cooper
+- kerry washington
 
 #####Nominees:
  - maggie smith
- - hayden panettiere
- - connie britton
  - christina hendricks
  - sarah paulson
+ - hayden panettiere
+ - connie britton
 
-#####Winner- maggie smith
+#####Winner:
+- maggie smith
 ### best performance by an actor in a supporting role in a series, mini-series or motion picture made for television
 #####Presenters:
 - kristen wiig
@@ -416,44 +438,43 @@ Oh god! Eva Longoria's dress is awful. #GoldenGlobes
 #####Nominees:
  - jessica chastain
  - selena
- - meryl streep
- - jamie foxx
- - john krasinski
  - jennifer lawrence
+ - jamie foxx
+ - meryl streep
+ - justin bieber
 
-#####Winner- christoph waltz
+#####Winner:
+- christoph waltz
 # 2015 Golden Globes
 ## Hosts
  - tina fey
  - amy poehler
 ## Best Dressed
- 0. Sienna Miller (0.07857142857142857) 
- 1. Kerry Washington (0.07857142857142857) 
- 2. Naomi Watts (0.05) 
+ 0. Jennifer Lopez (0.06395348837209303) 
+ 1. Kate Hudson (0.06395348837209303) 
+ 2. Anna Kendrick (0.05813953488372093) 
 
-<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Sienna Miller 2015 Golden Globes Dress/1. 07e42e97024820aa7ca4c47351bded9c.jpg' height=300px alt='Sienna Miller 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Kerry Washington 2015 Golden Globes Dress/1. 706ef057_kerry-washington.jpg' height=300px alt='Kerry Washington 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Naomi Watts 2015 Golden Globes Dress/1. o-naomi-570.jpg' height=300px alt='Naomi Watts 2015 Golden Globes Dress'>  
+<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Jennifer Lopez 2015 Golden Globes Dress/1. o-jennifer-lopez-900.jpg' height=300px alt='Jennifer Lopez 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Kate Hudson 2015 Golden Globes Dress/1. image?url=https%3a%2f%2fcdn-img.instyle.com%2fsites%2fdefault%2ffiles%2fstyles%2f684xflex%2fpublic%2fimages%2f2015%2fwrn%2f011115-kate-hudson-594.jpg%3fitok%3dm3_kgibi&w=400&c=sc&poi=face&q=85.jpg' height=300px alt='Kate Hudson 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Anna Kendrick 2015 Golden Globes Dress/1. anna-kendrick-golden-globes-2015-ftr1.jpg' height=300px alt='Anna Kendrick 2015 Golden Globes Dress'>  
 
-Fell on love with Sienna Miller's dress tonight, she looked beautiful! @goldenglobes @SiennaMillerr #goldenglobes  
+RT @BostonDotCom: Jennifer Lopez’s Dress Pretty Much Stopped Traffic at the #GoldenGlobes http://t.co/CYtY6bzlDW http://t.co/lnFDKPOdVk  
 
-Kerry Washington, YES YES YES. Such a different, but beautiful dress, but bless you for anything you wear, Olivia Pope. #GoldenGlobes  
+Kate Hudson is stunning in this white dress. One of our favorite looks of the night ✨ #goldenglobes… http://t.co/C0nb0v7gI9  
 
-Naomi Watts looks stunning in her Gucci dress, I love it! #goldenglobes #gucci http://t.co/c7NMOrotT8  
+RT @tomandlorenzo: Anna Kendrick's dress is really pretty. #GoldenGlobes  
 
 
 ## Worst Dressed
- 0. Keira Knightley (0.2903225806451613) 
- 1. Jennifer Aniston (0.1774193548387097) 
- 2. Claire Danes (0.0967741935483871) 
+ 0. Keira Knightley (0.23809523809523808) 
+ 1. Jennifer Aniston (0.12698412698412698) 
+ 2. Kristen Wiig (0.07936507936507936) 
 
-<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Keira Knightley 2015 Golden Globes Dress/1. 2015-golden-globes-431.jpg' height=300px alt='Keira Knightley 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Jennifer Aniston 2015 Golden Globes Dress/1. dd511fbc2c4e70128c0251fae7beb654.jpg' height=300px alt='Jennifer Aniston 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Claire Danes 2015 Golden Globes Dress/1. b5f851efe8be9d59208eb29566c30324.jpg' height=300px alt='Claire Danes 2015 Golden Globes Dress'>  
+<img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Keira Knightley 2015 Golden Globes Dress/1. 2015-golden-globes-431.jpg' height=300px alt='Keira Knightley 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Jennifer Aniston 2015 Golden Globes Dress/1. dd511fbc2c4e70128c0251fae7beb654.jpg' height=300px alt='Jennifer Aniston 2015 Golden Globes Dress'>  <img src='file:///Users/lukasjusten/Desktop/Northwestern/NLPO-337/GoldenGlobes/downloads/Kristen Wiig 2015 Golden Globes Dress/1. kristen-wiig.jpg' height=300px alt='Kristen Wiig 2015 Golden Globes Dress'>  
 
-RT @Zap2it: #GoldenGlobes Worst Dressed: Keira Knightley isn't the only one in need of a new stylist http://t.co/GNVvJPlTfM http://t.co/HpU…  
+Worst Dressed Stars at the 2015 Golden Globes—Keira Knightley, Claire Danes &amp; More! http://t.co/FGusOODlZy Via (Harradox)  
 
-Golden Globes 2015 best and worst dressed, from Amal Clooney to Jennifer Aniston http://t.co/ZjljeOnrnw  
+Golden Globes 2015 best and worst dressed, from Amal Clooney to Jennifer Aniston http://t.co/ShA8pvsvwV  
 
-Worst Dressed Stars at the 2015 Golden Globes—Keira Knightley, Claire Danes &amp; More!: It's about to get really ugly.
-
-It's a sad occa...  
+RT @tennilledowers: @melissagrelo Add Kristen Wiig to the worst dressed list as well. Looks like recycled Easter curtains #GoldenGlobes  
 
 
 #### Awards found
@@ -463,26 +484,26 @@ It's a sad occa...
  - best original song glory
  - best television series actor drama
  - best series actress comedy
- - best foreign film leviathan russia
+ - best motion picture musical or comedy
  - best television series comedy or musical
+ - best foreign film leviathan russia
  - best actor in a motion picture drama for the theory of everything
- - best director motion picture
- - best supporting actor u
- - best picture comedy or musical
  - best original song motion picture
- - best actor motion picture drama
  - best foreign language film
- - best series comedy or musical
+ - best supporting actor u
+ - best director motion picture
+ - best actor motion picture drama
  - best screenplay motion picture
- - best dressed damn girl
- - best actor in a drama series for u
+ - best picture comedy or musical
  - best comedy or musical
- - best actor comedy or musical
- - best actress motion picture comedy
- - best series musical or comedy
+ - best series comedy or musical
+ - best dressed damn girl
+ - best actor series drama
  - best picture comedy at the
+ - best actor in a drama series for u
+ - best villain tonight ye
  - best original score motion picture
- - best motion picture musical or
+ - best series musical or comedy
 ## Moments
 ## fun or laugh or hilarious or surprise moments
 ##### Person:
@@ -490,37 +511,29 @@ It's a sad occa...
 ##### Tweet:
 - RT @thedailybeast: Watch Golden Globes hosts Tina Fey and Amy Poehler’s funniest moments http://t.co/TCvN8x5KUc #GoldenGlobes http://t.co/E…
 ##### Links:
-- http://t.co/8TLW9W
-- http://t.co/J5QUH94alD
-- http://t.co/O5Mfdca2ue
+- http://t.co/IouqzfQh20
+- http://t.co/9qxUqcFoWF
+- https
 
 ## win or winner or victory moments
 ##### Person:
-- gina rodriguez
+- jeffrey tambor
 ##### Tweet:
-- RT @TODAYshow: The winners &amp; best moments from tonight's #GoldenGlobes: http://t.co/Ol8hrvIj9d http://t.co/QpDhwE4vXC
+- RT @cinemablend: House Of Cards Season 3 Trailer Drops Moments After Kevin Spacey's Golden Globes Win http://t.co/SkOLfWt0ru #tv
 ##### Links:
-- http://t.co/KkUcvUTnfK
-- http://t.co/P6fsNZl1Pu
-- http://t.co/6ArhVuCS4S
+- http://t.co/n4dNnxH1oW
+- http://t.co/b5Qqgx7ymZ
+- http://t.co/2soc9OIzoZ
 
 ## awkward or horror or pain or delicate moments
 ##### Person:
-- kevin spacey
+- john legend
 ##### Tweet:
-- So bad but you can't look away! The most awkward moments from the 2015 #GoldenGlobes: http://t.co/GG5eMKiVBL http://t.co/e2RaQ1yj3p
+- Here's all the awkward moments from the "Girls" Season 4 premiere while you were watching the #GoldenGlobes http://t.co/7aND6lLna6
 ##### Links:
+- http://t.co/jOdxeGEkz3
 - http://t.co/hZwLr1b7ib
-- http://t.co/GG5eMKiVBL
-- http://t.co/e2RaQ1yj3p
-
-## sad or bitter or heartbroken or unhappy moments
-##### Person:
-- benedict cumberbatch
-##### Tweet:
-- RT @heldavidson: Hey @GuardianUS R U OK? live blog very (amusingly) unhappy with pretty much every decision at the moment http://t.co/2quyw…
-##### Links:
-- http://t.co/2quyw
+- http://t.co/Q1mAsLQnwp
 
 ## Awards
 ### cecil b. demille award
@@ -528,244 +541,252 @@ It's a sad occa...
 
 #####Nominees:
 
-#####Winner- george clooney
+#####Winner:
+- george clooney
 ### best motion picture - drama
 #####Presenters:
-- meryl streep
 - robert downey jr
+- prince
 - paul rudd
 
 #####Nominees:
  - last
- - boyhood
- - unbroken
- - selma
- - gold
  - brooklyn
+ - we
+ - boyhood
+ - no
+ - birdman
 
-#####Winner- boyhood
+#####Winner:
+- boyhood
 ### best performance by an actress in a motion picture - drama
 #####Presenters:
-- robert downey jr
-- kate hudson
 - dakota johnson
+- jamie dornan
+- prince
 
 #####Nominees:
  - julianne moore
- - stacy keibler
- - edie falco
- - felicity jones
  - gwyneth paltrow
 
-#####Winner- julianne moore
+#####Winner:
+- julianne moore
 ### best performance by an actor in a motion picture - drama
 #####Presenters:
 - prince
-- robert downey jr
-- chris
+- gwyneth paltrow
+- eddie redmayne
 
 #####Nominees:
- - eddie redmayne
- - lovely
+ - julianne moore
+ - david oyelowo
  - kevin spacey
- - liam neeson
- - viola davis
- - gwyneth paltrow
 
-#####Winner- eddie redmayne
+#####Winner:
+- eddie redmayne
 ### best motion picture - comedy or musical
 #####Presenters:
 - robert downey jr
 - salma hayek
-- prince
+- channing tatum
 
 #####Nominees:
- - gambit
- - birdman
+ - i
+ - teachers
  - foxcatcher
- - anderson
- - hangover
- - iron man
+ - gambit
+ - next
+ - boyhood
 
-#####Winner- the grand budapest hotel
+#####Winner:
+- the grand budapest hotel
 ### best performance by an actress in a motion picture - comedy or musical
 #####Presenters:
-- prince
 - ricky gervais
+- prince
 - gina rodriguez
 
 #####Nominees:
  - amy adams
  - selena
- - kerry washington
  - emily blunt
+ - meryl streep
 
-#####Winner- amy adams
+#####Winner:
+- amy adams
 ### best performance by an actor in a motion picture - comedy or musical
 #####Presenters:
 - salma hayek
 - prince
-- catherine zeta jones
+- gina rodriguez
 
 #####Nominees:
  - christoph waltz
- - matt bomer
- - george clooney
+ - amy adams
  - viola davis
- - michael keaton
- - eddie redmayne
 
-#####Winner- michael keaton
+#####Winner:
+- michael keaton
 ### best animated feature film
 #####Presenters:
-- kevin hart
 - prince
+- kevin hart
 - salma hayek
 
 #####Nominees:
  - i
+ - no
+ - amy
+ - annie
+ - president
  - we
- - v
- - foxcatcher
- - wanted
- - queen
 
-#####Winner- i
+#####Winner:
+- i
 ### best foreign language film
 #####Presenters:
 - prince
 - gina rodriguez
-- ricky gervais
+- john legend
 
 #####Nominees:
- - david
- - interstellar
- - game
- - con
  - we
- - gone girl
+ - mommy
+ - imagine
+ - no
+ - black
+ - still
 
-#####Winner- leviathan
+#####Winner:
+- leviathan
 ### best performance by an actress in a supporting role in a motion picture
 #####Presenters:
-- kate hudson
 - prince
-- jared leto
+- john legend
+- gina rodriguez
 
 #####Nominees:
- - meryl streep
  - amy adams
- - margot robbie
- - patricia arquette
+ - keira knightley
+ - kristen wiig
 
-#####Winner- patricia arquette
+#####Winner:
+- patricia arquette
 ### best performance by an actor in a supporting role in a motion picture
 #####Presenters:
-- paul rudd
-- brad pitt
-- prince
+- george clooney
 
 #####Nominees:
  - kevin spacey
- - george clooney
- - jessica lange
+ - kristen wiig
+ - bill hader
+ - david fincher
+ - donald cammell
 
-#####Winner- j k simmons
+#####Winner:
+- j k simmons
 ### best director - motion picture
 #####Presenters:
 - prince
-- owen wilson
+- anna faris
 - chris pratt
 
 #####Nominees:
- - richard linklater
  - kevin spacey
+ - bennett miller
  - george clooney
+ - richard linklater
 
-#####Winner- richard linklater
+#####Winner:
+- richard linklater
 ### best screenplay - motion picture
 #####Presenters:
 - prince
-- kristen wiig
 - bill hader
+- jack black
 
 #####Nominees:
- - amy
+ - i
+ - black
  - boyhood
  - birdman
- - imagine
- - never
- - interstellar
+ - jo
+ - again
 
-#####Winner- birdman
+#####Winner:
+- birdman
 ### best original score - motion picture
 #####Presenters:
 - prince
 - gina rodriguez
-- benedict cumberbatch
+- vince vaughn
 
 #####Nominees:
+ - we
+ - interstellar
+ - remember
  - no
- - lucy
- - skin
- - robbery
- - legend
+ - still
 
-#####Winner- interstellar
+#####Winner:
+- i
 ### best original song - motion picture
 #####Presenters:
 - prince
-- gina rodriguez
 - common
+- gina rodriguez
 
 #####Nominees:
- - selma
- - gone girl
- - lucy
- - skin
+ - i
+ - we
+ - no
+ - still
  - amy
 
-#####Winner- selma
+#####Winner:
+- selma
 ### best television series - drama
 #####Presenters:
-- paul rudd
-- adam levine
 - prince
+- adam levine
+- paul rudd
 
 #####Nominees:
+ - i
  - pride
- - imagine
- - house
- - boyhood
- - the affair
  - game
+ - boyhood
+ - lucy
+ - skin
 
-#####Winner- the affair
+#####Winner:
+- the affair
 ### best performance by an actress in a television series - drama
 #####Presenters:
-- chris pratt
-- anna faris
 - richard linklater
+- anna faris
+- chris pratt
 
 #####Nominees:
  - julianna margulies
- - tea leoni
  - viola davis
+ - julia roberts
 
-#####Winner- maggie gyllenhaal
+#####Winner:
+- maggie gyllenhaal
 ### best performance by an actor in a television series - drama
 #####Presenters:
 - katherine heigl
-- prince
 - david duchovny
+- kevin spacey
 
 #####Nominees:
- - kevin spacey
+ - paul rudd
  - reese witherspoon
  - jack nicholson
- - jack lemmon
 
-#####Winner- kevin spacey
+#####Winner:
+- kevin spacey
 ### best television series - comedy or musical
 #####Presenters:
 - gina rodriguez
@@ -773,84 +794,102 @@ It's a sad occa...
 - jennifer aniston
 
 #####Nominees:
- - glee
+ - i
  - amy
- - her
- - we
- - like
- - surprise
+ - remember
+ - king
+ - glee
+ - orange
 
-#####Winner- i
+#####Winner:
+- i
 ### best performance by an actress in a television series - comedy or musical
 #####Presenters:
 - gina rodriguez
-- benedict cumberbatch
 - jennifer aniston
+- benedict cumberbatch
 
 #####Nominees:
  - kerry washington
- - lisa kudrow
+ - taylor schilling
+ - edie falco
+ - allison janney
+ - maggie gyllenhaal
 
-#####Winner- gina rodriguez
+#####Winner:
+- gina rodriguez
 ### best performance by an actor in a television series - comedy or musical
 #####Presenters:
-- jane fonda
-- lily tomlin
-- prince
+- jennifer lopez
+- naomi watts
+- dakota johnson
 
 #####Nominees:
- - jeffrey tambor
- - michael fassbender
- - ricky gervais
+ - colin hanks
+ - viola davis
+ - billy bob thornton
+ - martin freeman
 
-#####Winner- jeffrey tambor
+#####Winner:
+- jeffrey tambor
 ### best mini-series or motion picture made for television
 #####Presenters:
-- jamie dornan
 - benedict cumberbatch
+- lena dunham
 - jennifer lopez
 
 #####Nominees:
  - i
- - amy
  - fargo
- - real
- - game
- - boyhood
+ - remember
+ - amy
+ - waiting
+ - like
 
-#####Winner- fargo
+#####Winner:
+- fargo
 ### best performance by an actress in a mini-series or motion picture made for television
 #####Presenters:
 - prince
-- john legend
-- kate hudson
+- colin farrell
+- gina rodriguez
+
+#####Nominees:
+ - maggie gyllenhaal
+ - jessica lange
+ - meryl streep
+
+#####Winner:
+- maggie gyllenhaal
+### best performance by an actor in a mini-series or motion picture made for television
+#####Presenters:
+- benedict cumberbatch
+- naomi watts
+- jennifer lopez
+
+#####Nominees:
+ - colin hanks
+ - martin freeman
+ - billy bob thornton
+ - amy adams
+
+#####Winner:
+- billy bob thornton
+### best performance by an actress in a supporting role in a series, mini-series or motion picture made for television
+#####Presenters:
+- lena dunham
+- dakota johnson
+- benedict cumberbatch
 
 #####Nominees:
  - amy adams
- - uzo aduba
-
-#####Winner- maggie gyllenhaal
-### best performance by an actor in a mini-series or motion picture made for television
-#####Presenters:
-- jennifer lopez
-- naomi watts
-- benedict cumberbatch
-
-#####Nominees:
- - billy bob thornton
- - eddie redmayne
- - martin freeman
+ - allison janney
+ - jessica lange
+ - angelina jolie
  - rosamund pike
 
-#####Winner- billy bob thornton
-### best performance by an actress in a supporting role in a series, mini-series or motion picture made for television
-#####Presenters:
-- benedict cumberbatch
-
-#####Nominees:
- - julianne moore
-
-#####Winner- maggie gyllenhaal
+#####Winner:
+- maggie gyllenhaal
 ### best performance by an actor in a supporting role in a series, mini-series or motion picture made for television
 #####Presenters:
 - prince
@@ -858,10 +897,29 @@ It's a sad occa...
 - gina rodriguez
 
 #####Nominees:
- - angelina jolie
  - matt bomer
- - julia roberts
+ - common
  - bill murray
- - amy adams
+ - julia roberts
+ - tom cruise
 
-#####Winner- matt bomer
+#####Winner:
+- dakota johnson
+# 2018 Golden Globes
+## Hosts
+## Best Dressed
+## Worst Dressed
+#### Awards found
+## Moments
+## Awards
+### best motion picture - drama
+#####Presenters:
+# 2019 Golden Globes
+## Hosts
+## Best Dressed
+## Worst Dressed
+#### Awards found
+## Moments
+## Awards
+### best motion picture - drama
+#####Presenters:

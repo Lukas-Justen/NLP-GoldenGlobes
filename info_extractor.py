@@ -7,7 +7,6 @@ import zipfile
 import nltk
 import pandas as pd
 import spacy
-from nltk import TweetTokenizer
 
 
 class InfoExtractor:
@@ -96,12 +95,11 @@ class InfoExtractor:
         tweet = tweet.lstrip(' ')
         tweet = ''.join(c for c in tweet if self.check_emoji(c))
 
-
         list_no_stopwords = [i for i in tweet.split() if i.lower() not in self.stopwords]
 
         tweet = ' '.join(list_no_stopwords)
         tweet = tweet.replace('tv', 'telvision')
-        tweet = tweet.replace('mini-series','mini series')
+        tweet = tweet.replace('mini-series', 'mini series')
         tweet = tweet.replace('miniseries', 'mini series')
         return tweet
 

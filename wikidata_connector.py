@@ -41,7 +41,7 @@ class WikidataConnector:
 } ORDER BY ?seriesLabel"""}
         self.results = {}
 
-    def call_wikidate(self, query, field_name, year1 = "", year2 = ""):
+    def call_wikidate(self, query, field_name, year1="", year2=""):
         if not str(query + year2) in self.results.keys():
             file = Path("wikidata_" + query + ".txt")
             if file.exists():
@@ -52,7 +52,8 @@ class WikidataConnector:
                 if year2 == "":
                     json = requests.get(url, params={'query': self.queries[query], 'format': 'json'}).json()
                 else:
-                    json = requests.get(url, params={'query': self.queries[query].format(year1, year2), 'format': 'json'}).json()
+                    json = requests.get(url, params={'query': self.queries[query].format(year1, year2),
+                                                     'format': 'json'}).json()
                 self.results[str(query + year2)] = self.parse_json(json, field_name)
                 with open("wikidata_" + query + year2 + ".txt", 'wb') as f:
                     pickle.dump(self.results[str(query + year2)], f)

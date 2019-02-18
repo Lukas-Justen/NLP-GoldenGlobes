@@ -5,11 +5,15 @@ import re
 import pandas as pd
 from google_images_download import google_images_download
 
+import autograder
 import resources
 from find_categories import Chunker
 from info_extractor import InfoExtractor
 from resources import wikidata, EXTERNAL_SOURCES
 from tweet_categorizer import TweetCategorizer
+
+
+# pip install google_images_download
 
 
 def get_hosts(year):
@@ -38,7 +42,7 @@ def get_nominees(year):
     awards = resources.OFFICIAL_AWARDS_1315
     if year in [2018, 2019]:
         awards = resources.OFFICIAL_AWARDS_1819
-    nominees = {key:[] for key in awards}
+    nominees = {key: [] for key in awards}
     try:
         with open("results.json") as f:
             results = json.load(f)
@@ -53,7 +57,7 @@ def get_winner(year):
     awards = resources.OFFICIAL_AWARDS_1315
     if year in [2018, 2019]:
         awards = resources.OFFICIAL_AWARDS_1819
-    winners = {key:[] for key in awards}
+    winners = {key: [] for key in awards}
     try:
         with open("results.json") as f:
             results = json.load(f)
@@ -130,7 +134,6 @@ def fuzz_(ident_catg, awards):
 
 def main():
     # Reload the csv files from disk and store the data in a dataframe
-    resources.years = [2013, 2015]
     results = {}
     all_winners = {}
     categorie_data = {}
@@ -220,7 +223,8 @@ def main():
                         (data_catg.iloc[max_idx - 2]['hour'], data_catg.iloc[max_idx - 2]['minute']))
                     best_catg_time[year][each_].append(
                         (data_catg.iloc[max_idx - 1]['hour'], data_catg.iloc[max_idx - 1]['minute']))
-                    best_catg_time[year][each_].append((data_catg.iloc[max_idx]['hour'], data_catg.iloc[max_idx]['minute']))
+                    best_catg_time[year][each_].append(
+                        (data_catg.iloc[max_idx]['hour'], data_catg.iloc[max_idx]['minute']))
                     best_catg_time[year][each_].append(
                         (data_catg.iloc[max_idx + 1]['hour'], data_catg.iloc[max_idx + 1]['minute']))
                     best_catg_time[year][each_].append(
@@ -255,7 +259,8 @@ def main():
             winner_tweets = winner_categorizer.get_categorized_tweets()
             winners = winner_categorizer.find_list_of_entities(winner_tweets, 1, people,
                                                                things + wikidata.call_wikidate("films", "filmLabel",
-                                                                                               str(year - 2), str(year)))
+                                                                                               str(year - 2),
+                                                                                               str(year)))
             for key in winners:
                 results[year][key] = {}
                 if winners[key]:
@@ -279,7 +284,8 @@ def main():
                     data_temp = data_temp.loc[(data_temp.minute == int(each_value[1])), :]
                     data_new = pd.concat([data_new, data_temp])
 
-                presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet", data_new, 0,
+                presenter_categorizer = TweetCategorizer([resources.PRESENTER_WORDS], [], "presenter_tweet", data_new,
+                                                         0,
                                                          data_new.shape[0])
                 presenter_tweets = presenter_categorizer.get_categorized_tweets()
 
@@ -321,15 +327,18 @@ def main():
                 # presenters = find_names(presenter_tweets.clean_upper.tolist(),2,people,all_winners[year],results[year]["Hosts"])
                 if ('actress' in key.split()):
                     nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6,
-                                                                         wikidata.call_wikidate('actresses', 'actorLabel'),
+                                                                         wikidata.call_wikidate('actresses',
+                                                                                                'actorLabel'),
                                                                          [], people=True)
                 elif ('actor' in key.split()):
                     nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6,
-                                                                         wikidata.call_wikidate('actors', 'actorLabel'), [],
+                                                                         wikidata.call_wikidate('actors', 'actorLabel'),
+                                                                         [],
                                                                          people=True)
                 elif ('director' in key.split()):
                     nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6,
-                                                                         wikidata.call_wikidate('directors', 'actorLabel'),
+                                                                         wikidata.call_wikidate('directors',
+                                                                                                'actorLabel'),
                                                                          [], people=True)
                 else:
                     nominees = nominee_categorizer.find_list_of_entities(nominee_tweets, 6, [],
@@ -438,7 +447,6 @@ def main():
     for year in resources.years:
         markdown += "# " + str(year) + " Golden Globes\n"
 
-
         try:
             markdown += "## Hosts\n"
             for h in results[year]["Hosts"]:
@@ -529,7 +537,8 @@ def main():
                 for a in results[year][cat]['Nominees']:
                     markdown += " - " + a + "\n"
                 # Winner
-                markdown += "\n#####Winner- " + results[year][cat]['Winner'] + "\n"
+                markdown += "\n#####Winner:\n"
+                markdown += "- " + results[year][cat]['Winner'] + "\n"
         except:
             print("Couldn't write award results for " + str(year))
     print("Done Markdown\n")
@@ -544,4 +553,6 @@ def main():
 
 
 if __name__ == '__main__':
+    pre_ceremony()
     main()
+    autograder.__name__()
