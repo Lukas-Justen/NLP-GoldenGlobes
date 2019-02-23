@@ -43,6 +43,9 @@ Before you can run the code you will need to install some additional python libr
 6. ```pip install google_images_download```  
   Required for downloading the images of actors and their dresses
   
+7. ```conda install requests / pip install requests```  
+  Required for downloading the images of actors and their dresses
+  
 You will need to download the following additional nltk packages ```punkt```, ```words```, ```stopwords``` and ```averaged_perceptron_tagger```. In order to install the ```punkt``` packages you will need to run this command on the command line:
 
 ```python3 -m nltk.downloader punkt```
